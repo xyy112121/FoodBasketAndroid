@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 特惠首页-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <!--顶部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/top_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="特惠推荐"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#F9F9F9">
+
+        <LinearLayout
+            android:id="@+id/discounts_ll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/discounts_tv"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="特惠"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/discounts_vv"
+                android:layout_width="45dp"
+                android:layout_height="4dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="8dp"
+                android:background="#FDC817" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/recommend_ll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recommend_tv"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="推荐"
+                android:textColor="@color/text_color"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/recommend_vv"
+                android:layout_width="45dp"
+                android:layout_height="4dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="8dp"
+                android:background="#FDC817"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/rl_recyclerview_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+
+</LinearLayout>

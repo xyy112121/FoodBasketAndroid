@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckBox
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/home_list_type_ck"
+    android:textColor="@color/home_tv_list_selector"
+    android:background="@drawable/home_list_selector"
+    android:textSize="15sp"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingBottom="10dp"
+    android:button="@null"
+    android:checked="false"
+    android:text="卷心菜">
+
+</CheckBox>

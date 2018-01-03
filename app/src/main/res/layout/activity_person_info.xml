@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D4D4D4"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include layout="@layout/activity_base_top" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="8dp">
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/my_text_style"
+                android:layout_width="100dp"
+                android:gravity="left|center"
+                android:paddingLeft="8dp"
+                android:text="头像"
+
+                android:textColor="#7C7C7C" />
+
+            <RelativeLayout
+                android:id="@+id/person_info_header_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/person_info_header"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_placeholder"
+                    app:riv_oval="true" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View style="@style/horizontal_view" />
+
+        <com.foodBasket.view.TextRowView
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewState="read"
+            app:TextRowViewText="会员名字"
+            app:TextRowViewTextColor="#7C7C7C" />
+
+        <com.foodBasket.view.TextRowView
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewState="read"
+            app:TextRowViewText="电话"
+            app:TextRowViewTextColor="#7C7C7C" />
+
+        <com.foodBasket.view.TextRowView
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewState="read"
+            app:TextRowViewText="餐饮名称"
+            app:TextRowViewTextColor="#7C7C7C" />
+
+        <com.foodBasket.view.TextRowView
+            android:id="@+id/person_info_addr_tv"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewState="read"
+            app:TextRowViewText="地址"
+            app:TextRowViewTextColor="#7C7C7C" />
+
+        <com.foodBasket.view.TextRowView
+            android:id="@+id/person_info_identification_tv"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewState="read"
+            app:TextRowViewText="认证"
+            app:TextRowViewTextColor="#7C7C7C" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/person_info_out"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFC501"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:src="@mipmap/icon_addr_add" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:text="退出登录"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="tab_text_normal">#212121</color>
+    <color name="mian_text">#CE775D</color>
+    <color name="color_f1">#F1F1F1</color>
+    <color name="interval_color">#EEEEEE</color>
+    <color name="text_color">#525252</color>
+    <color name="text_color1">#C24F4C</color>
+    <color name="btn_my_item_click">#334FC3F7</color>
+</resources>

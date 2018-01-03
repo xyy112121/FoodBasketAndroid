@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D4D4D4"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_base_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topbar"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.foodBasket.view.TextRowView
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewGravity="1"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewText="收货人"
+            app:TextRowViewTextColor="@color/black" />
+
+        <com.foodBasket.view.TextRowView
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewGravity="1"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewText="联系电话"
+            app:TextRowViewTextColor="@color/black" />
+
+        <com.foodBasket.view.TextRowView
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            app:TextRowViewGravity="1"
+            app:TextRowViewHiht="请选择"
+            app:TextRowViewIsBottomLineShow="true"
+            app:TextRowViewIsSelect="true"
+            app:TextRowViewLeftWidth="100dp"
+            app:TextRowViewRightTextColor="#1E1E1E"
+            app:TextRowViewState="read"
+            app:TextRowViewText="所在地区"
+            app:TextRowViewTextColor="@color/black" />
+
+
+        <com.foodBasket.view.ClearEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:hint="请填写详细地址，不少于5个字"
+            android:minLines="5"
+            android:paddingLeft="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text_color"
+            android:textSize="14sp" />
+
+
+        <View
+            style="@style/horizontal_view"
+            android:layout_height="8dp"
+            android:background="#D4D4D4" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="设为默认"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.foodBasket.view.SwitchButton
+                android:id="@+id/switch1"
+                android:layout_width="45dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                app:defaultStatus="close" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shipping_address_list_add_ll"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFC501"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

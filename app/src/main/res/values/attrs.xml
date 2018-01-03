@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MainNavigateTabBar">
+        <attr name="navigateTabTextColor" format="color|reference" />
+        <attr name="navigateTabSelectedTextColor" format="color|reference" />
+        <attr name="containerId" format="integer|reference" />
+        <attr name="navigateTabTextSize" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TextRowView">
+        <attr name="TextRowViewText" format="string" />
+        <attr name="TextRowViewHiht" format="string" />
+        <attr name="TextRowViewTextSize" format="dimension" />
+        <attr name="TextRowViewTextColor" format="color" />
+        <attr name="TextRowViewRightTextColor" format="color" />
+        <attr name="TextRowViewIsBottomLineShow" format="boolean" />
+        <attr name="TextRowViewIsSelect" format="boolean" />
+        <attr name="TextRowViewLeftWidth" format="dimension" />
+        <attr name="TextRowViewGravity" format="integer" />
+        <attr name="TextRowViewState">
+            <enum name="read" value="0" />
+            <enum name="write" value="1" />
+        </attr>
+        <attr name="TextRowViewInputType">
+            <enum name="number" value="0" />
+            <enum name="phone" value="1" />
+            <enum name="text" value="2" />
+            <enum name="pwd" value="3" />
+            <enum name="number_decimal" value="4" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SwitchButton">
+        <attr name="defaultStatus">
+            <enum name="open" value="1" />
+            <enum name="close" value="0" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="WarpLinearLayout">
+        <attr name="grivate" format="enum"><!--对齐方式 !-->
+            <enum name="right" value="0"></enum>
+            <enum name="left" value="1"></enum>
+            <enum name="center" value="2"></enum>
+        </attr>
+        <attr name="horizontal_Space" format="dimension"></attr>
+        <attr name="vertical_Space" format="dimension"></attr>
+        <attr name="isFull" format="boolean"></attr>
+    </declare-styleable>
+</resources>
