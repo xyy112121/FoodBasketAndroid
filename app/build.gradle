@@ -5,7 +5,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.foodBasket"
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -18,9 +18,6 @@ android {
         }
     }
 
-    dexOptions {
-        incremental true
-    }
 }
 
 dependencies {
@@ -48,9 +45,7 @@ dependencies {
     //网络请求依赖
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.zhy:okhttputils:2.6.2'
-    //动态权限处理
-    compile 'com.github.hotchemi:permissionsdispatcher:3.0.1'
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
+
     //下拉刷新
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.7@aar'
     //图片选择

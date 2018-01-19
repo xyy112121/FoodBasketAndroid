@@ -6,9 +6,9 @@
     android:textColor="@color/home_tv_list_selector"
     android:background="@drawable/home_list_selector"
     android:textSize="15sp"
-    android:paddingTop="10dp"
-    android:paddingLeft="10dp"
-    android:paddingBottom="10dp"
+    android:paddingTop="20dp"
+    android:paddingLeft="15dp"
+    android:paddingBottom="20dp"
     android:button="@null"
     android:checked="false"
     android:text="卷心菜">

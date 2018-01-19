@@ -51,22 +51,19 @@ public class OrderListDeliveryManActivity extends BaseActivity {
     }
 
     private void initTop() {
-        List<String> topList = new ArrayList<>();
-        topList.add("全部");
-        topList.add("未送货");
-        topList.add("已送货");
-        for (int i = 0; i < topList.size(); i++) {
+        String[] tops = new String[]{"全部", "未送货", "已送货"};
+        for (int i = 0; i < tops.length; i++) {
             final int index = i;
             final FrameLayout layout = (FrameLayout) getLayoutInflater().inflate(R.layout.activity_order_list_top_item, null);
             TextView t = layout.findViewById(R.id.order_top_parent_item_tv);
-            t.setText(topList.get(i));
+            t.setText(tops[i]);
             if (i == 0) {
-                t.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                t.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
                 layout.findViewById(R.id.order_top_parent_item_line).setVisibility(View.VISIBLE);
                 swithFragment();
             }
             int width = DimenUtil.getScreenWidth();
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width / 3, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width / tops.length, LinearLayout.LayoutParams.WRAP_CONTENT);
             layout.setLayoutParams(lp);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,7 +72,7 @@ public class OrderListDeliveryManActivity extends BaseActivity {
                     mIndex = index;
                     if (mIndex2 != -1 && mIndex != mIndex2) {
                         ((TextView) view.findViewById(R.id.order_top_parent_item_tv)).setTextColor(
-                                ContextCompat.getColor(mContext, R.color.black));
+                                ContextCompat.getColor(mContext, R.color.blue));
                         (view.findViewById(R.id.order_top_parent_item_line)).setVisibility(View.VISIBLE);
                         setViewColor();
                     }
@@ -91,7 +88,7 @@ public class OrderListDeliveryManActivity extends BaseActivity {
     public void setViewColor() {
         FrameLayout layout = mListLayout.get(mIndex2);
         ((TextView) layout.findViewById(R.id.order_top_parent_item_tv)).setTextColor(
-                ContextCompat.getColor(mContext, R.color.bar_grey));
+                ContextCompat.getColor(mContext, R.color.text_color));
         (layout.findViewById(R.id.order_top_parent_item_line)).setVisibility(View.GONE);
     }
 

@@ -5,94 +5,126 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.foodBasket.MainActivity;
 import com.foodBasket.R;
+import com.foodBasket.core.main.adapter.DiscountsAdapter;
 import com.foodBasket.core.person.ui.HistorySearchActivity;
 import com.foodBasket.util.dimen.DimenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * 首页
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+    @BindView(R.id.rl_recyclerview_refresh)
+    BGARefreshLayout mRefreshLayout;
+    @BindView(R.id.recyclerview)
+    RecyclerView mRecyclerView;
     Unbinder unbinder;
-    private List<FrameLayout> mListLayout = new ArrayList<>();
-    private int mIndex = 0;
-    private int mIndex2 = -1;//前一次点击的下标
-    private View mView;
+
+    private DiscountsAdapter mAdapter;
+    private int mPage = 1;
+    private int mTotal;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_home, null);
-        initTop();
-        unbinder = ButterKnife.bind(this, mView);
-        return mView;
+         View view = inflater.inflate(R.layout.fragment_home, null);
+        unbinder = ButterKnife.bind(this, view);
+        initialUI();
+        return view;
     }
 
-    private void initTop() {
-        LinearLayout parentLayout = mView.findViewById(R.id.home_top_parent_ll);
-        for (int i = 0; i < 3; i++) {
-            final int index = i;
-//                Condition item = list.get(i);
-            final FrameLayout layout = (FrameLayout) getActivity().getLayoutInflater().inflate(R.layout.home_top_parent_item, null);
-            TextView t = layout.findViewById(R.id.home_top_parent_item_tv);
-            t.setText("蔬菜");
-            if (i == 0) {
-                t.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
-                layout.findViewById(R.id.home_top_parent_item_line).setVisibility(View.VISIBLE);
-                swithFragment();
+    public void initialUI() {
+        //设置布局管理器为2列，纵向
+        RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
+        mAdapter = new DiscountsAdapter(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), true));
+//        mRefreshLayout.beginRefreshing();
+
+        mAdapter.setOnItemClickListener(new DiscountsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getActivity(), "点击了" + position, Toast.LENGTH_SHORT).show();
             }
-            int width = DimenUtil.getScreenWidth();
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width / 3, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layout.setLayoutParams(lp);
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mIndex2 = mIndex;
-                    mIndex = index;
-                    if (mIndex2 != -1 && mIndex != mIndex2) {
-                        ((TextView) view.findViewById(R.id.home_top_parent_item_tv)).setTextColor(
-                                ContextCompat.getColor(getActivity(), R.color.black));
-                        (view.findViewById(R.id.home_top_parent_item_line)).setVisibility(View.VISIBLE);
-                        setViewColor();
-                    }
-                    swithFragment();
-                }
-            });
-            mListLayout.add(layout);
-            parentLayout.addView(layout);
+        });
+    }
+
+    private void getData() {
+//        try {
+//            SecondaryGoodsAction action = new SecondaryGoodsAction();
+//            mRequest.page = mPage++;
+//            mRequest.rows = 10;
+//
+//            action.getCategoryList(mRequest, new MyStringCallBack() {
+//                @Override
+//                public void onResult(ResponseBean result) {
+//                    mRefreshLayout.endRefreshing();
+//                    mRefreshLayout.endLoadingMore();
+//                    if (result != null && "1".equals(result.getErrorcode())) {
+//                        Object data = result.getData();
+//                        Gson gson = new GsonBuilder().serializeNulls().create();
+//                        String json = gson.toJson(data);
+//                        mResponse = gson.fromJson(json, SecondaryGoodsCategoryResponseModel.class);
+//                        mAdapter.addList(mResponse.filter_item.rows);
+//                        mTypeList = mResponse.filter_data.item_category;
+//                        mPriceList = mResponse.filter_data.item_price;
+//                        mTotal = Integer.parseInt(mResponse.filter_item.total);
+//                    } else {
+//                        ToastUtil.showMessage(getString(R.string.error));
+//                    }
+//                }
+//            });
+//        } catch (Exception e) {
+//            ToastUtil.showMessage(getString(R.string.error));
+        mRefreshLayout.endRefreshing();
+        mRefreshLayout.endLoadingMore();
+//        }
+
+    }
+
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        mAdapter.removeAll();
+        mPage = 1;
+        getData();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        if (mAdapter.mData.size() < mTotal) {
+            getData();
+        } else {
+            mRefreshLayout.endLoadingMore();
         }
-
+        return false;
     }
 
-    public void setViewColor() {
-        FrameLayout layout = mListLayout.get(mIndex2);
-        ((TextView) layout.findViewById(R.id.home_top_parent_item_tv)).setTextColor(
-                ContextCompat.getColor(getActivity(), R.color.bar_grey));
-        (layout.findViewById(R.id.home_top_parent_item_line)).setVisibility(View.GONE);
-    }
-
-    private void swithFragment() {
-        HomeListFragment f = new HomeListFragment();
-        FragmentTransaction t = ((MainActivity) getActivity()).getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.content_frame, f);
-        t.commit();
-    }
 
     @Override
     public void onDestroyView() {
@@ -100,14 +132,4 @@ public class HomeFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.top_left, R.id.top_right})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.top_left:
-                HistorySearchActivity.openActivity(getActivity());
-                break;
-            case R.id.top_right:
-                break;
-        }
-    }
 }

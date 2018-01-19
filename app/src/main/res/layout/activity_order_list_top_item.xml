@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="蔬菜"
-                android:textColor="@color/bar_grey"
+                android:textColor="@color/text_color"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -43,7 +43,7 @@
                 android:layout_height="3dp"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="8dp"
-                android:background="@android:color/holo_red_dark"
+                android:background="@color/blue"
                 android:visibility="gone" />
         </RelativeLayout>
 

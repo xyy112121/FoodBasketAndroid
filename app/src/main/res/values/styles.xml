@@ -104,4 +104,10 @@
         <item name="isFull">false</item>
     </style>
 
+    <style name="my_item_image">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
 </resources>

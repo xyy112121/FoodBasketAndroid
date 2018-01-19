@@ -17,8 +17,8 @@
 
         <CheckBox
             android:id="@+id/check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="4dp"
@@ -41,14 +41,14 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/ic_placeholder"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/icon_default"
                 android:scaleType="fitXY" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -59,44 +59,24 @@
                     android:layout_height="wrap_content"
                     android:maxLines="3"
                     android:text="蔬菜名字名称"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textColor="@color/text_color"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/shop_car_item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="8dp"
                     android:maxLines="2"
-                    android:text="￥15/千克"
-                    android:textColor="@color/text_color1"
-                    android:textSize="13sp" />
+                    android:text="￥15.26/kg"
+                    android:textColor="@color/text_color2"
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="总价:"
-                        android:textColor="@color/text_color"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/shop_car_item_orderprice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/textView2"
-                        android:maxLines="2"
-                        android:text="￥600.00"
-                        android:textColor="@color/text_color1"
-                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -106,21 +86,18 @@
                         android:layout_marginRight="15dp"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/tv_reduce"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:background="#EEEEEE"
-                            android:gravity="center"
-                            android:text="一"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:src="@mipmap/icon_cart_reduce"
+
+                            />
 
                         <EditText
                             android:id="@+id/tv_num"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:background="#EEEEEE"
                             android:gravity="center"
                             android:inputType="number"
                             android:singleLine="true"
@@ -128,15 +105,12 @@
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/tv_add"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:background="#EEEEEE"
-                            android:gravity="center"
-                            android:text="+"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:src="@mipmap/icon_cart_add"
+                           />
                     </LinearLayout>
 
                 </RelativeLayout>

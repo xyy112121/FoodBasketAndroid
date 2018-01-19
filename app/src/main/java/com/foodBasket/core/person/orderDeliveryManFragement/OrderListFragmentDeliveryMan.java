@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.foodBasket.R;
+import com.foodBasket.core.person.ui.OrderInfoActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +85,12 @@ public class OrderListFragmentDeliveryMan extends Fragment implements BGARefresh
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.fragment_order_list_item_deliveryman, null);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    OrderInfoActivity.openActivity(getActivity(), "");
+                }
+            });
             return view;
         }
     }

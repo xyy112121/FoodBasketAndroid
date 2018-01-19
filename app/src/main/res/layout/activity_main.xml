@@ -11,8 +11,8 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         app:containerId="@+id/main_container"
-        app:navigateTabSelectedTextColor="@color/mian_text"
-        app:navigateTabTextColor="@android:color/black" />
+        app:navigateTabSelectedTextColor="@color/blue"
+        app:navigateTabTextColor="@color/text_color" />
 
     <FrameLayout
         android:id="@id/main_container"

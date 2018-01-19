@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!--地址部分-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_shopcar" />
+                    android:src="@mipmap/icon_addr" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -77,14 +78,6 @@
                         android:textColor="#5C5C5C"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="收货时间"
-                        android:textColor="@color/text_color1"
-                        android:textSize="14sp" />
-
                 </LinearLayout>
 
                 <ImageView
@@ -107,6 +100,34 @@
                 style="@style/horizontal_view"
                 android:layout_height="5dp" />
 
+            <!--送达时间-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="送达时间"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@mipmap/icon_arrow_right"
+                    android:padding="8dp"
+                    android:text="请选择到达时间"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <!--商品详细-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,13 +141,14 @@
                 <include layout="@layout/activity_order_confirm_item" />
             </LinearLayout>
 
-
+            <!--买家留言-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/my_text_style"
@@ -139,17 +161,19 @@
                     style="@style/my_right_text_style1"
                     android:layout_marginRight="5dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
                     android:hint="对本次交易说明"
+                    android:maxLines="1"
                     android:textColor="@color/text_color1" />
 
             </LinearLayout>
 
             <View style="@style/horizontal_view" />
 
+            <!--优惠券-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -171,59 +195,32 @@
 
             <View style="@style/horizontal_view" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:padding="8dp">
+            <!--付款方式-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="共计：15款产品"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="合计："
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥1999.00"
-                    android:textColor="@color/tab_text_normal"
+                    android:padding="8dp"
+                    android:text="付款方式"
+                    android:textColor="@color/text_color"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="合计："
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥1999"
-                    android:textColor="@color/text_color1"
+                    android:layout_alignParentRight="true"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@mipmap/icon_arrow_right"
+                    android:padding="8dp"
+                    android:text="微信"
+                    android:textColor="@color/blue"
                     android:textSize="16sp" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View style="@style/horizontal_view" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="付款方式"
-                android:textColor="@color/text_color"
-                android:textSize="16sp" />
 
             <RadioGroup
                 android:id="@+id/radioGroupID"
@@ -235,14 +232,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginLeft="8dp"
                     android:background="@android:color/transparent"
                     android:button="@null"
                     android:drawablePadding="8dp"
                     android:drawableRight="@drawable/check_box_bg"
                     android:gravity="center"
                     android:text="货到付款"
-                    android:textColor="@color/tab_text_normal" />
+                    android:textColor="@color/text_color" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -255,7 +252,7 @@
                     android:drawableRight="@drawable/check_box_bg"
                     android:gravity="center"
                     android:text="欠账订单"
-                    android:textColor="@color/tab_text_normal" />
+                    android:textColor="@color/text_color" />
 
 
                 <RadioButton
@@ -269,7 +266,7 @@
                     android:drawableRight="@drawable/check_box_bg"
                     android:gravity="center"
                     android:text="到店取货"
-                    android:textColor="@color/tab_text_normal" />
+                    android:textColor="@color/text_color" />
 
             </RadioGroup>
 
@@ -277,6 +274,80 @@
                 style="@style/horizontal_view"
                 android:layout_height="15dp"
                 android:layout_marginTop="10dp" />
+
+            <!--总额-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="商品总额"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="8dp"
+                    android:text="￥18.5"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="配送费"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="8dp"
+                    android:text="￥18.5"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="优惠券"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="8dp"
+                    android:text="￥18.5"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
         </LinearLayout>
     </ScrollView>
 
@@ -294,9 +365,18 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|right"
             android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="共计:2款产品"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -304,7 +384,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="实付:"
                 android:textColor="@color/text_color"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_total_price"
@@ -319,8 +399,8 @@
             android:id="@+id/tv_go_to_pay"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_dark"
+            android:layout_weight="0.6"
+            android:background="#FD6E40"
             android:clickable="true"
             android:gravity="center"
             android:text="提交订单"

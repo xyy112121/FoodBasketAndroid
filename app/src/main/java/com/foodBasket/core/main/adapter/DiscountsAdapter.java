@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 特惠推荐
+ * 首页
  */
 
 public class DiscountsAdapter extends RecyclerView.Adapter implements View.OnClickListener {

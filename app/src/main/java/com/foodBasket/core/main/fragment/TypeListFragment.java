@@ -25,7 +25,7 @@ import butterknife.Unbinder;
  * 首页
  */
 
-public class HomeListFragment extends Fragment {
+public class TypeListFragment extends Fragment {
     LayoutInflater mInflater;
     @BindView(R.id.home_list_type_lv)
     ListView mTypeLv;
@@ -114,7 +114,7 @@ public class HomeListFragment extends Fragment {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.fragment_home_list_value_item, null);
+                convertView = mInflater.inflate(R.layout.item_type_list_value_item, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {

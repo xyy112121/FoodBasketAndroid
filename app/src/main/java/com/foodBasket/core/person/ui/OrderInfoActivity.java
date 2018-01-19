@@ -28,6 +28,6 @@ public class OrderInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_info);
         ButterKnife.bind(this);
-        initTopbar("送货单");
+        initTopbar("订单详情");
     }
 }

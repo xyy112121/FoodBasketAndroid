@@ -19,7 +19,7 @@ import com.foodBasket.R;
 
 
 /**
- * 发布的单行输入框
+ * 单行输入框
  */
 
 public class TextRowView extends LinearLayout {

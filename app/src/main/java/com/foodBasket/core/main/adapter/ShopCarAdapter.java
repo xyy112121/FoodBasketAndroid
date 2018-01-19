@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.foodBasket.R;
 import com.foodBasket.core.main.model.OrderDetailid;
 import com.foodBasket.core.main.model.ProductInfo;
@@ -59,7 +58,7 @@ public class ShopCarAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
         final ViewHolder cholder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.fragment_shop_car_item, null);
+            convertView = inflater.inflate(R.layout.fragment_cart_item, null);
             cholder = new ViewHolder(convertView);
             convertView.setTag(cholder);
         } else {
@@ -69,7 +68,6 @@ public class ShopCarAdapter extends BaseAdapter {
         final ProductInfo obj = mList.get(i);
         cholder.mNameTv.setText(obj.getCommodityname());
         cholder.mPriceTv.setText("￥15/千克");
-        cholder.mSumPrice.setText("￥ " + obj.getOrderprice());
         cholder.tv_count.setText(obj.getOrdernumber() + "");
         if (!"".equals(obj.getCommoditypicture())) {
 //            Glide.with(mContext)
@@ -226,16 +224,12 @@ public class ShopCarAdapter extends BaseAdapter {
         TextView mNameTv;
         @BindView(R.id.shop_car_item_price)
         TextView mPriceTv;
-        @BindView(R.id.textView2)
-        TextView textView2;
-        @BindView(R.id.shop_car_item_orderprice)
-        TextView mSumPrice;
         @BindView(R.id.tv_reduce)
-        TextView iv_decrease;
+        ImageView iv_decrease;
         @BindView(R.id.tv_num)
         EditText tv_count;
         @BindView(R.id.tv_add)
-        TextView iv_increase;
+        ImageView iv_increase;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

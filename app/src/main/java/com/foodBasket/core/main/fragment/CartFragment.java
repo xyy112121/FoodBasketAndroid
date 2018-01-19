@@ -35,7 +35,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * 购物车
  */
 
-public class ShopCarFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
+public class CartFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
     @BindView(R.id.top_right_text)
     TextView mRightTv;
     @BindView(R.id.listview)
@@ -61,7 +61,7 @@ public class ShopCarFragment extends Fragment implements BGARefreshLayout.BGARef
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_shop_car, null);
+        View view = inflater.inflate(R.layout.fragment_cart, null);
         unbinder = ButterKnife.bind(this, view);
         initUI();
         listener();
@@ -151,7 +151,7 @@ public class ShopCarFragment extends Fragment implements BGARefreshLayout.BGARef
             case R.id.top_right_text:
                 Animation hideAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.out_toptobottom);
                 Animation showAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.in_bottomtotop);
-                if ("编辑".equals(mRightTv.getText())) {
+                if ("删除".equals(mRightTv.getText())) {
                     mRightTv.setText("完成");
                     mPayLl.startAnimation(hideAnim);
                     mPayLl.setVisibility(View.GONE);
@@ -159,7 +159,7 @@ public class ShopCarFragment extends Fragment implements BGARefreshLayout.BGARef
                     mDelectLl.setVisibility(View.VISIBLE);
                     mAdapter.showCk(true);//显示多选框
                 } else {
-                    mRightTv.setText("编辑");
+                    mRightTv.setText("删除");
                     mPayLl.startAnimation(showAnim);
                     mPayLl.setVisibility(View.VISIBLE);
                     mDelectLl.startAnimation(hideAnim);
