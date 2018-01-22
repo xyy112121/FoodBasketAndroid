@@ -3,30 +3,23 @@ package com.foodBasket.core.main.fragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.foodBasket.MainActivity;
 import com.foodBasket.R;
-import com.foodBasket.core.main.adapter.DiscountsAdapter;
-import com.foodBasket.core.person.ui.HistorySearchActivity;
-import com.foodBasket.util.dimen.DimenUtil;
+import com.foodBasket.core.main.adapter.BaseRecyclerAdapter;
+import com.foodBasket.core.main.adapter.GridItemDecoration;
+import com.foodBasket.core.main.adapter.HomeAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -35,21 +28,21 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * 首页
  */
 
-public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
     @BindView(R.id.rl_recyclerview_refresh)
     BGARefreshLayout mRefreshLayout;
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     Unbinder unbinder;
 
-    private DiscountsAdapter mAdapter;
+    private HomeAdapter mAdapter;
     private int mPage = 1;
     private int mTotal;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-         View view = inflater.inflate(R.layout.fragment_home, null);
+        View view = inflater.inflate(R.layout.fragment_home, null);
         unbinder = ButterKnife.bind(this, view);
         initialUI();
         return view;
@@ -57,21 +50,38 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
     public void initialUI() {
         //设置布局管理器为2列，纵向
-        RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(2,
-                StaggeredGridLayoutManager.VERTICAL);
-        mAdapter = new DiscountsAdapter(getActivity());
+//        RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(2,
+//                StaggeredGridLayoutManager.VERTICAL);
+        mAdapter = new HomeAdapter();
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
+//        mRecyclerView.addItemDecoration(new GridItemDecoration(getActivity(), true));
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.addDatas(generateData());
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), true));
 //        mRefreshLayout.beginRefreshing();
-
-        mAdapter.setOnItemClickListener(new DiscountsAdapter.OnItemClickListener() {
+        setHeader(mRecyclerView);
+        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<String>() {
             @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), "点击了" + position, Toast.LENGTH_SHORT).show();
+            public void onItemClick(int position, String data) {
+                Toast.makeText(getActivity(), position + "," + data, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private ArrayList<String> generateData() {
+        ArrayList<String> data = new ArrayList<String>() {
+            {
+                for (int i = 0; i < 21; i++) add("数据" + i);
+            }
+        };
+        return data;
+    }
+
+    private void setHeader(RecyclerView view) {
+        View header = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home_head, view, false);
+        mAdapter.setHeaderView(header);
     }
 
     private void getData() {
@@ -110,14 +120,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-        mAdapter.removeAll();
-        mPage = 1;
-        getData();
+//        mAdapter.removeAll();
+//        mPage = 1;
+//        getData();
     }
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-        if (mAdapter.mData.size() < mTotal) {
+        if (mAdapter.getItemCount() < mTotal) {
             getData();
         } else {
             mRefreshLayout.endLoadingMore();
