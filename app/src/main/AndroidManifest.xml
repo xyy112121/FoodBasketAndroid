@@ -32,6 +32,7 @@
         <activity android:name=".core.person.ui.OrderInfoActivity" />
         <activity android:name=".core.person.ui.IdentificationActivity" />
         <activity android:name=".core.person.ui.HistorySearchActivity" />
+        <activity android:name=".core.person.ui.OrderListActivity" />
     </application>
 
 </manifest>

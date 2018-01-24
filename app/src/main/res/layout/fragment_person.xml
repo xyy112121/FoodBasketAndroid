@@ -183,7 +183,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="待发货"
+                    android:text="送货单"
                     android:textColor="@color/text_color"
                     android:textSize="16sp" />
 
@@ -217,7 +217,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_after_market"
+                android:id="@+id/ll_received"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
