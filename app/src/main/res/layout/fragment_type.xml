@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -25,13 +26,13 @@
             android:layout_width="0dp"
             android:layout_height="33dp"
             android:layout_marginRight="8dp"
-            android:layout_weight="0.8"
             android:layout_marginTop="5dp"
+            android:layout_weight="0.8"
             android:background="@drawable/btn_bg_blue_frame"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/expert_search_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,38 +54,35 @@
     </LinearLayout>
 
 
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <com.androidkun.xtablayout.XTabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            app:xTabIndicatorColor="@color/blue"
+            app:xTabIndicatorHeight="3dp"
+            app:xTabIndicatorWidth="75dp"
+            app:xTabSelectedTextColor="@color/blue"
+            app:xTabSelectedTextSize="18sp"
+            app:xTabTextAppearance="@android:style/TextAppearance.Holo.Medium"
+            app:xTabTextColor="@color/tab_text_normal"
+            app:xTabTextSize="18sp" />
 
-            <LinearLayout
-                android:id="@+id/home_top_parent_ll"
-                android:layout_width="0dp"
-                android:layout_weight="0.9"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="3dp"
+            android:src="@mipmap/icon_more" />
 
-            </LinearLayout>
+    </LinearLayout>
 
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="3dp"
-                android:src="@mipmap/icon_more" />
 
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <View
-        style="@style/horizontal_view"
-       />
+    <View style="@style/horizontal_view" />
 
     <FrameLayout
         android:id="@+id/type_content_frame"

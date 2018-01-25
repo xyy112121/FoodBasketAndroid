@@ -31,7 +31,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/expert_search_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,8 +69,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-           />
+            android:scrollbars="none" />
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
 </LinearLayout>

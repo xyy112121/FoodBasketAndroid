@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,14 @@ import android.widget.Toast;
 
 import com.foodBasket.R;
 import com.foodBasket.core.main.adapter.BaseRecyclerAdapter;
-import com.foodBasket.core.main.adapter.GridItemDecoration;
 import com.foodBasket.core.main.adapter.HomeAdapter;
+import com.foodBasket.core.person.ui.HistorySearchActivity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -142,4 +142,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         unbinder.unbind();
     }
 
+    @OnClick({R.id.expert_search_text, R.id.search_history_me})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.expert_search_text:
+                HistorySearchActivity.openActivity(getActivity());
+                break;
+            case R.id.search_history_me:
+                break;
+        }
+    }
 }
