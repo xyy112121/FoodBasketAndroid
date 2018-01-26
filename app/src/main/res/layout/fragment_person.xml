@@ -22,7 +22,7 @@
                 android:layout_height="48dp">
 
                 <TextView
-                    android:id="@+id/top_left"
+                    android:id="@+id/top_set"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -30,7 +30,8 @@
                     android:paddingRight="10dp"
                     android:text="设置"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
             <!--头像部分-->
             <LinearLayout
@@ -140,7 +141,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -279,6 +281,7 @@
         <View style="@style/horizontal_view" />
 
         <LinearLayout
+            android:id="@+id/person_add_lv"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="15dp"

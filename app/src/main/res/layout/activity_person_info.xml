@@ -118,14 +118,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:background="#FFC501"
+        android:background="#FC4E50"
         android:gravity="center">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:src="@mipmap/icon_addr_add" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -133,7 +127,7 @@
             android:layout_marginLeft="8dp"
             android:gravity="center"
             android:text="退出登录"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
     </LinearLayout>

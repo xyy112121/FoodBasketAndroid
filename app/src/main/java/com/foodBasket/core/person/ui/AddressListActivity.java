@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 import com.foodBasket.BaseActivity;
 import com.foodBasket.R;
-import com.foodBasket.core.person.adapter.ShippingAddressListAdapter;
+import com.foodBasket.core.person.adapter.AddressListAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,16 +20,16 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * 收货地址列表
  */
 
-public class ShippingAddressListActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
+public class AddressListActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
     @BindView(R.id.listview)
     ListView mListView;
     @BindView(R.id.rl_recyclerview_refresh)
     BGARefreshLayout mRefreshLayout;
 
-    ShippingAddressListAdapter mAdapter;
+    AddressListAdapter mAdapter;
 
     public static void openActivity(Activity activity) {
-        Intent intent = new Intent(activity, ShippingAddressListActivity.class);
+        Intent intent = new Intent(activity, AddressListActivity.class);
         activity.startActivity(intent);
     }
 
@@ -43,7 +43,7 @@ public class ShippingAddressListActivity extends BaseActivity implements BGARefr
     }
 
     public void initUI() {
-        mAdapter = new ShippingAddressListAdapter(mContext);
+        mAdapter = new AddressListAdapter(mContext);
 //        mAdapter = new ShippingAddressListAdapter(mContext, R.layout.activity_shipping_address_list_item);
         mListView.setAdapter(mAdapter);
         mRefreshLayout.setDelegate(this);
@@ -63,6 +63,6 @@ public class ShippingAddressListActivity extends BaseActivity implements BGARefr
 
     @OnClick(R.id.shipping_address_list_add_ll)
     public void onViewClicked() {
-        ShippingAddressEditActivity.openActivity(mContext);
+        AddressEditActivity.openActivity(mContext);
     }
 }

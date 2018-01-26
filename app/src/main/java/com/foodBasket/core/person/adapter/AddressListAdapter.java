@@ -14,11 +14,11 @@ import com.foodBasket.R;
  * Created by programmer on 2017/12/28.
  */
 
-public class ShippingAddressListAdapter extends BaseAdapter {
+public class AddressListAdapter extends BaseAdapter {
     private int mResource;
     private Context mContext;
 
-    public ShippingAddressListAdapter(Context mContext) {
+    public AddressListAdapter(Context mContext) {
         this.mContext = mContext;
     }
 

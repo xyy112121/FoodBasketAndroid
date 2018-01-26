@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  * 收货地址编辑
  */
 
-public class ShippingAddressEditActivity extends BaseActivity {
+public class AddressEditActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class ShippingAddressEditActivity extends BaseActivity {
     }
 
     public static void openActivity(Activity activity) {
-        Intent intent = new Intent(activity, ShippingAddressEditActivity.class);
+        Intent intent = new Intent(activity, AddressEditActivity.class);
         activity.startActivity(intent);
     }
 }

@@ -11,9 +11,14 @@ import android.view.ViewGroup;
 import com.androidkun.xtablayout.XTabLayout;
 import com.foodBasket.MainActivity;
 import com.foodBasket.R;
+import com.foodBasket.core.person.ui.HistorySearchActivity;
+
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -34,6 +39,7 @@ public class TypeFragment extends Fragment {
         initTop();
         return mView;
     }
+
 
     private void initTop() {
         mTabLayout.addTab(mTabLayout.newTab().setText("干货"));
@@ -75,5 +81,10 @@ public class TypeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.expert_search_text)
+    public void onViewClicked() {
+        HistorySearchActivity.openActivity(getActivity());
     }
 }

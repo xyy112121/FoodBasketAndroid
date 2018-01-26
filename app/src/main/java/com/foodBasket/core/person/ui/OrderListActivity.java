@@ -31,14 +31,14 @@ public class OrderListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list_deliveryman);
         ButterKnife.bind(this);
-        initTopbar("送货单");
+        initTopbar("我的订单");
         initTop();
 
     }
 
     private void initTop() {
         mTabLayout.addTab(mTabLayout.newTab().setText("全部"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("待发货"));
+//        mTabLayout.addTab(mTabLayout.newTab().setText("待发货"));
         mTabLayout.addTab(mTabLayout.newTab().setText("待收货"));
         mTabLayout.addTab(mTabLayout.newTab().setText("已收货"));
 

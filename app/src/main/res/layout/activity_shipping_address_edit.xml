@@ -84,7 +84,7 @@
             <com.foodBasket.view.SwitchButton
                 android:id="@+id/switch1"
                 android:layout_width="45dp"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
@@ -100,7 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:background="#FFC501"
+        android:background="@color/blue"
         android:gravity="center">
 
         <TextView
@@ -109,8 +109,9 @@
             android:layout_marginLeft="8dp"
             android:gravity="center"
             android:text="确定"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

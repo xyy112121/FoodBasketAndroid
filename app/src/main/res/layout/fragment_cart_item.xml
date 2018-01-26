@@ -88,8 +88,8 @@
 
                         <ImageView
                             android:id="@+id/tv_reduce"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:src="@mipmap/icon_cart_reduce"
 
                             />
@@ -107,8 +107,8 @@
 
                         <ImageView
                             android:id="@+id/tv_add"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:src="@mipmap/icon_cart_add"
                            />
                     </LinearLayout>

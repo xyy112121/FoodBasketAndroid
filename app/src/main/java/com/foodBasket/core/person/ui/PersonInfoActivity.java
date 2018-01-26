@@ -4,17 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.foodBasket.BaseActivity;
 import com.foodBasket.R;
+import com.mylhyl.circledialog.CircleDialog;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * 个人信息
-/ */
+ * /
+ */
 
 public class PersonInfoActivity extends BaseActivity {
 
@@ -38,9 +41,15 @@ public class PersonInfoActivity extends BaseActivity {
             case R.id.person_info_header_layout://头像
                 break;
             case R.id.person_info_addr_tv://地址
-                ShippingAddressListActivity.openActivity(mContext);
+                AddressListActivity.openActivity(mContext);
                 break;
             case R.id.person_info_out://退出
+                new CircleDialog.Builder((FragmentActivity) mContext)
+                        .setTitle("提示")
+                        .setText("确定退出登录么？")
+                        .setNegative("取消", null)
+                        .setPositive("确定", null)
+                        .show();
 
                 break;
             case R.id.person_info_identification_tv:

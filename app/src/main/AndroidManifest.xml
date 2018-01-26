@@ -23,8 +23,8 @@
         </activity>
         <activity android:name=".core.goods.activity.GoodsInfoActivity" />
         <activity android:name=".core.person.ui.PersonInfoActivity" />
-        <activity android:name=".core.person.ui.ShippingAddressListActivity" />
-        <activity android:name=".core.person.ui.ShippingAddressEditActivity" />
+        <activity android:name=".core.person.ui.AddressListActivity" />
+        <activity android:name=".core.person.ui.AddressEditActivity" />
         <activity android:name=".core.person.ui.OrderWaitReceivingListActivity" />
         <activity android:name=".core.person.ui.OrderConfirmActivity" />
         <activity android:name=".core.person.ui.OrderListDeliveryManActivity" />
