@@ -21,8 +21,9 @@ public class OrderListActivity extends BaseActivity {
     @BindView(R.id.tabLayout)
     XTabLayout mTabLayout;
 
-    public static void openActivity(Activity activity) {
+    public static void openActivity(Activity activity, String state) {
         Intent intent = new Intent(activity, OrderListActivity.class);
+        intent.putExtra("state", state);
         activity.startActivity(intent);
     }
 
@@ -36,36 +37,55 @@ public class OrderListActivity extends BaseActivity {
 
     }
 
+
     private void initTop() {
+        String state = getIntent().getStringExtra("state");
         mTabLayout.addTab(mTabLayout.newTab().setText("全部"));
-//        mTabLayout.addTab(mTabLayout.newTab().setText("待发货"));
         mTabLayout.addTab(mTabLayout.newTab().setText("待收货"));
         mTabLayout.addTab(mTabLayout.newTab().setText("已收货"));
 
-        swithFragment();
+        String sta = "";
+        if ("待收货".equals(state)) {
+            mTabLayout.getTabAt(1).select();
+            sta = "2";
+        } else if ("已收货".equals(state)) {
+            mTabLayout.getTabAt(2).select();
+            sta = "3";
+        } else {
+            mTabLayout.getTabAt(0).select();
+        }
+
+        swithFragment(sta);
 
         mTabLayout.setOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(XTabLayout.Tab tab) {
                 //选中了tab的逻辑
-                swithFragment();
+                if ("待收货".equals(tab.getText())) {
+                    swithFragment("2");
+                } else if ("已收货".equals(tab.getText())) {
+                    swithFragment("3");
+                } else if ("全部".equals(tab.getText())) {
+                    swithFragment("");
+                }
             }
 
             @Override
             public void onTabUnselected(XTabLayout.Tab tab) {
-              //未选中tab的逻辑
+                //未选中tab的逻辑
             }
 
             @Override
             public void onTabReselected(XTabLayout.Tab tab) {
-               //再次选中tab的逻辑
+                //再次选中tab的逻辑
             }
         });
 
     }
 
-    private void swithFragment() {
+    private void swithFragment(String state) {
         OrderListFragment f = new OrderListFragment();
+        f.mDeliveryState = state;
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.content_frame, f);
         t.commit();

@@ -16,6 +16,7 @@ public class ProductInfo {
     private int ordernumber;
     private int position;// 绝对位置，只在ListView构造的购物车中，在删除时有效
 
+
     public String getCommodityid() {
         return commodityid;
     }

@@ -1,5 +1,6 @@
 package com.foodBasket.core.main.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -13,7 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.foodBasket.MyApplication;
 import com.foodBasket.R;
+import com.foodBasket.core.goods.activity.ProductInfoActivity;
 import com.foodBasket.core.main.model.OrderDetailid;
 import com.foodBasket.core.main.model.ProductInfo;
 
@@ -67,13 +71,13 @@ public class ShopCarAdapter extends BaseAdapter {
 
         final ProductInfo obj = mList.get(i);
         cholder.mNameTv.setText(obj.getCommodityname());
-        cholder.mPriceTv.setText("￥15/千克");
+        cholder.mPriceTv.setText("￥" + obj.getOrderprice() + "/kg");
         cholder.tv_count.setText(obj.getOrdernumber() + "");
-        if (!"".equals(obj.getCommoditypicture())) {
-//            Glide.with(mContext)
-//                    .load(obj.getCommoditypicture())
-//                    .into(cholder.iv_product_picture);
-        }
+        String url = MyApplication.getApplication().mImageUrl + obj.getCommoditypicture();
+        Glide.with(mContext)
+                .load(url)
+                .apply(MyApplication.getOptions())
+                .into(cholder.iv_product_picture);
 
         if (mIsShow) {
             cholder.cb_check.setVisibility(View.VISIBLE);
@@ -166,6 +170,13 @@ public class ShopCarAdapter extends BaseAdapter {
             }
         });
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProductInfoActivity.openActivity((Activity) mContext, obj.getCommodityid());
+            }
+        });
+
         return convertView;
     }
 
@@ -174,13 +185,17 @@ public class ShopCarAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public List<ProductInfo> getAll() {
+        return mList;
+    }
+
     public void selectAll() {
         mSelectIds.clear();
         if (mList != null && mList.size() > 0) {
             Double price = 0.0;
             for (ProductInfo item : mList) {
                 item.setChoosed(true);
-                OrderDetailid orderDetailid = new OrderDetailid(item.getOrderdetailid(), item.getOrdernumber(), item.getCommoditypicture());
+                OrderDetailid orderDetailid = new OrderDetailid(item.getOrderdetailid(), item.getOrdernumber());
                 mSelectIds.add(orderDetailid);
                 int count = item.getOrdernumber();
                 price = price + (count * item.getOrderprice()

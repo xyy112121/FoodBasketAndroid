@@ -79,6 +79,7 @@
                     android:gravity="center"
                     android:minHeight="64dp"
                     android:minWidth="32dp"
+                    android:enabled="false"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     />
                 <TextView

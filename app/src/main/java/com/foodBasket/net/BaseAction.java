@@ -1,12 +1,15 @@
 package com.foodBasket.net;
 
 
+import android.support.v4.util.ArrayMap;
+
 import com.alibaba.fastjson.JSON;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.FileCallBack;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -21,10 +24,9 @@ import okhttp3.Response;
  */
 
 public class BaseAction {
-    private String mUrlName = "users/";
-//    private String mUrl = "http://1ij8925930.51mypc.cn:4000/";
-    private String mUrl = "http://60.172.78.144:4000/";
-    private String mToken = "21e44936eda6e949a26de7ccec3f7e4e";
+    private String mUrlName = "Basket/";
+    private String mUrlName2="control/";
+    private String mUrl = "http://120.78.254.71/";
 //    protected Gson gson;
     protected Map<String, String> headers = new HashMap<>();
 
@@ -32,15 +34,17 @@ public class BaseAction {
     public void setUrlName(String urlName){
         mUrlName = urlName;
     }
+    public void setUrlName2(String urlName2){
+        mUrlName2 = urlName2;
+    }
 
     public BaseAction() {
 //        gson = new GsonBuilder().serializeNulls().create();
-        headers.put("TOKEN", mToken);
     }
 
     public void postJsonRun(String url, BaseModel model, Callback callback) throws Exception {
         PostFormBuilder builder = OkHttpUtils.post();
-        builder.url(mUrl + mUrlName + url);
+        builder.url(mUrl + mUrlName+mUrlName2 + url);
         builder.headers(headers);
         String json = JSON.toJSONString(model);
 
@@ -51,13 +55,27 @@ public class BaseAction {
         builder.build().execute(callback);
     }
 
+    public void postRun(String method, List<ParamsBean> list,StringCallback callback){
+        PostFormBuilder builder = OkHttpUtils.post();
+        builder.url(mUrl + mUrlName+mUrlName2 + method);
+        builder.headers(headers);
+        Map<String,String> map = new HashMap<>();
+        if(list.size() >0){
+            for (ParamsBean bean: list) {
+                map.put(bean.getKey(),bean.getValue());
+            }
+        }
+        builder.params(map);
+        builder.build().execute(callback);
+    }
+
     public void getJsonRun(String url, BaseModel model, Callback callback) throws Exception {
 //        //Aes加密
 //        String json = gson.toJson(model);
 //        String code = AES.encode(json);
         String json = JSON.toJSONString(model);
         GetBuilder builder = OkHttpUtils.get();
-        builder.url(mUrl + mUrlName + url + "?" + getUTF8XMLString(json));
+        builder.url(mUrl + mUrlName+mUrlName2 + url + "?" + getUTF8XMLString(json));
         builder.headers(headers);
         builder.build().execute(callback);
     }

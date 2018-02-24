@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.foodBasket.R;
-import com.foodBasket.core.goods.activity.GoodsInfoActivity;
+import com.foodBasket.core.goods.activity.ProductInfoActivity;
 import com.foodBasket.net.ResponseBean;
 
 import butterknife.BindView;
@@ -125,7 +125,7 @@ public class HomeListFragment extends Fragment {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GoodsInfoActivity.openActivity(getActivity(), "");
+                    ProductInfoActivity.openActivity(getActivity(), "");
                 }
             });
 

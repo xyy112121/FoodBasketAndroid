@@ -10,6 +10,7 @@
         android:layout_margin="10dp">
 
         <ImageView
+            android:id="@+id/item_recommend_picture_iv"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_gravity="center"
@@ -26,6 +27,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/item_recommend_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="名称"
@@ -34,6 +36,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/item_recommend_summary_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -42,6 +45,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/item_recommend_alias_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -58,7 +62,7 @@
                 android:layout_marginLeft="15dp">
 
                 <TextView
-                    android:id="@+id/value_item_sales_tv"
+                    android:id="@+id/item_recommend_price_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -68,6 +72,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
+                    android:id="@+id/item_recommend_add_iv"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"

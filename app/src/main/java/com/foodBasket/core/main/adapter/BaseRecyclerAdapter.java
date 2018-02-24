@@ -29,6 +29,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     public void setHeaderView(View headerView) {
         mHeaderView = headerView;
         notifyItemInserted(0);
+
     }
 
     public View getHeaderView() {
@@ -41,6 +42,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     public void removeAll() {
+        notifyItemRemoved(1);
         mDatas.clear();
         notifyDataSetChanged();
     }

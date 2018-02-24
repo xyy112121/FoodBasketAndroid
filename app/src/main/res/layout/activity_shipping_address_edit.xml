@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <com.foodBasket.view.TextRowView
+            android:id="@+id/addr_edit_userName_tv"
             android:layout_width="match_parent"
             android:layout_height="49dp"
             app:TextRowViewGravity="1"
@@ -27,6 +28,7 @@
             app:TextRowViewTextColor="@color/black" />
 
         <com.foodBasket.view.TextRowView
+            android:id="@+id/addr_edit_mobile_tv"
             android:layout_width="match_parent"
             android:layout_height="49dp"
             app:TextRowViewGravity="1"
@@ -38,6 +40,7 @@
             app:TextRowViewTextColor="@color/black" />
 
         <com.foodBasket.view.TextRowView
+            android:id="@+id/addr_edit_city_tv"
             android:layout_width="match_parent"
             android:layout_height="49dp"
             app:TextRowViewGravity="1"
@@ -52,6 +55,7 @@
 
 
         <com.foodBasket.view.ClearEditText
+            android:id="@+id/addr_edit_address_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"

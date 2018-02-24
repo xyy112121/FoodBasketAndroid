@@ -16,6 +16,7 @@
        >
 
         <ImageView
+            android:id="@+id/item_picture_iv"
             android:layout_width="match_parent"
             android:layout_height="165dp"
             android:layout_marginTop="8dp"
@@ -40,7 +41,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/value_item_sales_tv"
+                android:id="@+id/item_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -51,6 +52,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/item_add_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"

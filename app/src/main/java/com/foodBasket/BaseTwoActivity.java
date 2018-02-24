@@ -25,6 +25,7 @@ import com.mic.etoast2.Toast;
 public class BaseTwoActivity extends AppCompatActivity {
     protected Activity mContext;
 
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);

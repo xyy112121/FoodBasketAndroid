@@ -1,28 +1,32 @@
 package com.foodBasket.net;
 
 /**
- * Created by programmer on 2017/12/20.
+ * 返回值
  */
 
 public class ResponseBean {
-    private String code;
-    private String msg;
-    public Object data;
+    private String resultInfo;
+    private String success;
 
-    public String getErrorcode() {
-        return code;
+    public void setResultInfo(String resultInfo) {
+        this.resultInfo = resultInfo;
     }
 
-    public void setErrorcode(String errorcode) {
-        this.code = errorcode;
+    public void setSuccess(String success) {
+        this.success = success;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getResultInfo() {
+        return resultInfo;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+
+    public boolean getSuccess() {
+        if("true".equals(success)){
+            return true;
+        }
+        return false;
     }
+
 
 }

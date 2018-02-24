@@ -8,13 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.fastjson.JSON;
 import com.androidkun.xtablayout.XTabLayout;
 import com.foodBasket.MainActivity;
 import com.foodBasket.R;
+import com.foodBasket.core.main.model.CategoryResModel;
+import com.foodBasket.core.main.model.CategoryRowsModel;
+import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.ui.HistorySearchActivity;
-
-
-import java.util.List;
+import com.foodBasket.net.MyStringCallBack;
+import com.foodBasket.util.loader.LatteLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,24 +39,44 @@ public class TypeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_type, null);
         unbinder = ButterKnife.bind(this, mView);
+        getTopData();
         initTop();
         return mView;
     }
 
 
+    private void getTopData() {
+        HomeAction action = new HomeAction();
+        LatteLoader.showLoading(getActivity());
+        try {
+            action.categoryList(1, 25, new MyStringCallBack() {
+                @Override
+                public void onResult(String result) {
+//                    LatteLoader.stopLoading();
+                    CategoryResModel model = JSON.parseObject(result, CategoryResModel.class);
+                    if (model != null && model.getSuccess()) {
+                        for (int i = 0; i < model.rows.size(); i++) {
+                            CategoryRowsModel item = model.rows.get(i);
+                            mTabLayout.addTab(mTabLayout.newTab().setText(item.name).setTag(item.id));
+                            if (i == 0) {
+                                swithFragment(item.id);
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            LatteLoader.stopLoading();
+            e.printStackTrace();
+        }
+    }
+
     private void initTop() {
-        mTabLayout.addTab(mTabLayout.newTab().setText("干货"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("蔬菜"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("生鲜"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("肉类"));
-
-        swithFragment();
-
         mTabLayout.setOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(XTabLayout.Tab tab) {
                 //选中了tab的逻辑
-                swithFragment();
+                swithFragment(tab.getTag() + "");
             }
 
             @Override
@@ -70,8 +93,9 @@ public class TypeFragment extends Fragment {
     }
 
 
-    private void swithFragment() {
+    private void swithFragment(String typeId) {
         TypeListFragment f = new TypeListFragment();
+        f.mTypeId = typeId;
         FragmentTransaction t = ((MainActivity) getActivity()).getSupportFragmentManager().beginTransaction();
         t.replace(R.id.type_content_frame, f);
         t.commit();

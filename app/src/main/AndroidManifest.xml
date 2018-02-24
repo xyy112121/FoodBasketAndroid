@@ -14,14 +14,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".core.person.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".core.goods.activity.GoodsInfoActivity" />
+        <!--<activity android:name=".MainActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".core.goods.activity.ProductInfoActivity" />
         <activity android:name=".core.person.ui.PersonInfoActivity" />
         <activity android:name=".core.person.ui.AddressListActivity" />
         <activity android:name=".core.person.ui.AddressEditActivity" />

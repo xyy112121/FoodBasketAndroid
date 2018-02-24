@@ -36,14 +36,12 @@
 
         <LinearLayout
 
+            android:id="@+id/home_head_parent_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <include layout="@layout/fragment_home_head_item" />
 
-            <include layout="@layout/fragment_home_head_item" />
-
-            <include layout="@layout/fragment_home_head_item" />
         </LinearLayout>
 
     </HorizontalScrollView>

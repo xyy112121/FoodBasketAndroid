@@ -3,6 +3,8 @@ package com.foodBasket;
 import android.app.Application;
 
 import com.blankj.utilcode.util.Utils;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.foodBasket.net.HttpsUtil;
 import com.foodBasket.net.Tls12SocketFactory;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -22,6 +24,7 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
     private static MyApplication instance;
+    public String mImageUrl = "http://120.78.254.71/Basket/";
 
 
     @Override
@@ -35,6 +38,15 @@ public class MyApplication extends Application {
 
     public static MyApplication getApplication() {
         return instance;
+    }
+
+    public static RequestOptions getOptions() {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_default)
+                .error(R.mipmap.icon_default)
+                .priority(Priority.HIGH);
+        return options;
     }
 
     //网络初始化配置

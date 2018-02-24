@@ -5,17 +5,24 @@ package com.foodBasket.core.main.model;
  */
 
 public class OrderDetailid {
-    private String orderdetailid;
-    private int ordernumber;
-    private String url;
+    private String productId;
+    private int count;
 
-    public OrderDetailid(String id, int number, String url) {
-        this.orderdetailid = id;
-        this.ordernumber = number;
-        this.url = url;
+    public OrderDetailid(String id, int count) {
+        this.productId = id;
+        this.count = count;
+
     }
 
-    public String getOrderdetailid() {
-        return orderdetailid;
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getProductId() {
+        return productId;
     }
 }
