@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by programmer on 2017/12/28.
+ * 地址
  */
 
 public class AddressListAdapter extends ArrayAdapter<AddressResModel> {

@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:name=".MyApplication"
@@ -22,13 +24,13 @@
             </intent-filter>
         </activity>
         <!--<activity android:name=".MainActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
         <!--</activity>-->
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".core.goods.activity.ProductInfoActivity" />
         <activity android:name=".core.person.ui.PersonInfoActivity" />
         <activity android:name=".core.person.ui.AddressListActivity" />
@@ -40,7 +42,11 @@
         <activity android:name=".core.person.ui.OrderInfoActivity" />
         <activity android:name=".core.person.ui.IdentificationActivity" />
         <activity android:name=".core.person.ui.HistorySearchActivity" />
+        <activity android:name=".core.person.ui.HistorySearchListActivity" />
         <activity android:name=".core.person.ui.OrderListActivity" />
+        <activity android:name=".core.person.ui.MerchantListActivity" />
+        <activity android:name=".core.person.ui.MerchantEditActivity" />
+        <activity android:name=".core.person.ui.CouponListActivity" />
     </application>
 
 </manifest>

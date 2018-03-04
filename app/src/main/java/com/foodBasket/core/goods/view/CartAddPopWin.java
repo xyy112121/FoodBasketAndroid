@@ -163,10 +163,12 @@ public class CartAddPopWin extends PopupWindow {
                 public void onResult(String result) {
                     LatteLoader.stopLoading();
                     ResponseBean model = JSON.parseObject(result, ResponseBean.class);
-                    if (model != null && model.getSuccess()) {
-                        Toast.makeText(MyApplication.getApplication(), "已添加购物车", android.widget.Toast.LENGTH_SHORT).show();
-                    } else {
+                    if (model == null) {
                         Toast.makeText(MyApplication.getApplication(), "添加购物车失败", android.widget.Toast.LENGTH_SHORT).show();
+                    }else if(model.getSuccess()){
+                        Toast.makeText(MyApplication.getApplication(), "已添加购物车", android.widget.Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(MyApplication.getApplication(), model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
                     }
                 }
             });

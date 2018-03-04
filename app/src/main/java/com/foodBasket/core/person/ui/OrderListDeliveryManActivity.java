@@ -43,13 +43,20 @@ public class OrderListDeliveryManActivity extends BaseActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText("已送货"));
 
 
-        swithFragment();
+        String sta = "";
+        swithFragment(sta);
 
         mTabLayout.setOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(XTabLayout.Tab tab) {
                 //选中了tab的逻辑
-                swithFragment();
+                if ("未送货".equals(tab.getText())) {
+                    swithFragment("2");
+                } else if ("已送货".equals(tab.getText())) {
+                    swithFragment("3");
+                } else if ("全部".equals(tab.getText())) {
+                    swithFragment("");
+                }
             }
 
             @Override
@@ -64,8 +71,9 @@ public class OrderListDeliveryManActivity extends BaseActivity {
         });
     }
 
-    private void swithFragment() {
+    private void swithFragment(String state) {
         OrderListFragmentDeliveryMan f = new OrderListFragmentDeliveryMan();
+        f.mDeliveryState = state;
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.content_frame, f);
         t.commit();

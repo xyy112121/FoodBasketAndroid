@@ -31,9 +31,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="名称"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/tab_text_normal"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    />
 
                 <TextView
                     android:id="@+id/type_value_summary_tv"

@@ -9,16 +9,17 @@
         android:id="@+id/home_list_type_lv"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="2.5"
         android:divider="@color/interval_color"
         android:dividerHeight="1dp"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        android:background="@color/bg_color"/>
 
     <ListView
         android:id="@+id/home_list_value_lv"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="8"
+        android:layout_weight="7.5"
         android:divider="@color/interval_color"
         android:dividerHeight="1dp"
         android:scrollbars="none" />

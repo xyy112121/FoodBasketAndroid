@@ -8,6 +8,7 @@ import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +58,7 @@ public class PersonAction extends BaseAction {
     /**
      * 收货地址添加
      */
-    public void userAddrAdd( Map<String, String> params, StringCallback callback) throws Exception {
+    public void userAddrAdd(Map<String, String> params, StringCallback callback) throws Exception {
         List<ParamsBean> list = new ArrayList<>();
         Set<String> keySet = params.keySet();
         for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext(); ) {
@@ -67,5 +68,66 @@ public class PersonAction extends BaseAction {
         }
         setUrlName2("resource/");
         postRun("UserAddressForm_save_OL.action", list, callback);
+    }
+
+    /**
+     * 餐馆列表
+     */
+    public void merchantList(Context context, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("userId", userId));
+        setUrlName2("control/");
+        postRun("MerchantNavigate_searchPageOL_OL.action", list, callback);
+    }
+
+    /**
+     * 添加新餐馆信息
+     * userId name address files
+     */
+    public void merchantEdit(Context context, String name, String address, List<File> files, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("userId", userId));
+        list.add(new ParamsBean("name", name));
+        list.add(new ParamsBean("address", address));
+        setUrlName2("control/");
+        postRun("MerchantForm_save_OL.action", list, files, callback);
+    }
+
+    /**
+     * 获取餐馆信息
+     * userId name address files
+     */
+    public void merchantInfo(String objectID, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        list.add(new ParamsBean("objectID", objectID));
+        setUrlName2("control/");
+        postRun("MerchantNavigate_detail_OL.action", list, callback);
+    }
+
+
+    /**
+     * 上传头像
+     * userId name address files
+     */
+    public void uploadAvatar(Context context, File file, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("objectID", userId));
+        setUrlName2("control/");
+        postRun("UserForm_uploadAvatar_OL.action", list, file, callback);
+    }
+
+    /**
+     * 餐馆列表
+     */
+    public void couponList(Context context, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("userId", userId));
+        list.add(new ParamsBean("isCoupon", 1 + ""));
+        setUrlName2("business/");
+        postRun("OrderNavigate_searchPageOL_OL.action", list, callback);
     }
 }

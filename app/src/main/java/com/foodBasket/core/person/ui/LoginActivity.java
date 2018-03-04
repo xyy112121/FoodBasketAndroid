@@ -1,12 +1,8 @@
 package com.foodBasket.core.person.ui;
 
 import android.content.Intent;
-import android.content.Loader;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,10 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
-import com.foodBasket.BaseActivity;
 import com.foodBasket.BaseTwoActivity;
 import com.foodBasket.MainActivity;
-import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.core.person.model.LoginResponseModel;
 import com.foodBasket.core.person.net.PersonAction;
@@ -59,7 +53,7 @@ public class LoginActivity extends BaseTwoActivity {
             Intent intent = new Intent(mContext, MainActivity.class);
             startActivity(intent);
             finish();
-        }else {
+        } else {
 
         }
 
@@ -76,13 +70,13 @@ public class LoginActivity extends BaseTwoActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String code = mCodeEt.getText()+"";
-                String phone = mPhoneEt.getText()+"";
-               if(!"".equals(code)&& !"".equals(phone)){
-                   mLoginBtn.setBackgroundResource(R.drawable.btn_bg_blue);
-               }else {
-                   mLoginBtn.setBackgroundResource(R.drawable.btn_bg_gray);
-               }
+                String code = mCodeEt.getText() + "";
+                String phone = mPhoneEt.getText() + "";
+                if (!"".equals(code) && !"".equals(phone)) {
+                    mLoginBtn.setBackgroundResource(R.drawable.btn_bg_blue);
+                } else {
+                    mLoginBtn.setBackgroundResource(R.drawable.btn_bg_gray);
+                }
 
             }
         });
@@ -100,17 +94,17 @@ public class LoginActivity extends BaseTwoActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String code = mCodeEt.getText()+"";
-                String phone = mPhoneEt.getText()+"";
-                if(!"".equals(phone)){
+                String code = mCodeEt.getText() + "";
+                String phone = mPhoneEt.getText() + "";
+                if (!"".equals(phone)) {
                     mSendBtn.setBackgroundResource(R.drawable.btn_bg_blue);
-                }else {
+                } else {
                     mSendBtn.setBackgroundResource(R.drawable.btn_bg_gray);
                 }
 
-                if(!"".equals(code)&& !"".equals(phone)){
+                if (!"".equals(code) && !"".equals(phone)) {
                     mLoginBtn.setBackgroundResource(R.drawable.btn_bg_blue);
-                }else {
+                } else {
                     mLoginBtn.setBackgroundResource(R.drawable.btn_bg_gray);
                 }
 
@@ -149,8 +143,8 @@ public class LoginActivity extends BaseTwoActivity {
             action.sendCode(mobile, new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
-                    ResponseBean bean = JSON.parseObject(result,ResponseBean.class);
-                    if(bean.getSuccess() == false){
+                    ResponseBean bean = JSON.parseObject(result, ResponseBean.class);
+                    if (bean.getSuccess() == false) {
                         mc.cancel();
                         mSendBtn.setText("获取验证码");
                         mSendBtn.setBackgroundResource(R.drawable.btn_bg_blue);
@@ -199,8 +193,8 @@ public class LoginActivity extends BaseTwoActivity {
     }
 
     public void login() {
-        final String mobile = mPhoneEt.getText()+"";
-        String code = mCodeEt.getText()+"";
+        final String mobile = mPhoneEt.getText() + "";
+        String code = mCodeEt.getText() + "";
 //        if (isMobileNO(phone) == false) {
 //            showMessage("请输入正确的手机号码！");
 //            return;re
@@ -213,17 +207,18 @@ public class LoginActivity extends BaseTwoActivity {
         LatteLoader.showLoading(mContext);
         PersonAction action = new PersonAction();
         try {
-            action.login(mobile,code, new MyStringCallBack() {
+            action.login(mobile, code, new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
                     LatteLoader.stopLoading();
-                    LoginResponseModel model = JSON.parseObject(result,LoginResponseModel.class);
-                   if(model.getSuccess()){
-                       ShareConfig.setConfig(LoginActivity.this, Constants.ONLINE, true);
-                       ShareConfig.setConfig(LoginActivity.this, Constants.USERID, model.user.id);
-                       startActivity(new Intent(mContext, MainActivity.class));
-                      finish();
-                   }
+                    LoginResponseModel model = JSON.parseObject(result, LoginResponseModel.class);
+                    if (model != null && model.getSuccess()) {
+                        ShareConfig.setConfig(LoginActivity.this, Constants.ONLINE, true);
+                        ShareConfig.setConfig(LoginActivity.this, Constants.USERID, model.user.id);
+                        ShareConfig.setConfig(LoginActivity.this, Constants.USERTYPE, model.user.userType);
+                        startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
+                    }
                 }
             });
         } catch (Exception e) {

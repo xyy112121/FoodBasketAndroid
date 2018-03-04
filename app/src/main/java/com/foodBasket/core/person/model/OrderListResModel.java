@@ -10,21 +10,25 @@ import java.util.List;
 
 public class OrderListResModel extends ResponseBean {
 
+
     public int total;
     public List<Rows> rows;
 
-    public  class Rows {
+    public static class Rows {
+        public int couponPay;
         public String orderNo;
         public int realPay;
+        public int isPay;
         public int totalPrice;
         public int debtPrice;
         public int deliveryState;
         public String id;
         public String disDeliveryState;
+        public String displayIsPay;
         public int productCount;
         public List<Products> products;
 
-        public  class Products {
+        public static class Products {
             public int buyNumber;
             public int totalPrice;
             public String productBasic_name;

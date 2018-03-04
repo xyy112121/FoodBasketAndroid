@@ -32,6 +32,8 @@ import com.foodBasket.core.main.model.ProductListModel;
 import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.net.ResponseBean;
+import com.foodBasket.util.Constants;
+import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
 import com.mic.etoast2.Toast;
 
@@ -178,6 +180,7 @@ public class TypeListFragment extends Fragment {
                     notifyDataSetChanged();
                     LatteLoader.showLoading(getActivity());
                     mValueAdapter.clear();
+                    mPgae = 1;
                     getValueData();
                 }
             });
@@ -215,7 +218,7 @@ public class TypeListFragment extends Fragment {
 
             final ProductListModel model = getItem(position);
             holder.mNameTv.setText(model.name);
-            holder.mPriceTv.setText("￥" + model.salePrice + "/" + model.displayUnit);
+            holder.mPriceTv.setText("￥" + model.salePrice + "元/" + model.displayUnit);
             Glide.with(MyApplication.getApplication()).
                     load(MyApplication.getApplication().mImageUrl + model.headPicture).into(holder.mPictrueIv);
             holder.mSummaryTv.setText(model.summary);
@@ -226,6 +229,11 @@ public class TypeListFragment extends Fragment {
                     ProductInfoActivity.openActivity(getActivity(), model.id);
                 }
             });
+
+            int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
+            if (userType == 1) {
+                holder.mAddIv.setVisibility(View.GONE);
+            }
 
             holder.mAddIv.setOnClickListener(new View.OnClickListener() {
                 @Override

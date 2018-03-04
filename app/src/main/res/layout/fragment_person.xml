@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/bg_color">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <!--顶部-->
         <LinearLayout
@@ -137,33 +138,7 @@
             android:baselineAligned="true"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/ll_pay"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:src="@mipmap/icon_me_coupon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:text="我的券"
-                    android:textColor="@color/text_color"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_wait_receive"
@@ -247,6 +222,34 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_pay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:src="@mipmap/icon_me_coupon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="我的钱包"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <View
@@ -309,10 +312,12 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/person_add_view"
             style="@style/horizontal_view"
             android:layout_height="8dp" />
 
         <LinearLayout
+            android:id="@+id/ll_gift"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="15dp"
@@ -338,6 +343,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view_gift"
             style="@style/horizontal_view"
             android:layout_height="8dp" />
 
@@ -365,6 +371,11 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+        <View
+            style="@style/horizontal_view"
+          />
+
 
     </LinearLayout>
 

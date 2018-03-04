@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -23,6 +24,8 @@ import com.foodBasket.core.person.model.OrderInfoResModel;
 import com.foodBasket.core.person.net.OrderAction;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.net.ResponseBean;
+import com.foodBasket.util.Constants;
+import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
 import com.mylhyl.circledialog.CircleDialog;
 
@@ -43,6 +46,10 @@ public class OrderInfoActivity extends BaseActivity {
     RadioGroup mPayTypeRg;
     @BindView(R.id.order_info_confirm_ll)
     LinearLayout mConfirmLl;
+    @BindView(R.id.order_info_confirm_tv)
+    TextView mConfirmTv;
+
+    private int mDeliveryState;
 
     public static void openActivity(Activity activity, String orderId) {
         Intent intent = new Intent(activity, OrderInfoActivity.class);
@@ -80,7 +87,7 @@ public class OrderInfoActivity extends BaseActivity {
                         }
 
                         setTextViewValue(R.id.order_info_deliveryTime_tv, model.deliveryTime);
-
+                        mProductInfoLl.removeAllViews();
                         //商品部分
                         for (OrderInfoResModel.Products item : model.products
                                 ) {
@@ -119,8 +126,22 @@ public class OrderInfoActivity extends BaseActivity {
                         setTextViewValue(R.id.order_info_productCount, "共计:" + model.productCount + "款产品");
                         setTextViewValue(R.id.order_info_realPay_price, "￥" + model.realPayPrice);
 
-                        if ("待收货".equals(model.disDeliveryState)) {
-                            mConfirmLl.setVisibility(View.VISIBLE);
+                        mDeliveryState = model.deliveryState;
+
+                        int userType = ShareConfig.getConfigInt(mContext, Constants.USERTYPE, 0);
+                        if (userType == 1) {//送货员
+                            if (model.isPay == 0) {
+                                mConfirmLl.setVisibility(View.VISIBLE);
+                                mConfirmTv.setText("确认付款");
+                            }else {
+                                mConfirmLl.setVisibility(View.GONE);
+                        }
+                        } else {
+                            if ("待收货".equals(model.disDeliveryState)) {
+                                mConfirmLl.setVisibility(View.VISIBLE);
+                            }else {
+                                mConfirmLl.setVisibility(View.GONE);
+                            }
                         }
 
                     } else {
@@ -138,6 +159,53 @@ public class OrderInfoActivity extends BaseActivity {
 
     @OnClick(R.id.order_info_confirm_ll)
     public void onViewClicked() {
+        int userType = ShareConfig.getConfigInt(mContext, Constants.USERTYPE, 0);
+        if (userType == 1) {//送货员
+            if (mDeliveryState == 2) {
+                showMessage("用户还未确认收货，请先确认用户已收货");
+            } else {
+                payDoneCommit();
+            }
+
+        } else {
+            confirmReceipt();
+        }
+
+    }
+
+    //确认付款
+    private void payDoneCommit() {
+        new CircleDialog.Builder((FragmentActivity) mContext)
+                .setTitle("提示")
+                .setText("请您在确认用户已付款的情况下选择确认付款，请问是否确认商家已付款")
+                .setNegative("取消", null)
+                .setPositive("确认付款", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        OrderAction action = new OrderAction();
+                        try {
+                            String id = getIntent().getStringExtra("orderId");
+                            action.payDoneCommit(mContext, id, new MyStringCallBack() {
+                                @Override
+                                public void onResult(String result) {
+                                    ResponseBean model = JSON.parseObject(result, ResponseBean.class);
+                                    if (model != null && model.getSuccess()) {
+                                        showMessage("确认收款设置成功！");
+                                        getData();
+                                    }
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .show();
+    }
+
+    //确认收货
+    private void confirmReceipt() {
         new CircleDialog.Builder((FragmentActivity) mContext)
                 .setTitle("提示")
                 .setText("请您在确认收到货的时候点击确认收货，请问是否确认收货？")
@@ -167,3 +235,5 @@ public class OrderInfoActivity extends BaseActivity {
                 .show();
     }
 }
+
+

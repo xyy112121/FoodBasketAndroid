@@ -71,7 +71,7 @@ public class ShopCarAdapter extends BaseAdapter {
 
         final ProductInfo obj = mList.get(i);
         cholder.mNameTv.setText(obj.getCommodityname());
-        cholder.mPriceTv.setText("￥" + obj.getOrderprice() + "/kg");
+        cholder.mPriceTv.setText("￥" + obj.getOrderprice() + "元");
         cholder.tv_count.setText(obj.getOrdernumber() + "");
         String url = MyApplication.getApplication().mImageUrl + obj.getCommoditypicture();
         Glide.with(mContext)

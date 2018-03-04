@@ -1,13 +1,15 @@
 package com.foodBasket.core.person.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,74 +20,82 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.foodBasket.BaseActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
+import com.foodBasket.core.person.adapter.MerchantListAdapter;
+import com.foodBasket.core.person.model.MerchantListResModel;
+import com.foodBasket.core.person.model.MerchantRowModel;
 import com.foodBasket.core.person.model.OrderListResModel;
-import com.foodBasket.core.person.net.OrderAction;
+import com.foodBasket.core.person.net.PersonAction;
 import com.foodBasket.net.MyStringCallBack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import butterknife.OnClick;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
- * Created by programmer on 2018/1/24.
+ * Created by programmer on 2018/3/3.
  */
 
-public class OrderListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
-    @BindView(R.id.rl_recyclerview_refresh)
-    BGARefreshLayout mRefreshLayout;
+public class CouponListActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
     @BindView(R.id.listview)
     ListView mListView;
-    Unbinder unbinder;
+    @BindView(R.id.rl_recyclerview_refresh)
+    BGARefreshLayout mRefreshLayout;
 
-    private MyAdapter mAdapter;
+    MyAdapter mAdapter;
 
-    public String mDeliveryState;
+    public static void openActivity(Activity activity) {
+        Intent intent = new Intent(activity, CouponListActivity.class);
+        activity.startActivity(intent);
+    }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order_list_deliveryman, null);
-        unbinder = ButterKnife.bind(this, view);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_coupon_list);
+        ButterKnife.bind(this);
+        initTopbar("我的钱包");
         initUI();
-        return view;
     }
 
     public void initUI() {
-        mAdapter = new MyAdapter(getActivity(), R.layout.fragment_order_list_item);
+        mAdapter = new MyAdapter(mContext, 0);
         mListView.setAdapter(mAdapter);
         mRefreshLayout.setDelegate(this);
-        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), false));
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, false));
+
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                MerchantRowModel model = mAdapter.getItem(i);
+//                MerchantEditActivity.openActivity(mContext, model.id);
+            }
+        });
 
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         mRefreshLayout.beginRefreshing();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     private void getData() {
-        OrderAction action = new OrderAction();
+        PersonAction action = new PersonAction();
         try {
-            //购物车
-            action.orderList(getActivity(), mDeliveryState, new MyStringCallBack() {
+            action.couponList(mContext, new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
                     OrderListResModel model = JSON.parseObject(result, OrderListResModel.class);
                     if (model != null && model.getSuccess()) {
                         mAdapter.addAll(model.rows);
                     } else {
-                        com.mic.etoast2.Toast.makeText(getActivity(), "获取失败", Toast.LENGTH_SHORT).show();
+                        com.mic.etoast2.Toast.makeText(mContext, "获取失败", Toast.LENGTH_SHORT).show();
                     }
                     mRefreshLayout.endRefreshing();
                     mRefreshLayout.endLoadingMore();
@@ -95,12 +105,15 @@ public class OrderListFragment extends Fragment implements BGARefreshLayout.BGAR
         } catch (Exception e) {
             e.printStackTrace();
         }
+        mRefreshLayout.endRefreshing();
+        mRefreshLayout.endLoadingMore();
     }
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         mAdapter.clear();
         getData();
+
     }
 
     @Override
@@ -118,23 +131,18 @@ public class OrderListFragment extends Fragment implements BGARefreshLayout.BGAR
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.fragment_order_list_item, null);
-            ViewHolder holder = new ViewHolder(view);
+           ViewHolder holder = new ViewHolder(view);
             final OrderListResModel.Rows obj = getItem(i);
             holder.mOrderNoTv.setText("订单编号:"+obj.orderNo);
             holder.mStateTv.setText(obj.disDeliveryState);
-            if("已支付".equals(obj.displayIsPay)){
-                holder.mDisplayIsPayIv.setVisibility(View.GONE);
-                holder.mDisplayIsPayTv.setText(obj.displayIsPay);
-            }else {
-                holder.mDisplayIsPayTv.setText("欠款:￥"+obj.debtPrice+"元");
-            }
-
+            holder.mDisplayIsPayIv.setVisibility(View.GONE);
+            holder.mDisplayIsPayTv.setText("优惠：￥"+obj.couponPay+"元");
             for (OrderListResModel.Rows.Products item : obj.products
                     ) {
-                FrameLayout layout = (FrameLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fragment_order_list_item_iv, null);
+                FrameLayout layout = (FrameLayout) LayoutInflater.from(mContext).inflate(R.layout.fragment_order_list_item_iv, null);
                 ImageView imageView = layout.findViewById(R.id.iv);
                 String url = MyApplication.getApplication().mImageUrl + item.productBasic_headPicture;
-                Glide.with(getActivity())
+                Glide.with(mContext)
                         .load(url)
                         .apply(MyApplication.getOptions())
                         .into(imageView);
@@ -147,7 +155,7 @@ public class OrderListFragment extends Fragment implements BGARefreshLayout.BGAR
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    OrderInfoActivity.openActivity(getActivity(), obj.id);
+//                    OrderInfoActivity.openActivity(mContext, obj.id);
                 }
             });
             return view;
@@ -174,5 +182,5 @@ public class OrderListFragment extends Fragment implements BGARefreshLayout.BGAR
             }
         }
     }
-}
 
+}

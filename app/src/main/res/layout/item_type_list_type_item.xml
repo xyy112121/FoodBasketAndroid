@@ -5,12 +5,13 @@
     android:id="@+id/home_list_type_ck"
     android:textColor="@color/home_tv_list_selector"
     android:background="@drawable/home_list_selector"
-    android:textSize="15sp"
-    android:paddingTop="20dp"
+    android:textSize="17sp"
+    android:paddingTop="15dp"
     android:paddingLeft="15dp"
-    android:paddingBottom="20dp"
+    android:paddingBottom="17dp"
     android:button="@null"
     android:checked="false"
+    android:textStyle="bold"
     android:text="卷心菜">
 
 </CheckBox>

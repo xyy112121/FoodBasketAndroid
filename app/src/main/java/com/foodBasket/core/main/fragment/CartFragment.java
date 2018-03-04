@@ -26,6 +26,8 @@ import com.foodBasket.core.person.net.OrderAction;
 import com.foodBasket.core.person.ui.OrderConfirmActivity;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.net.ResponseBean;
+import com.foodBasket.util.Constants;
+import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
 import com.mic.etoast2.Toast;
 import com.mylhyl.circledialog.CircleDialog;
@@ -64,6 +66,8 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
     @BindView(R.id.shop_car_delect_layout)
     LinearLayout mDelectLl;
     Unbinder unbinder;
+    @BindView(R.id.tv_go_to_pay)
+    TextView mPayTv;
 
     private ShopCarAdapter mAdapter;
 
@@ -83,6 +87,10 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), false));
 
+        int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
+        if (userType == 1) {
+            mPayTv.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -89,7 +89,7 @@ public class HomeAction extends BaseAction {
      * 加入购物车
      * userId  productBasicId(产品ID) productNumber(数目)
      */
-    public void addShoppingCart(Context context, String productBasicId,String count, StringCallback callback) throws Exception {
+    public void addShoppingCart(Context context, String productBasicId, String count, StringCallback callback) throws Exception {
         List<ParamsBean> list = new ArrayList<>();
         String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
         list.add(new ParamsBean("userId", userId));
@@ -98,7 +98,6 @@ public class HomeAction extends BaseAction {
         setUrlName2("business/");
         postRun("ShoppingCartForm_save_OL.action", list, callback);
     }
-
 
 
     /**
@@ -110,5 +109,18 @@ public class HomeAction extends BaseAction {
         list.add(new ParamsBean("objectID", userId));
         setUrlName2("control/");
         postRun("UserNavigate_getUser_OL.action", list, callback);
+    }
+
+    /**
+     * 搜索产品
+     * productName page rows
+     */
+    public void searchProductList(String productName, int page, int rows, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        list.add(new ParamsBean("productName", productName));
+        list.add(new ParamsBean("page", page + ""));
+        list.add(new ParamsBean("rows", rows + ""));
+        setUrlName2("resource/");
+        postRun("ProductBasicNavigate_searchPageOL_OL.action", list, callback);
     }
 }

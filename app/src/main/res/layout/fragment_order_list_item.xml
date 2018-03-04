@@ -23,7 +23,7 @@
                 android:paddingLeft="8dp"
                 android:text="订单号:00000000000"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/order_item_state_tv"
@@ -50,7 +50,7 @@
 
 
         </LinearLayout>
-
+        <View style="@style/horizontal_view" />
         <!--欠款部分-->
 
         <LinearLayout
@@ -66,14 +66,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="gone">
+               >
 
                 <ImageView
+                    android:id="@+id/order_item_displayIsPay_iv"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@mipmap/icon_order_wallet" />
 
                 <TextView
+                    android:id="@+id/order_item_displayIsPay_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"

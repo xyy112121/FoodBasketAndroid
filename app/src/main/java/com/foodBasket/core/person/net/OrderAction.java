@@ -63,7 +63,7 @@ public class OrderAction extends BaseAction {
     /**
      * 订单详情
      */
-    public void orderInfo( String id, StringCallback callback) throws Exception {
+    public void orderInfo(String id, StringCallback callback) throws Exception {
         List<ParamsBean> list = new ArrayList<>();
         list.add(new ParamsBean("objectID", id));
         setUrlName2("business/");
@@ -73,10 +73,34 @@ public class OrderAction extends BaseAction {
     /**
      * 确认收货
      */
-    public void confirmReceipt( String id, StringCallback callback) throws Exception {
+    public void confirmReceipt(String id, StringCallback callback) throws Exception {
         List<ParamsBean> list = new ArrayList<>();
         list.add(new ParamsBean("orderId", id));
         setUrlName2("business/");
         postRun("DeliveryNavigate_confirmReceipt_OL.action", list, callback);
+    }
+
+    /**
+     * 送货单列表
+     */
+    public void deliveryList(Context context, String deliveryState, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("userId", userId));
+        list.add(new ParamsBean("deliveryState", deliveryState));
+        setUrlName2("business/");
+        postRun("DeliveryNavigate_searchPageOL_OL.action", list, callback);
+    }
+
+    /**
+     * 确认付款
+     */
+    public void payDoneCommit(Context context, String id, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        list.add(new ParamsBean("orderId", id));
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("deliveryUserId", userId));
+        setUrlName2("business/");
+        postRun("OrderNavigate_confirmPayed_OL.action", list, callback);
     }
 }

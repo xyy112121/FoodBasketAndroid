@@ -137,6 +137,8 @@ public class ProductInfoActivity extends BaseActivity {
                     product.headPicture = model.pictures.get(0).picture_pictureUrl;
                 }
                 product.id = basic.id;
+
+
                 showPopFormBottom(product);
                 break;
             case R.id.tv_go_to_pay_layout:

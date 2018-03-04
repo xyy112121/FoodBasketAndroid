@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -29,6 +30,9 @@ import com.foodBasket.core.main.model.ProductListModel;
 import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.ui.HistorySearchActivity;
 import com.foodBasket.net.MyStringCallBack;
+import com.foodBasket.util.Constants;
+import com.foodBasket.util.ShareConfig;
+import com.foodBasket.util.dimen.DimenUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,12 +105,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 public void onResult(String result) {
                     ProductDiscountModelRes model = JSON.parseObject(result, ProductDiscountModelRes.class);
                     if (model != null && model.getSuccess()) {
-//                        LinearLayout header = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home_head, mRecyclerView, false);
-//                        LinearLayout parentLv = findViewById(R.id.home_head_parent_layout);
                         if (model.rows.size() > 0) {
-                            for (final ProductListModel item : model.rows
-                                    ) {
+                            for (final ProductListModel item : model.rows) {
                                 FrameLayout layout = (FrameLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home_head_item, null);
+                                RelativeLayout layout1 = layout.findViewById(R.id.home_head_item_parent_layout);
+                                int width = (int) ((DimenUtil.getScreenWidth())*0.8);
+                                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) layout1.getLayoutParams();
+                                lp.width = width;
+                                layout1.setLayoutParams(lp);
                                 ImageView pic = layout.findViewById(R.id.item_recommend_picture_iv);
                                 String url = MyApplication.getApplication().mImageUrl + item.headPicture;
                                 Glide.with(getActivity())
@@ -116,11 +122,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 ((TextView) layout.findViewById(R.id.item_recommend_name_tv)).setText(item.name);
                                 ((TextView) layout.findViewById(R.id.item_recommend_summary_tv)).setText(item.summary);
                                 ((TextView) layout.findViewById(R.id.item_recommend_alias_tv)).setText(item.alias);
-                                ((TextView) layout.findViewById(R.id.item_recommend_price_tv)).setText("￥" + item.salePrice + "/" + item.displayUnit);
+                                ((TextView) layout.findViewById(R.id.item_recommend_price_tv)).setText("￥" + item.salePrice + "元/" + item.displayUnit);
+                                int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
+                                if (userType == 1) {
+                                    layout.findViewById(R.id.item_recommend_add_iv).setVisibility(View.GONE);
+                                }
                                 layout.findViewById(R.id.item_recommend_add_iv).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-//                                        addCart(item.id);
                                         showPopFormBottom(item);
 
                                     }
@@ -135,8 +144,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 mParentLayout.addView(layout);
                             }
                         }
-
-//                        mAdapter.setHeaderView(header);
                     }
                 }
             });
@@ -226,7 +233,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             if (viewHolder instanceof MyHolder) {
                 MyHolder holder = (MyHolder) viewHolder;
                 holder.nameTv.setText(data.name);
-                holder.priceTv.setText("￥" + data.salePrice + "/" + data.displayUnit);
+                holder.priceTv.setText("￥" + data.salePrice + "元/" + data.displayUnit);
                 String url = MyApplication.getApplication().mImageUrl + data.headPicture;
                 Glide.with(mContext)
                         .load(url)
@@ -242,6 +249,12 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                     params.setMargins(16, 0, 16, 16);
                 }
                 holder.parentLayout.setLayoutParams(params);
+
+                int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
+                if (userType == 1) {
+                    holder.addIv.setVisibility(View.GONE);
+                }
+
                 holder.addIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

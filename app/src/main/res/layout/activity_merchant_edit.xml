@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/activity_base_top" />
+
+    <View
+        style="@style/horizontal_view"
+        android:layout_height="8dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.foodBasket.view.TextRowView
+                android:id="@+id/merchant_edit_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                app:TextRowViewGravity="1"
+                app:TextRowViewIsBottomLineShow="true"
+                app:TextRowViewIsSelect="true"
+                app:TextRowViewLeftWidth="100dp"
+                app:TextRowViewRightTextColor="#1E1E1E"
+                app:TextRowViewState="write"
+                app:TextRowViewText="餐馆名称"
+                app:TextRowViewTextColor="@color/text_color" />
+
+            <com.foodBasket.view.TextRowView
+                android:id="@+id/merchant_edit_addr_tv"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                app:TextRowViewGravity="1"
+                app:TextRowViewIsBottomLineShow="true"
+                app:TextRowViewIsSelect="true"
+                app:TextRowViewLeftWidth="100dp"
+                app:TextRowViewRightTextColor="#1E1E1E"
+                app:TextRowViewState="write"
+                app:TextRowViewText="餐馆地址"
+                app:TextRowViewTextColor="@color/text_color" />
+
+            <View
+                style="@style/horizontal_view"
+                android:layout_height="8dp" />
+
+
+            <com.foodBasket.view.TextRowView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                app:TextRowViewGravity="1"
+                app:TextRowViewIsBottomLineShow="true"
+                app:TextRowViewIsSelect="false"
+                app:TextRowViewLeftWidth="120dp"
+                app:TextRowViewState="read"
+                app:TextRowViewText="身份证正反面"
+                app:TextRowViewTextColor="@color/text_color" />
+
+            <View style="@style/horizontal_view" />
+
+            <ImageView
+                android:id="@+id/merchant_edit_file1"
+                android:layout_width="190dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_image_input" />
+
+            <ImageView
+                android:id="@+id/merchant_edit_file2"
+                android:layout_width="190dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_image_input" />
+
+            <View
+                style="@style/horizontal_view"
+                android:layout_height="8dp" />
+
+            <com.foodBasket.view.TextRowView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                app:TextRowViewGravity="1"
+                app:TextRowViewIsBottomLineShow="true"
+                app:TextRowViewIsSelect="false"
+                app:TextRowViewLeftWidth="100dp"
+                app:TextRowViewState="read"
+                app:TextRowViewText="营业执照"
+                app:TextRowViewTextColor="@color/text_color" />
+
+            <View style="@style/horizontal_view" />
+
+            <ImageView
+                android:id="@+id/merchant_edit_file3"
+                android:layout_width="190dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_image_input" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
