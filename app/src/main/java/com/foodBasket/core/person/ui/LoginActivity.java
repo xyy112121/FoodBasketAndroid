@@ -17,9 +17,12 @@ import com.foodBasket.BaseTwoActivity;
 import com.foodBasket.MainActivity;
 import com.foodBasket.R;
 import com.foodBasket.core.person.model.LoginResponseModel;
+import com.foodBasket.core.person.model.VersionResModel;
 import com.foodBasket.core.person.net.PersonAction;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.net.ResponseBean;
+import com.foodBasket.util.AppUpdateUtils;
+import com.foodBasket.util.AppVersion;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
@@ -64,10 +67,13 @@ public class LoginActivity extends BaseTwoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
         if (ShareConfig.getConfigBoolean(mContext, Constants.ONLINE, false)) {
             Intent intent = new Intent(mContext, MainActivity.class);
             startActivity(intent);
             finish();
+        }else {
+            getUpdateInfo();
         }
 
         mDeliverymanPhone.addTextChangedListener(new DeliverymanTextWatcher());
@@ -289,6 +295,50 @@ public class LoginActivity extends BaseTwoActivity {
             showMessage("登录失败");
             LatteLoader.stopLoading();
         }
+    }
+
+    //检测更新
+    private void getUpdateInfo() {
+
+        LatteLoader.showLoading(mContext);
+        try {
+            PersonAction action = new PersonAction();
+            //购物车
+            action.getVersion(new MyStringCallBack() {
+                @Override
+                public void onResult(String result) {
+                    LatteLoader.stopLoading();
+                    VersionResModel model = JSON.parseObject(result, VersionResModel.class);
+                    if (model != null) {
+                        if (model.getSuccess() && model.version != null) {
+                            VersionResModel.Version info = model.version;
+                            if(info.filePath != null && !"".equals(info.filePath)){
+                                AppVersion av = new AppVersion();
+                                av.setApkName("foodBasket.apk");
+                                av.setUrl(info.filePath);
+                                av.setContent(info.memo);
+//                            av.setVerCode(info.version);
+                                av.setVersionName(info.version);
+                                //不强制升级
+                                AppUpdateUtils.init(mContext, av, true, false, true);
+                                AppUpdateUtils.upDate();
+                            }
+
+                        } else {
+                            Toast.makeText(mContext, model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LatteLoader.stopLoading();
+        }
+
+
     }
 
 }

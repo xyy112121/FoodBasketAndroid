@@ -165,4 +165,14 @@ public class PersonAction extends BaseAction {
         setUrlName2("business/");
         postRun("OrderNavigate_searchPageOL_OL.action", list, callback);
     }
+
+    /**
+     * 餐馆列表
+     */
+    public void getVersion(StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        list.add(new ParamsBean("phoneType", "android"));
+        setUrlName2("control/");
+        postRun("VersionNavigate_searchPageOL_OL.action", list, callback);
+    }
 }

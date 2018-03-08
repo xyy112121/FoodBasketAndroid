@@ -15,8 +15,11 @@ import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.core.main.model.UserResModel;
 import com.foodBasket.core.main.net.HomeAction;
+import com.foodBasket.core.person.model.VersionResModel;
 import com.foodBasket.core.person.net.PersonAction;
 import com.foodBasket.net.MyStringCallBack;
+import com.foodBasket.util.AppUpdateUtils;
+import com.foodBasket.util.AppVersion;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
@@ -26,6 +29,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.mic.etoast2.Toast;
 import com.mylhyl.circledialog.CircleDialog;
 
 import java.io.File;
@@ -102,7 +106,7 @@ public class PersonInfoActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.person_info_avatar_rl, R.id.person_info_out, R.id.person_info_waitingReceive})
+    @OnClick({R.id.person_info_avatar_rl, R.id.person_info_out, R.id.person_info_waitingReceive, R.id.set_update})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.person_info_avatar_rl://头像
@@ -133,8 +137,57 @@ public class PersonInfoActivity extends BaseActivity {
             case R.id.person_info_waitingReceive:
                 MerchantListActivity.openActivity(mContext);
                 break;
+            case R.id.set_update:
+                getUpdateInfo();
+                break;
 
         }
+    }
+
+    //检测更新
+    private void getUpdateInfo() {
+
+        LatteLoader.showLoading(mContext);
+        try {
+            PersonAction action = new PersonAction();
+            //购物车
+            action.getVersion(new MyStringCallBack() {
+                @Override
+                public void onResult(String result) {
+                    LatteLoader.stopLoading();
+                    VersionResModel model = JSON.parseObject(result, VersionResModel.class);
+                    if (model != null) {
+                        if (model.getSuccess() && model.version != null) {
+                            VersionResModel.Version info = model.version;
+                            if(info.filePath != null && !"".equals(info.filePath)){
+                                AppVersion av = new AppVersion();
+                                av.setApkName("foodBasket.apk");
+                                av.setUrl(info.filePath);
+                                av.setContent(info.memo);
+//                            av.setVerCode(info.version);
+                                av.setVersionName(info.version);
+                                //不强制升级
+                                AppUpdateUtils.init(mContext, av, true, false, true);
+                                AppUpdateUtils.upDate();
+                            }else {
+                                Toast.makeText(mContext, "当前版本已经是最新版本！", android.widget.Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else {
+                            Toast.makeText(mContext, model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LatteLoader.stopLoading();
+        }
+
+
     }
 
     @Override

@@ -83,11 +83,13 @@ public class OrderAction extends BaseAction {
     /**
      * 送货单列表
      */
-    public void deliveryList(Context context, String deliveryState, StringCallback callback) throws Exception {
+    public void deliveryList(Context context, String deliveryState,int page, int rows, StringCallback callback) throws Exception {
         List<ParamsBean> list = new ArrayList<>();
         String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
         list.add(new ParamsBean("userId", userId));
         list.add(new ParamsBean("deliveryState", deliveryState));
+        list.add(new ParamsBean("page", page + ""));
+        list.add(new ParamsBean("rows", rows + ""));
         setUrlName2("business/");
         postRun("DeliveryNavigate_searchPageOL_OL.action", list, callback);
     }
@@ -102,5 +104,15 @@ public class OrderAction extends BaseAction {
         list.add(new ParamsBean("deliveryUserId", userId));
         setUrlName2("business/");
         postRun("OrderNavigate_confirmPayed_OL.action", list, callback);
+    }
+
+    /**
+     * 删除商品
+     */
+    public void delete(String ids, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        list.add(new ParamsBean("ids", ids));
+        setUrlName2("business/");
+        postRun("ShoppingCartForm_deleteEntity_OL.action", list, callback);
     }
 }

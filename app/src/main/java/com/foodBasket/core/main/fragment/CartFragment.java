@@ -3,7 +3,6 @@ package com.foodBasket.core.main.fragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import com.foodBasket.util.NumberUtil;
 import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
 import com.mic.etoast2.Toast;
-import com.mylhyl.circledialog.CircleDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +132,7 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
                         for (int i = 0; i < model.rows.size(); i++) {
                             ShoppingCartRowsModel item = model.rows.get(i);
                             ProductInfo obj = new ProductInfo();
-                            obj.setOrderdetailid(item.id);
+                            obj.setOrderdetailid(item.shoppingCartId);
                             obj.setCommodityid(item.id);
                             obj.setCommodityname(item.name);
                             obj.setOrderprice(item.salePrice);
@@ -306,12 +304,46 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
 
     //删除
     private void delete() {
-        new CircleDialog.Builder((FragmentActivity) getActivity())
-                .setTitle("提示")
-                .setText("确定删除么？")
-                .setNegative("取消", null)
-                .setPositive("确定", null)
-                .show();
+        if (mAdapter.getCount() != 0) {
+            LatteLoader.showLoading(getActivity());
+            try {
+                if (mAdapter.getAll() != null) {
+                    StringBuffer ids = new StringBuffer();
+                    for (ProductInfo item : mAdapter.getAll()) {
+                        if (item.isChoosed()) {
+                            if (ids.length() > 0) {
+                                ids.append(",");
+                            }
+                            ids.append(item.getOrderdetailid());
+                        }
+                    }
+                    OrderAction action = new OrderAction();
+                    //购物车
+                    action.delete(ids + "", new MyStringCallBack() {
+                        @Override
+                        public void onResult(String result) {
+                            LatteLoader.stopLoading();
+                            ResponseBean model = JSON.parseObject(result, ResponseBean.class);
+                            if (model != null) {
+                                if (model.getSuccess()) {
+                                    mRefreshLayout.beginRefreshing();
+                                } else {
+                                    Toast.makeText(getActivity(), model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        }
+                    });
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                LatteLoader.stopLoading();
+            }
+        } else {
+            Toast.makeText(getActivity(), "请选择要删除的商品！", android.widget.Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 public class ShopCarAdapter extends BaseAdapter {
     private Context mContext;
     CartFragment mFragment;
-    private List<OrderDetailid> mSelectIds = new ArrayList<>();
+    public List<OrderDetailid> mSelectIds = new ArrayList<>();
     private List<ProductInfo> mList = new ArrayList<>();
     private boolean mIsShow = false;//不显示多选框
 
@@ -92,8 +92,9 @@ public class ShopCarAdapter extends BaseAdapter {
         cholder.cb_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                obj.setChoosed(((CheckBox) v).isChecked());
-                cholder.cb_check.setChecked(((CheckBox) v).isChecked());
+                boolean isChecked = ((CheckBox) v).isChecked();
+                obj.setChoosed(isChecked);
+                cholder.cb_check.setChecked(isChecked);
             }
         });
         cholder.iv_increase.setOnClickListener(new View.OnClickListener() {

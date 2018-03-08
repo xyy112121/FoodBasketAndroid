@@ -42,6 +42,9 @@ public class OrderListFragmentDeliveryMan extends Fragment implements BGARefresh
 
     public String mDeliveryState;
 
+    private int mPage = 1;
+    private int mTotal = 1;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class OrderListFragmentDeliveryMan extends Fragment implements BGARefresh
         mAdapter = new MyAdapter(getActivity(), 0);
         mListView.setAdapter(mAdapter);
         mRefreshLayout.setDelegate(this);
-        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), false));
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), true));
     }
 
     @Override
@@ -76,12 +79,13 @@ public class OrderListFragmentDeliveryMan extends Fragment implements BGARefresh
         OrderAction action = new OrderAction();
         try {
             //购物车
-            action.deliveryList(getActivity(), mDeliveryState, new MyStringCallBack() {
+            action.deliveryList(getActivity(), mDeliveryState, mPage++, 15, new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
                     LatteLoader.stopLoading();
                     DeliveryListResModel model = JSON.parseObject(result, DeliveryListResModel.class);
                     if (model != null && model.getSuccess()) {
+                        mTotal = model.total;
                         mAdapter.addAll(model.rows);
                     } else {
                         com.mic.etoast2.Toast.makeText(getActivity(), "获取失败", Toast.LENGTH_SHORT).show();
@@ -99,12 +103,18 @@ public class OrderListFragmentDeliveryMan extends Fragment implements BGARefresh
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         mAdapter.clear();
+        mPage = 1;
         getData();
 
     }
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        if (mTotal > mAdapter.getCount()) {
+            getData();
+        } else {
+            mRefreshLayout.endLoadingMore();
+        }
         return false;
     }
 
