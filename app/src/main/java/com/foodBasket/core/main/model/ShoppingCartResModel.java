@@ -10,6 +10,6 @@ import java.util.List;
 
 public class ShoppingCartResModel extends ResponseBean {
 
-    public int totalPrice;
+    public Double totalPrice;
     public List<ShoppingCartRowsModel> rows;
 }

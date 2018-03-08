@@ -74,11 +74,13 @@
             app:xTabTextSize="18sp" />
 
         <ImageView
+            android:id="@+id/type_more_iv"
             android:layout_width="38dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="3dp"
-            android:src="@mipmap/icon_more" />
+            android:src="@mipmap/icon_more"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,8 @@ public class OrderInfoActivity extends BaseActivity {
     LinearLayout mConfirmLl;
     @BindView(R.id.order_info_confirm_tv)
     TextView mConfirmTv;
+    @BindView(R.id.scrollView)
+    ScrollView mSlView;
 
     private int mDeliveryState;
 
@@ -133,13 +137,16 @@ public class OrderInfoActivity extends BaseActivity {
                             if (model.isPay == 0) {
                                 mConfirmLl.setVisibility(View.VISIBLE);
                                 mConfirmTv.setText("确认付款");
-                            }else {
+                            } else {
                                 mConfirmLl.setVisibility(View.GONE);
-                        }
+                            }
                         } else {
-                            if ("待收货".equals(model.disDeliveryState)) {
+                            if (model.deliveryState == 2) {
+                                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mSlView.getLayoutParams();
+                                lp.setMargins(0, 0, 0, 120);
+                                mSlView.setLayoutParams(lp);
                                 mConfirmLl.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 mConfirmLl.setVisibility(View.GONE);
                             }
                         }
@@ -178,6 +185,7 @@ public class OrderInfoActivity extends BaseActivity {
         new CircleDialog.Builder((FragmentActivity) mContext)
                 .setTitle("提示")
                 .setText("请您在确认用户已付款的情况下选择确认付款，请问是否确认商家已付款")
+                .setTextColor(getResources().getColor(R.color.black))
                 .setNegative("取消", null)
                 .setPositive("确认付款", new View.OnClickListener() {
                     @Override
@@ -209,6 +217,7 @@ public class OrderInfoActivity extends BaseActivity {
         new CircleDialog.Builder((FragmentActivity) mContext)
                 .setTitle("提示")
                 .setText("请您在确认收到货的时候点击确认收货，请问是否确认收货？")
+                .setTextColor(getResources().getColor(R.color.black))
                 .setNegative("取消", null)
                 .setPositive("确认收货", new View.OnClickListener() {
                     @Override

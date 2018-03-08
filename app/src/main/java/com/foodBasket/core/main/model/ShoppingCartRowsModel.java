@@ -7,7 +7,7 @@ package com.foodBasket.core.main.model;
 public class ShoppingCartRowsModel {
     public String headPicture;
     public String summary;
-    public int salePrice;
+    public float salePrice;
     public String name;
     public String id;
     public int productNumber;

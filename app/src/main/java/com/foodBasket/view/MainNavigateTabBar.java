@@ -235,21 +235,25 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
      * @param holder
      */
     private void showFragment(ViewHolder holder) {
-        FragmentTransaction transaction = mFragmentActivity.getFragmentManager().beginTransaction();
-        if (isFragmentShown(transaction, holder.tag)) {
-            return;
-        }
-        setCurrSelectedTabByTag(holder.tag);
+        try {
+            FragmentTransaction transaction = mFragmentActivity.getFragmentManager().beginTransaction();
+            if (isFragmentShown(transaction, holder.tag)) {
+                return;
+            }
+            setCurrSelectedTabByTag(holder.tag);
 
-        Fragment fragment = mFragmentActivity.getFragmentManager().findFragmentByTag(holder.tag);
-        if (fragment == null) {
-            fragment = getFragmentInstance(holder.tag);
-            transaction.add(mMainContentLayoutId, fragment, holder.tag);
-        } else {
-            transaction.show(fragment);
+            Fragment fragment = mFragmentActivity.getFragmentManager().findFragmentByTag(holder.tag);
+            if (fragment == null) {
+                fragment = getFragmentInstance(holder.tag);
+                transaction.add(mMainContentLayoutId, fragment, holder.tag);
+            } else {
+                transaction.show(fragment);
+            }
+            transaction.commitAllowingStateLoss ();
+            mCurrentSelectedTab = holder.tabIndex;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        transaction.commit();
-        mCurrentSelectedTab = holder.tabIndex;
     }
 
     private boolean isFragmentShown(FragmentTransaction transaction, String newTag) {

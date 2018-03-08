@@ -259,6 +259,7 @@
 
         <!--底部横条-->
         <LinearLayout
+            android:id="@+id/ll_about"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="15dp"
@@ -324,7 +325,8 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/my_select_btn"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 style="@style/my_item_image"
@@ -345,9 +347,11 @@
         <View
             android:id="@+id/view_gift"
             style="@style/horizontal_view"
-            android:layout_height="8dp" />
+            android:layout_height="8dp"
+            android:visibility="gone"/>
 
         <LinearLayout
+            android:id="@+id/ll_phone"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="15dp"

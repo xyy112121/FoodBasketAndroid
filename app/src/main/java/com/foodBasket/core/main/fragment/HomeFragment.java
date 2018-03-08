@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -55,6 +56,8 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     LinearLayout mParentLayout;
     @BindView(R.id.main_view)
     LinearLayout mainView;
+    @BindView(R.id.scrollView)
+    ScrollView mSlView;
 
     private HomeAdapter mAdapter;
     private int mPage = 1;
@@ -95,6 +98,19 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        mSlView.fullScroll(ScrollView.FOCUS_UP);
+//    }
+//
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        if (hidden == false) {
+//            mSlView.fullScroll(ScrollView.FOCUS_UP);
+//        }
+//    }
 
     private void getData() {
         HomeAction action = new HomeAction();
@@ -109,7 +125,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                             for (final ProductListModel item : model.rows) {
                                 FrameLayout layout = (FrameLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home_head_item, null);
                                 RelativeLayout layout1 = layout.findViewById(R.id.home_head_item_parent_layout);
-                                int width = (int) ((DimenUtil.getScreenWidth())*0.8);
+                                int width = (int) ((DimenUtil.getScreenWidth()) * 0.8);
                                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) layout1.getLayoutParams();
                                 lp.width = width;
                                 layout1.setLayoutParams(lp);
@@ -165,6 +181,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         }
         mRefreshLayout.endRefreshing();
         mRefreshLayout.endLoadingMore();
+
     }
 
     public void showPopFormBottom(ProductListModel model) {
@@ -264,7 +281,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             }
         }
 
-        class MyHolder extends BaseRecyclerAdapter.Holder {
+        class MyHolder extends Holder {
             TextView nameTv;
             TextView priceTv;
             ImageView pictureIv;

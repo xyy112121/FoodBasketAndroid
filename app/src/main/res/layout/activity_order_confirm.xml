@@ -150,7 +150,9 @@
                 android:orientation="vertical">
 
             </LinearLayout>
-
+            <View
+                style="@style/horizontal_view"
+               android:layout_height="8dp" />
             <!--买家留言-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,7 +179,8 @@
 
             </LinearLayout>
 
-            <View style="@style/horizontal_view" />
+            <View style="@style/horizontal_view"
+                android:visibility="gone"/>
 
             <!--优惠券-->
             <RelativeLayout
@@ -203,7 +206,8 @@
                     android:textSize="16sp" />
             </RelativeLayout>
 
-            <View style="@style/horizontal_view" />
+            <View style="@style/horizontal_view"
+                android:visibility="gone"/>
 
             <!--付款方式-->
             <RelativeLayout
@@ -222,7 +226,7 @@
 
             <View
                 style="@style/horizontal_view"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="8dp" />
 
             <RadioGroup
                 android:id="@+id/order_comfirm_payType_rg"
@@ -243,7 +247,7 @@
                     android:gravity="center"
                     android:text="货到付款"
                     android:textColor="@color/text_color"
-                    android:checked="true"/>
+                  />
 
                 <RadioButton
                     android:id="@+id/radioGroupID2"
@@ -353,7 +357,15 @@
                     android:textSize="16sp" />
             </RelativeLayout>
 
-            <View style="@style/horizontal_view" />
+            <View style="@style/horizontal_view"
+                android:layout_height="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#959393"
+                android:padding="8dp"
+                android:text="温馨提示: 本店购物订单金额超过36元的西山区和高新区用户,我们将为您送货到家,由于食材需要从仓库中提取并且为您精心准备,请您提前一个小时下单！谢谢！"/>
 
         </LinearLayout>
     </ScrollView>

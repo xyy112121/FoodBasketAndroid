@@ -17,19 +17,16 @@ import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
 import com.alibaba.fastjson.JSON;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.foodBasket.BaseActivity;
+import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.core.goods.model.GoodsInfoResModel;
 import com.foodBasket.core.goods.net.ProductAction;
 import com.foodBasket.core.goods.view.CartAddPopWin;
 import com.foodBasket.core.main.model.ProductListModel;
-import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.net.MyStringCallBack;
-import com.foodBasket.net.ResponseBean;
-import com.foodBasket.util.loader.LatteLoader;
 import com.foodBasket.view.TextRowView;
 import com.foodBasket.view.banner.HolderCreator;
-import com.mic.etoast2.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +121,7 @@ public class ProductInfoActivity extends BaseActivity {
                 .setCanLoop(true);
     }
 
-    @OnClick({R.id.tv_go_to_pay, R.id.tv_go_to_pay_layout})
+    @OnClick({R.id.tv_go_to_pay, R.id.tv_go_to_cart_ll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_go_to_pay:
@@ -133,15 +130,16 @@ public class ProductInfoActivity extends BaseActivity {
                 product.name = basic.name;
                 product.displayUnit = basic.displayUnit;
                 product.salePrice = basic.salePrice;
-                if(model.pictures != null && model.pictures.size() >0){
+                if (model.pictures != null && model.pictures.size() > 0) {
                     product.headPicture = model.pictures.get(0).picture_pictureUrl;
                 }
                 product.id = basic.id;
 
-
                 showPopFormBottom(product);
                 break;
-            case R.id.tv_go_to_pay_layout:
+            case R.id.tv_go_to_cart_ll:
+                finish();
+                MainActivity.onTabIndex(2);
                 break;
         }
     }
@@ -163,7 +161,7 @@ public class ProductInfoActivity extends BaseActivity {
             public void onDismiss() {
                 params = getWindow().getAttributes();
                 params.alpha = 1f;
-               getWindow().setAttributes(params);
+                getWindow().setAttributes(params);
             }
         });
 

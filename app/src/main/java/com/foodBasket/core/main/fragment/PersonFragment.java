@@ -1,21 +1,30 @@
 package com.foodBasket.core.main.fragment;
 
+import android.Manifest;
 import android.app.Fragment;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
+import com.foodBasket.RequestPermissionCallBack;
 import com.foodBasket.core.main.model.UserResModel;
 import com.foodBasket.core.main.net.HomeAction;
+import com.foodBasket.core.person.ui.AboutActivity;
 import com.foodBasket.core.person.ui.AddressListActivity;
 import com.foodBasket.core.person.ui.CouponListActivity;
 import com.foodBasket.core.person.ui.OrderListActivity;
@@ -25,6 +34,12 @@ import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.mic.etoast2.Toast;
+import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigButton;
+import com.mylhyl.circledialog.callback.ConfigDialog;
+import com.mylhyl.circledialog.params.ButtonParams;
+import com.mylhyl.circledialog.params.DialogParams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -127,7 +142,7 @@ public class PersonFragment extends Fragment {
 
     @OnClick({R.id.top_set, R.id.img_user_avatar, R.id.ll_wait_receive,
             R.id.person_all_order_ll, R.id.ll_receive, R.id.ll_received
-            , R.id.person_add_lv, R.id.ll_pay})
+            , R.id.person_add_lv, R.id.ll_pay, R.id.ll_phone,R.id.ll_about})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.top_set:
@@ -148,11 +163,77 @@ public class PersonFragment extends Fragment {
                 OrderListActivity.openActivity(getActivity(), "已收货");
                 break;
             case R.id.person_add_lv:
-                AddressListActivity.openActivity(getActivity());
+                AddressListActivity.openActivity(getActivity(), false, 0);
                 break;
             case R.id.ll_pay:
                 CouponListActivity.openActivity(getActivity());
                 break;
+            case R.id.ll_phone:
+                phone();
+                break;
+            case R.id.ll_about:
+                AboutActivity.openActivity(getActivity());
+                break;
         }
     }
+
+    //联系客服
+    private void phone() {
+        final String[] items = {"客服A", "客服B"};
+        new CircleDialog.Builder((FragmentActivity) getActivity())
+                .configDialog(new ConfigDialog() {
+                    @Override
+                    public void onConfig(DialogParams params) {
+                        //增加弹出动画
+                        params.animStyle = R.style.PopWindowAnimationFade;
+                    }
+                })
+                .setItems(items, new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (position == 0) {
+                            call("15812002697");
+                        } else {
+                            call("15398679337");
+                        }
+
+                    }
+                })
+                .setNegative("取消", null)
+                .configNegative(new ConfigButton() {
+                    @Override
+                    public void onConfig(ButtonParams params) {
+                        //取消按钮字体颜色
+                        params.textColor = Color.RED;
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 调用拨号界面
+     *
+     * @param phone 电话号码
+     */
+    private void call(final String phone) {
+        String[] permissions = new String[]{Manifest.permission.CALL_PHONE};
+        final MainActivity activity = (MainActivity) getActivity();
+        activity.requestPermissions(getActivity(), permissions, new RequestPermissionCallBack() {
+            @Override
+            public void granted() {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void denied() {
+                Toast.makeText(getActivity(), "请开启拨打电话权限！", android.widget.Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+
 }

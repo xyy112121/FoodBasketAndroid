@@ -64,95 +64,105 @@
     <cn.bingoogolapple.refreshlayout.BGARefreshLayout
         android:id="@+id/rl_recyclerview_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical">
-
-                    <View
-                        style="@style/vertical_view"
-                        android:layout_height="20dp"
-                        android:layout_width="5dp"
-                        android:background="@color/blue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="精品推荐"
-                        android:textColor="@color/tab_text_normal"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <!--精品推荐-->
-                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fillViewport="true"
-                    android:scrollbars="none">
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
                     <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical">
 
-                        android:id="@+id/home_head_parent_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="10dp">
+                        <View
+                            style="@style/vertical_view"
+                            android:layout_width="5dp"
+                            android:layout_height="20dp"
+                            android:background="@color/blue" />
 
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="精品推荐"
+                            android:textColor="@color/tab_text_normal"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
-                </HorizontalScrollView>
-
-                <!--特惠标题-->
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:background="#EDEDED"
-                    android:gravity="center_vertical">
-
-                    <View
-                        style="@style/horizontal_view"
-                        android:layout_weight="1"
-                        android:background="#E2E2E2" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!--精品推荐-->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:text="特惠商品"
-                        android:textColor="@color/tab_text_normal"
-                        android:textSize="16sp" />
+                        android:fillViewport="true"
+                        android:scrollbars="none">
 
-                    <View
-                        style="@style/horizontal_view"
-                        android:layout_weight="1"
-                        android:background="#E2E2E2" />
+                        <LinearLayout
+
+                            android:id="@+id/home_head_parent_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
+                    <!--特惠标题-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="#EDEDED"
+                        android:gravity="center_vertical">
+
+                        <View
+                            style="@style/horizontal_view"
+                            android:layout_weight="1"
+                            android:background="#E2E2E2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:text="特惠商品"
+                            android:textColor="@color/tab_text_normal"
+                            android:textSize="16sp" />
+
+                        <View
+                            style="@style/horizontal_view"
+                            android:layout_weight="1"
+                            android:background="#E2E2E2" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none" />
             </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none" />
-        </LinearLayout>
-
+        </ScrollView>
 
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 

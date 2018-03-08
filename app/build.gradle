@@ -73,7 +73,7 @@ dependencies {
     //toast通知，关闭通知权限也可以显示
     compile 'com.github.Blincheng:EToast2:v2.1.1'
     //dialog提示框
-    compile 'com.mylhyl:circleDialog:2.2.0'
+    compile 'com.mylhyl:circleDialog:2.3.0'
     //View动画依赖
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.1@aar'

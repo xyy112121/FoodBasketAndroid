@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.foodBasket.BaseTwoActivity;
@@ -21,6 +23,7 @@ import com.foodBasket.net.ResponseBean;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
+import com.mic.etoast2.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +34,6 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends BaseTwoActivity {
-
-
     @BindView(R.id.login_phone)
     EditText mPhoneEt;
     @BindView(R.id.login_code)
@@ -41,8 +42,22 @@ public class LoginActivity extends BaseTwoActivity {
     Button mSendBtn;
     @BindView(R.id.login_btn)
     Button mLoginBtn;
+    @BindView(R.id.login_user_ll)
+    LinearLayout mUserLl;
+    @BindView(R.id.login_deliveryman_phone)
+    EditText mDeliverymanPhone;
+    @BindView(R.id.login_deliveryman_code)
+    EditText mDeliverymanCode;
+    @BindView(R.id.login_deliveryman_ll)
+    LinearLayout mDeliverymanLl;
+    @BindView(R.id.login_switch)
+    TextView mLoginSwitch;
+    @BindView(R.id.login_deliveryman_btn)
+    Button mDeliverymanBtn;
 
     private MyCount mc;
+
+    private boolean mFlag = true;//判断当前是用户登录还是送货员登录  true是用户
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,77 +68,100 @@ public class LoginActivity extends BaseTwoActivity {
             Intent intent = new Intent(mContext, MainActivity.class);
             startActivity(intent);
             finish();
-        } else {
+        }
+
+        mDeliverymanPhone.addTextChangedListener(new DeliverymanTextWatcher());
+        mDeliverymanCode.addTextChangedListener(new DeliverymanTextWatcher());
+
+        mCodeEt.addTextChangedListener(new UserTextWatcher());
+        mPhoneEt.addTextChangedListener(new UserTextWatcher());
+    }
+
+    private class UserTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
         }
 
-        mCodeEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
+        }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String code = mCodeEt.getText() + "";
-                String phone = mPhoneEt.getText() + "";
-                if (!"".equals(code) && !"".equals(phone)) {
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_bg_blue);
-                } else {
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_bg_gray);
-                }
-
-            }
-        });
-
-        mPhoneEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String code = mCodeEt.getText() + "";
-                String phone = mPhoneEt.getText() + "";
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String code = mCodeEt.getText() + "";
+            String phone = mPhoneEt.getText() + "";
+            if (getCurrentFocus().getId() != R.id.login_code) {
                 if (!"".equals(phone)) {
                     mSendBtn.setBackgroundResource(R.drawable.btn_bg_blue);
                 } else {
                     mSendBtn.setBackgroundResource(R.drawable.btn_bg_gray);
                 }
 
-                if (!"".equals(code) && !"".equals(phone)) {
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_bg_blue);
-                } else {
-                    mLoginBtn.setBackgroundResource(R.drawable.btn_bg_gray);
-                }
-
             }
-        });
+            if (!"".equals(code) && !"".equals(phone)) {
+                mLoginBtn.setBackgroundResource(R.drawable.btn_bg_blue);
+            } else {
+                mLoginBtn.setBackgroundResource(R.drawable.btn_bg_gray);
+            }
+        }
+    }
+
+    private class DeliverymanTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String code = mDeliverymanCode.getText() + "";
+            String phone = mDeliverymanPhone.getText() + "";
+            if (!"".equals(code) && !"".equals(phone)) {
+                mDeliverymanBtn.setBackgroundResource(R.drawable.btn_bg_blue);
+            } else {
+                mDeliverymanBtn.setBackgroundResource(R.drawable.btn_bg_gray);
+            }
+        }
     }
 
 
-    @OnClick({R.id.top_left, R.id.login_send_code_btn, R.id.login_btn})
+    @OnClick({R.id.login_send_code_btn, R.id.login_btn, R.id.login_switch, R.id.login_deliveryman_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.top_left:
-                finish();
-                break;
             case R.id.login_send_code_btn:
                 sendCode();
                 break;
             case R.id.login_btn:
-                login();
+                userlogin();
+                break;
+            case R.id.login_switch:
+                if (mFlag) {//当前是用户切换到送货员
+                    mLoginSwitch.setText("切换用户登录");
+                    mFlag = false;
+                    mUserLl.setVisibility(View.GONE);
+                    mDeliverymanLl.setVisibility(View.VISIBLE);
+                    mLoginBtn.setVisibility(View.GONE);
+                    mDeliverymanBtn.setVisibility(View.VISIBLE);
+                } else {
+                    mLoginSwitch.setText("切换送货员登录");
+                    mFlag = true;
+                    mUserLl.setVisibility(View.VISIBLE);
+                    mDeliverymanLl.setVisibility(View.GONE);
+                    mLoginBtn.setVisibility(View.VISIBLE);
+                    mDeliverymanBtn.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.login_deliveryman_btn:
+                deliverymanlogin();
                 break;
         }
     }
@@ -131,10 +169,10 @@ public class LoginActivity extends BaseTwoActivity {
     private void sendCode() {
         mSendBtn.setBackgroundResource(R.drawable.btn_bg_gray);
         final String mobile = mPhoneEt.getText() + "";
-//        if (isMobileNO(mobile) == false) {
-//            showMessage("请输入正确的手机号码");
-//            return;
-//        }
+        if (isMobileNO(mobile) == false) {
+            showMessage("请输入正确的手机号码");
+            return;
+        }
         mc = new MyCount(60000, 1000);//倒计时60秒
         mc.start();
 
@@ -175,6 +213,7 @@ public class LoginActivity extends BaseTwoActivity {
         else return mobiles.matches(telRegex);
     }
 
+
     private class MyCount extends CountDownTimer {
         public MyCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -183,6 +222,7 @@ public class LoginActivity extends BaseTwoActivity {
         @Override
         public void onFinish() {
             mSendBtn.setText("获取验证码");
+            mSendBtn.setBackgroundResource(R.drawable.btn_bg_blue);
         }
 
         @Override
@@ -192,18 +232,36 @@ public class LoginActivity extends BaseTwoActivity {
         }
     }
 
-    public void login() {
+    private void userlogin() {
         final String mobile = mPhoneEt.getText() + "";
         String code = mCodeEt.getText() + "";
-//        if (isMobileNO(phone) == false) {
-//            showMessage("请输入正确的手机号码！");
-//            return;re
-//        }
-//        if ("".equals(code)) {
-//            showMessage("验证码不能为空！");
-//            return;
-//        }
+        if (isMobileNO(mobile) == false) {
+            showMessage("请输入正确的手机号码！");
+            return;
+        }
+        if ("".equals(code)) {
+            showMessage("验证码不能为空！");
+            return;
+        }
+        login(mobile, code);
+    }
 
+    private void deliverymanlogin() {
+        final String mobile = mDeliverymanPhone.getText() + "";
+        String code = mDeliverymanCode.getText() + "";
+        if ("".equals(mobile)) {
+            showMessage("请输入手机号码！");
+            return;
+        }
+        if ("".equals(code)) {
+            showMessage("请输入密码！");
+            return;
+        }
+        login(mobile, code);
+
+    }
+
+    private void login(String mobile, String code) {
         LatteLoader.showLoading(mContext);
         PersonAction action = new PersonAction();
         try {
@@ -212,20 +270,25 @@ public class LoginActivity extends BaseTwoActivity {
                 public void onResult(String result) {
                     LatteLoader.stopLoading();
                     LoginResponseModel model = JSON.parseObject(result, LoginResponseModel.class);
-                    if (model != null && model.getSuccess()) {
-                        ShareConfig.setConfig(LoginActivity.this, Constants.ONLINE, true);
-                        ShareConfig.setConfig(LoginActivity.this, Constants.USERID, model.user.id);
-                        ShareConfig.setConfig(LoginActivity.this, Constants.USERTYPE, model.user.userType);
-                        startActivity(new Intent(mContext, MainActivity.class));
-                        finish();
+                    if (model != null) {
+                        if (model.getSuccess()) {
+                            ShareConfig.setConfig(LoginActivity.this, Constants.ONLINE, true);
+                            ShareConfig.setConfig(LoginActivity.this, Constants.USERID, model.user.id);
+                            ShareConfig.setConfig(LoginActivity.this, Constants.USERTYPE, model.user.userType);
+                            startActivity(new Intent(mContext, MainActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(mContext, model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
+
+                        }
+
                     }
                 }
             });
         } catch (Exception e) {
             showMessage("登录失败");
-
+            LatteLoader.stopLoading();
         }
-
     }
 
 }

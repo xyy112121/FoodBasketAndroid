@@ -27,6 +27,7 @@ import com.foodBasket.core.person.ui.OrderConfirmActivity;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.net.ResponseBean;
 import com.foodBasket.util.Constants;
+import com.foodBasket.util.NumberUtil;
 import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
 import com.mic.etoast2.Toast;
@@ -68,8 +69,12 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
     Unbinder unbinder;
     @BindView(R.id.tv_go_to_pay)
     TextView mPayTv;
+    @BindView(R.id.tv_total_count)
+    TextView mCountTv;
 
     private ShopCarAdapter mAdapter;
+
+    private Double mTotalPrice;
 
     @Nullable
     @Override
@@ -82,7 +87,7 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
     }
 
     public void initUI() {
-        mAdapter = new ShopCarAdapter(getActivity());
+        mAdapter = new ShopCarAdapter(getActivity(), this);
         mListView.setAdapter(mAdapter);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), false));
@@ -101,6 +106,11 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
         }
     }
 
+    public void setPayCount(Double price) {
+        mTotalPrice = price;
+        mTotalPriceTv.setText("￥" + NumberUtil.decimalFormat(price));
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -117,7 +127,9 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
                     ShoppingCartResModel model = JSON.parseObject(result, ShoppingCartResModel.class);
 
                     if (model != null && model.getSuccess()) {
-                        mTotalPriceTv.setText("￥" + model.totalPrice);
+                        mTotalPrice = model.totalPrice;
+                        mTotalPriceTv.setText("￥" + NumberUtil.decimalFormat(model.totalPrice));
+                        mCountTv.setText("共计" + model.rows.size() + "款商品");
                         List<ProductInfo> list = new ArrayList<>();
                         for (int i = 0; i < model.rows.size(); i++) {
                             ShoppingCartRowsModel item = model.rows.get(i);
@@ -222,7 +234,12 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
                 }
                 break;
             case R.id.tv_go_to_pay://提交订单
-                orderFrom();
+                if (mTotalPrice < 36) {
+                    Toast.makeText(getActivity(), "对不起，订单金额必须大于36，我们才能配送！", android.widget.Toast.LENGTH_SHORT).show();
+                } else {
+                    orderFrom();
+                }
+
                 break;
             case R.id.delect_tv_delete:
                 delete();
@@ -234,39 +251,45 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
      * 去结算
      */
     private void orderFrom() {
-        LatteLoader.showLoading(getActivity());
-        try {
-            if (mAdapter.getAll() != null) {
-                List<Order> list = new ArrayList<>();
-                for (ProductInfo item : mAdapter.getAll()) {
-                    Order order = new Order(item.getCommodityid(), item.getOrdernumber());
-                    list.add(order);
-                }
-                OrderAction action = new OrderAction();
-                final String products = JSON.toJSONString(list);
-
-                //购物车
-                action.orderFrom(getActivity(), products, new MyStringCallBack() {
-                    @Override
-                    public void onResult(String result) {
-                        LatteLoader.stopLoading();
-                        ResponseBean model = JSON.parseObject(result, ResponseBean.class);
-                        if (model != null) {
-                            if (model.getSuccess()) {
-                                OrderConfirmActivity.openActivity(getActivity(), result, products);
-                            } else {
-                                Toast.makeText(getActivity(), model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
+        if (mAdapter.getCount() != 0) {
+            LatteLoader.showLoading(getActivity());
+            try {
+                if (mAdapter.getAll() != null) {
+                    List<Order> list = new ArrayList<>();
+                    for (ProductInfo item : mAdapter.getAll()) {
+                        Order order = new Order(item.getCommodityid(), item.getOrdernumber());
+                        list.add(order);
                     }
-                });
+                    OrderAction action = new OrderAction();
+                    final String products = JSON.toJSONString(list);
+
+                    //购物车
+                    action.orderFrom(getActivity(), products, new MyStringCallBack() {
+                        @Override
+                        public void onResult(String result) {
+                            LatteLoader.stopLoading();
+                            ResponseBean model = JSON.parseObject(result, ResponseBean.class);
+                            if (model != null) {
+                                if (model.getSuccess()) {
+                                    OrderConfirmActivity.openActivity(getActivity(), result, products);
+                                } else {
+                                    Toast.makeText(getActivity(), model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        }
+                    });
 
 
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                LatteLoader.stopLoading();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            Toast.makeText(getActivity(), "请先添加需要购买的商品！", android.widget.Toast.LENGTH_SHORT).show();
         }
+
 
     }
 

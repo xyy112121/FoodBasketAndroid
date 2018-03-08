@@ -18,9 +18,11 @@ import com.bumptech.glide.Glide;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.core.goods.activity.ProductInfoActivity;
+import com.foodBasket.core.main.fragment.CartFragment;
 import com.foodBasket.core.main.model.OrderDetailid;
 import com.foodBasket.core.main.model.ProductInfo;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +35,14 @@ import butterknife.ButterKnife;
 
 public class ShopCarAdapter extends BaseAdapter {
     private Context mContext;
+    CartFragment mFragment;
     private List<OrderDetailid> mSelectIds = new ArrayList<>();
     private List<ProductInfo> mList = new ArrayList<>();
     private boolean mIsShow = false;//不显示多选框
 
-    public ShopCarAdapter(@NonNull Context context) {
+    public ShopCarAdapter(@NonNull Context context,CartFragment fragment) {
         mContext = context;
+        mFragment = fragment;
     }
 
 
@@ -90,28 +94,6 @@ public class ShopCarAdapter extends BaseAdapter {
             public void onClick(View v) {
                 obj.setChoosed(((CheckBox) v).isChecked());
                 cholder.cb_check.setChecked(((CheckBox) v).isChecked());
-
-//                String price = ((TextView) findViewById(R.id.tv_total_price)).getText() + "";
-//                Double price2 = Double.valueOf(price);
-//                if (((CheckBox) v).isChecked()) {
-//                    OrderDetailid orderDetailid = new OrderDetailid(obj.getOrderdetailid(), obj.getOrdernumber(), obj.getCommoditypicture());
-//                    mSelectIds.add(orderDetailid);
-//                    price2 = price2 + (obj.getOrdernumber() * obj.getOrderprice());
-//                } else {
-//                    for (int i = 0; i < mSelectIds.size(); i++) {
-//                        if (mSelectIds.get(i).getOrderdetailid().equals(obj.getOrderdetailid())) {
-////                              list.add(i);
-//                            mSelectIds.remove(i);
-//                            i--;
-//                        }
-//                    }
-//                    price2 = price2 - (obj.getOrdernumber() * obj.getOrderprice());
-//                }
-//
-////                    for (int i = 0; i < mSelectIds.size(); i++) {
-////                        price = price + (mSelectIds.get(i).getOrdernumber() * obj.getOrderprice());
-////                    }
-//                setPayCount(mSelectIds.size(), price2);
             }
         });
         cholder.iv_increase.setOnClickListener(new View.OnClickListener() {
@@ -120,13 +102,13 @@ public class ShopCarAdapter extends BaseAdapter {
                 int count = obj.getOrdernumber();
                 cholder.tv_count.setText(++count + "");
                 obj.setOrdernumber(count);
-                if (obj.isChoosed()) {
+
                     Double price = 0.0;
-                    for (int i = 0; i < mSelectIds.size(); i++) {
+                    for (int i = 0; i < getCount(); i++) {
                         price = price + (obj.getOrdernumber() * obj.getOrderprice());
                     }
-//                    setPayCount(mSelectIds.size(), price);
-                }
+                    mFragment.setPayCount( price);
+
             }
         });
 
@@ -159,13 +141,14 @@ public class ShopCarAdapter extends BaseAdapter {
                 if (count > 1) {
                     cholder.tv_count.setText(--count + "");
                     obj.setOrdernumber(count);
-                    if (obj.isChoosed()) {
+
                         Double price = 0.0;
-                        for (int i = 0; i < mSelectIds.size(); i++) {
+                        for (int i = 0; i < getCount(); i++) {
                             price = price + (obj.getOrdernumber() * obj.getOrderprice());
                         }
-//                        setPayCount(mSelectIds.size(), price);
-                    }
+
+                        mFragment.setPayCount( price);
+
                 }
             }
         });

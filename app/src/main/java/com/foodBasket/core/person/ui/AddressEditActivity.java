@@ -9,6 +9,7 @@ import android.view.View;
 import com.alibaba.fastjson.JSON;
 import com.foodBasket.BaseActivity;
 import com.foodBasket.R;
+import com.foodBasket.core.person.model.AddressResModel;
 import com.foodBasket.core.person.net.PersonAction;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.net.ResponseBean;
@@ -53,17 +54,44 @@ public class AddressEditActivity extends BaseActivity {
     private String mCity;
     private String mCounty;
 
+    AddressResModel model;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipping_address_edit);
         ButterKnife.bind(this);
         initTopbar("添加地址");
+        getData();
     }
 
-    public static void openActivity(Activity activity) {
+
+    public static void openActivity(Activity activity,String json) {
         Intent intent = new Intent(activity, AddressEditActivity.class);
+        intent.putExtra("obj",json);
         activity.startActivity(intent);
+    }
+
+    private void getData(){
+        String json = getIntent().getStringExtra("obj");
+        if(!"".equals(json) || json != null){
+            model = JSON.parseObject(json,AddressResModel.class);
+            if(model!= null){
+                mNameTv.setValueText(model.userName);
+                mMobileTv.setValueText(model.mobile);
+                mCityTv.setValueText(model.province + model.city + model.county);
+                mAddressTv.setText(model.address);
+
+                mProvince = model.province;
+                mCity = model.city;
+                mCounty = model.county;
+                if (model.isDefault){
+                    mSwitch.setCurrentStatus(SwitchButton.CLOSE);
+                }else {
+                    mSwitch.setCurrentStatus(SwitchButton.OPEN);
+                }
+            }
+        }
     }
 
     @OnClick({R.id.addr_edit_city_tv, R.id.shipping_address_list_add_ll})
@@ -95,7 +123,7 @@ public class AddressEditActivity extends BaseActivity {
                 String mobile = mMobileTv.getValueText() + "";//电话号码
                 String userName = mNameTv.getValueText() + "";//用户名
                 int defaultAdr = mSwitch.getCurrentStatus();
-
+                try {
                 PersonAction action = new PersonAction();
                 Map<String, String> params = new HashMap<>();
                 String userId = ShareConfig.getConfigString(mContext, Constants.USERID, "");
@@ -108,19 +136,37 @@ public class AddressEditActivity extends BaseActivity {
                 params.put("userName", userName);
                 params.put("defaultAdr", defaultAdr + "");//是否是默认地址  1表示默认  0表示不是
 
-                try {
+                    LatteLoader.showLoading(mContext);
+                if(model != null){
+                    params.put("objectID", model.id);
+
+                    action.userAddrEdit(params, new MyStringCallBack() {
+                        @Override
+                        public void onResult(String result) {
+                            LatteLoader.stopLoading();
+                            ResponseBean model = JSON.parseObject(result, ResponseBean.class);
+                            if (model != null && model.getSuccess()) {
+                                showMessage("操作成功");
+                                finish();
+                            }
+                        }
+                    });
+                }else {
                     action.userAddrAdd(params, new MyStringCallBack() {
                         @Override
                         public void onResult(String result) {
                             LatteLoader.stopLoading();
                             ResponseBean model = JSON.parseObject(result, ResponseBean.class);
                             if (model != null && model.getSuccess()) {
+                                showMessage("操作成功");
                                 finish();
                             }
                         }
                     });
+                }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LatteLoader.stopLoading();
+                    showMessage("操作失败");
                 }
                 break;
         }

@@ -90,6 +90,11 @@ public class SwitchButton extends RelativeLayout {
         return currentStatus;
     }
 
+    public void setCurrentStatus(int currentStatus) {
+        this.currentStatus = currentStatus;
+        changeStatus();
+    }
+
     /**
      * 设置状态变化监听
      */

@@ -50,7 +50,7 @@
             app:TextRowViewLeftWidth="100dp"
             app:TextRowViewRightTextColor="#1E1E1E"
             app:TextRowViewState="read"
-            app:TextRowViewText="所在地区"
+            app:TextRowViewText="所在省市"
             app:TextRowViewTextColor="@color/black" />
 
 
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:hint="请填写详细地址，不少于5个字"
+            android:hint="请填写详细地址"
             android:minLines="5"
             android:paddingLeft="15dp"
             android:textColor="@color/black"

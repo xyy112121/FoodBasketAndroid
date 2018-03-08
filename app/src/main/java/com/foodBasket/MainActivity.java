@@ -9,9 +9,9 @@ import com.foodBasket.core.main.fragment.PersonFragment;
 import com.foodBasket.core.main.fragment.TypeFragment;
 import com.foodBasket.view.MainNavigateTabBar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseTwoActivity {
 
-    private MainNavigateTabBar mNavigateTabBar;
+    private static MainNavigateTabBar mNavigateTabBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,4 +26,13 @@ public class MainActivity extends AppCompatActivity {
         mNavigateTabBar.addTab(CartFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.icon_shapcar_false, R.mipmap.icon_shopcar_true, "购物车"));
         mNavigateTabBar.addTab(PersonFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.icon_me_false, R.mipmap.icon_me_true, "我的"));
     }
+
+    public static void onTabIndex(int index) {
+        mNavigateTabBar.setCurrentSelectedTab(index);
+    }
+
+
+
+
+
 }

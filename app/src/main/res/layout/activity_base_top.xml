@@ -64,5 +64,7 @@
 
     </RelativeLayout>
 
-    <View style="@style/horizontal_view" />
+    <View
+        android:id="@+id/top_view"
+        style="@style/horizontal_view" />
 </LinearLayout>

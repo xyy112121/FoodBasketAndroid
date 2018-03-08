@@ -228,7 +228,7 @@ public class BaseTwoActivity extends AppCompatActivity {
                 isAllGranted = false;
                 if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, permission)) {
                     new AlertDialog.Builder(BaseTwoActivity.this).setTitle("PermissionTest")//设置对话框标题
-                            .setMessage("【用户曾经拒绝过你的请求，所以这次发起请求时解释一下】" +
+                            .setMessage(
                                     "您好，需要如下权限：" + permissionNames +
                                     " 请允许，否则将影响部分功能的正常使用。")//设置显示的内容
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {//添加确定按钮
@@ -250,18 +250,5 @@ public class BaseTwoActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 权限请求结果回调接口
-     */
-    protected interface RequestPermissionCallBack {
-        /**
-         * 同意授权
-         */
-        void granted();
 
-        /**
-         * 取消授权
-         */
-        void denied();
-    }
 }

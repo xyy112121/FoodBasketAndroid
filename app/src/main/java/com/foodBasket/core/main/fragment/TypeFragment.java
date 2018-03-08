@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 import com.androidkun.xtablayout.XTabLayout;
@@ -32,6 +33,8 @@ public class TypeFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.tabLayout)
     XTabLayout mTabLayout;
+    @BindView(R.id.type_more_iv)
+    ImageView mMoreIv;
     private View mView;
 
     @Nullable
@@ -55,12 +58,18 @@ public class TypeFragment extends Fragment {
 //                    LatteLoader.stopLoading();
                     CategoryResModel model = JSON.parseObject(result, CategoryResModel.class);
                     if (model != null && model.getSuccess()) {
+                        if (model.rows.size() > 4) {
+                            mMoreIv.setVisibility(View.VISIBLE);
+                        }
                         for (int i = 0; i < model.rows.size(); i++) {
-                            CategoryRowsModel item = model.rows.get(i);
-                            mTabLayout.addTab(mTabLayout.newTab().setText(item.name).setTag(item.id));
-                            if (i == 0) {
-                                swithFragment(item.id);
+                            if (i <= 3) {
+                                CategoryRowsModel item = model.rows.get(i);
+                                mTabLayout.addTab(mTabLayout.newTab().setText(item.name).setTag(item.id));
+                                if (i == 0) {
+                                    swithFragment(item.id);
+                                }
                             }
+
                         }
                     }
                 }

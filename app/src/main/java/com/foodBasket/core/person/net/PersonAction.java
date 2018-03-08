@@ -71,6 +71,41 @@ public class PersonAction extends BaseAction {
     }
 
     /**
+     * 收货地址编辑
+     */
+    public void userAddrEdit(Map<String, String> params, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        Set<String> keySet = params.keySet();
+        for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext(); ) {
+            String key = iterator.next();
+            String value = params.get(key);
+            list.add(new ParamsBean(key, value));
+        }
+        setUrlName2("resource/");
+        postRun("UserAddressForm_update_OL.action", list, callback);
+    }
+
+    /**
+     * 收货地址添加
+     */
+    public void userAddrDelete(String id, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        list.add(new ParamsBean("objectID", id));
+        setUrlName2("resource/");
+        postRun("UserAddressForm_deleteEntity_OL.action", list, callback);
+    }
+
+    /**
+     * 设置默认地址
+     */
+    public void setDefault(String id, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        list.add(new ParamsBean("objectID", id));
+        setUrlName2("resource/");
+        postRun("UserAddressNavigate_setDefault_OL.action", list, callback);
+    }
+
+    /**
      * 餐馆列表
      */
     public void merchantList(Context context, StringCallback callback) throws Exception {
