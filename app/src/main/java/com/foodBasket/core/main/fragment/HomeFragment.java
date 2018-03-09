@@ -26,10 +26,12 @@ import com.foodBasket.R;
 import com.foodBasket.core.goods.activity.ProductInfoActivity;
 import com.foodBasket.core.goods.view.CartAddPopWin;
 import com.foodBasket.core.main.adapter.BaseRecyclerAdapter;
+import com.foodBasket.core.main.model.DiscoveryResModel;
 import com.foodBasket.core.main.model.ProductDiscountModelRes;
 import com.foodBasket.core.main.model.ProductListModel;
 import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.ui.HistorySearchActivity;
+import com.foodBasket.core.person.ui.WebActivity;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
@@ -58,10 +60,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     LinearLayout mainView;
     @BindView(R.id.scrollView)
     ScrollView mSlView;
+    @BindView(R.id.search_history_me)
+    ImageView mDiscoveryIv;
 
     private HomeAdapter mAdapter;
     private int mPage = 1;
     private int mTotal;
+
+    private String mDiscoveryUrl;
 
     WindowManager.LayoutParams params;
 
@@ -71,6 +77,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         View view = inflater.inflate(R.layout.fragment_home, null);
         unbinder = ButterKnife.bind(this, view);
         initialUI();
+        getDiscovery();
         return view;
     }
 
@@ -184,6 +191,30 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
     }
 
+    private void getDiscovery() {
+        HomeAction action = new HomeAction();
+        try {
+            //特惠
+            action.getDiscovery(new MyStringCallBack() {
+                @Override
+                public void onResult(String result) {
+                    DiscoveryResModel model = JSON.parseObject(result, DiscoveryResModel.class);
+                    if (model != null && model.getSuccess()) {
+                        if (model.discovery != null && model.discovery.equals("true")) {
+                            mDiscoveryIv.setVisibility(View.VISIBLE);
+                            mDiscoveryUrl = model.discovery.url;
+                        } else {
+                            mDiscoveryIv.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showPopFormBottom(ProductListModel model) {
         CartAddPopWin takePhotoPopWin = new CartAddPopWin(getActivity(), model);
 //        设置Popupwindow显示位置（从底部弹出）
@@ -231,6 +262,15 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 HistorySearchActivity.openActivity(getActivity());
                 break;
             case R.id.search_history_me:
+                String url;
+                String userId = ShareConfig.getConfigString(getActivity(), Constants.USERID, "");
+                if (mDiscoveryUrl.contains("?")) {
+                    url = mDiscoveryUrl + "&userid=" + userId;
+                } else {
+                    url = mDiscoveryUrl + "?userid=" + userId;
+                }
+                WebActivity.openActivity(getActivity(), "发现", url);
+
                 break;
         }
     }

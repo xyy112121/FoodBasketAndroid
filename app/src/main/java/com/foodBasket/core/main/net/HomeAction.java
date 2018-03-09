@@ -123,4 +123,13 @@ public class HomeAction extends BaseAction {
         setUrlName2("resource/");
         postRun("ProductBasicNavigate_searchPageOL_OL.action", list, callback);
     }
+
+    /**
+     * 首页右上角发现开关
+     */
+    public void getDiscovery(StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        setUrlName2("business/");
+        postRun("DiscoveryNavigate_getIsDiscovery_OL.action", list, callback);
+    }
 }

@@ -10,7 +10,7 @@
         android:layout_height="49dp"
         app:TextRowViewGravity="1"
         app:TextRowViewIsBottomLineShow="true"
-        app:TextRowViewLeftWidth="110dp"
+        app:TextRowViewLeftWidth="130dp"
         app:TextRowViewRightTextColor="@color/text_color"
         app:TextRowViewState="read"
         app:TextRowViewText="品牌"

@@ -80,6 +80,8 @@ dependencies {
     compile 'com.daimajia.androidanimations:library:1.1.3@aar'
     //TabLayout 可修改指示器长度
     compile 'com.androidkun:XTabLayout:1.1.3'
+    //apk安装
+    compile 'com.teprinciple:updateapputils:1.4'
     //地址选择
     compile('cn.qqtheme.framework:WheelPicker:1.5.5') {
         exclude group: 'com.android.support'

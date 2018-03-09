@@ -85,8 +85,9 @@
             <TextView
                 android:id="@+id/tv_total_count"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
                 android:text="共计0款商品"
                 android:textColor="@color/text_color"
                 android:textSize="14sp"/>

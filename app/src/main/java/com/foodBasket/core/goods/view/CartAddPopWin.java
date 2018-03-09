@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.core.main.model.ProductListModel;
@@ -61,19 +61,33 @@ public class CartAddPopWin extends PopupWindow {
                 dismiss();
             }
         });
+        cholder.tvGoToCartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+                MainActivity.onTabIndex(2);
+            }
+        });
 
         cholder.tvAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
-                addCart(mContext,product.id, mCount + "");
+                addCart(mContext, product.id, mCount + "");
             }
         });
 
         cholder.iv_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cholder.tv_count.setText(++mCount + "");
+                int c = ++mCount;
+
+                if (c != 100) {
+                    cholder.tv_count.setText(c + "");
+                } else {
+                    com.mic.etoast2.Toast.makeText(mContext, "最大数量为99", android.widget.Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -165,9 +179,9 @@ public class CartAddPopWin extends PopupWindow {
                     ResponseBean model = JSON.parseObject(result, ResponseBean.class);
                     if (model == null) {
                         Toast.makeText(MyApplication.getApplication(), "添加购物车失败", android.widget.Toast.LENGTH_SHORT).show();
-                    }else if(model.getSuccess()){
+                    } else if (model.getSuccess()) {
                         Toast.makeText(MyApplication.getApplication(), "已添加购物车", android.widget.Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(MyApplication.getApplication(), model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -190,7 +204,7 @@ public class CartAddPopWin extends PopupWindow {
         @BindView(R.id.tv_reduce)
         ImageView iv_decrease;
         @BindView(R.id.tv_num)
-        EditText tv_count;
+        TextView tv_count;
         @BindView(R.id.tv_add)
         ImageView iv_increase;
         @BindView(R.id.tv_go_to_pay)
@@ -201,6 +215,8 @@ public class CartAddPopWin extends PopupWindow {
         LinearLayout tvGoToPayLayout;
         @BindView(R.id.pop_layout)
         FrameLayout popLayout;
+        @BindView(R.id.tv_go_to_cart_ll)
+        LinearLayout tvGoToCartLayout;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

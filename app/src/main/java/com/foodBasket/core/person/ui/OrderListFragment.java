@@ -122,12 +122,14 @@ public class OrderListFragment extends Fragment implements BGARefreshLayout.BGAR
             final OrderListResModel.Rows obj = getItem(i);
             holder.mOrderNoTv.setText("订单编号:"+obj.orderNo);
             holder.mStateTv.setText(obj.disDeliveryState);
-            if("已支付".equals(obj.displayIsPay)){
-                holder.mDisplayIsPayIv.setVisibility(View.GONE);
-                holder.mDisplayIsPayTv.setText(obj.displayIsPay);
-            }else {
-                holder.mDisplayIsPayTv.setText("欠款:￥"+obj.debtPrice+"元");
-            }
+            holder.mDisplayIsPayIv.setVisibility(View.GONE);
+            holder.mDisplayIsPayTv.setText(obj.displayIsPay);
+//            if("已支付".equals(obj.displayIsPay)){
+//                holder.mDisplayIsPayIv.setVisibility(View.GONE);
+//                holder.mDisplayIsPayTv.setText(obj.displayIsPay);
+//            }else {
+//                holder.mDisplayIsPayTv.setText("欠款:￥"+obj.debtPrice+"元");
+//            }
 
             for (OrderListResModel.Rows.Products item : obj.products
                     ) {
@@ -141,7 +143,7 @@ public class OrderListFragment extends Fragment implements BGARefreshLayout.BGAR
                 holder.mShopLl.addView(layout);
             }
             holder.mProductCountTv.setText("共" + obj.productCount + "件商品 合计：");
-            holder.mPriceTv.setText("￥"+obj.realPay);
+            holder.mPriceTv.setText("￥"+obj.realPay+"元");
 
 
             view.setOnClickListener(new View.OnClickListener() {

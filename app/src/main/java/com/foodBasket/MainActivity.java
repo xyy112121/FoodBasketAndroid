@@ -1,7 +1,7 @@
 package com.foodBasket;
 
+import android.Manifest;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.foodBasket.core.main.fragment.CartFragment;
@@ -11,11 +11,11 @@ import com.foodBasket.core.main.fragment.TypeFragment;
 import com.foodBasket.core.person.model.VersionResModel;
 import com.foodBasket.core.person.net.PersonAction;
 import com.foodBasket.net.MyStringCallBack;
-import com.foodBasket.util.AppUpdateUtils;
-import com.foodBasket.util.AppVersion;
 import com.foodBasket.util.loader.LatteLoader;
 import com.foodBasket.view.MainNavigateTabBar;
 import com.mic.etoast2.Toast;
+
+import util.UpdateAppUtils;
 
 public class MainActivity extends BaseTwoActivity {
 
@@ -33,7 +33,23 @@ public class MainActivity extends BaseTwoActivity {
 //        mNavigateTabBar.addTab(DiscountsFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.chats_selector_false, R.mipmap.chats_selector_false, "特惠"));
         mNavigateTabBar.addTab(CartFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.icon_shapcar_false, R.mipmap.icon_shopcar_true, "购物车"));
         mNavigateTabBar.addTab(PersonFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.icon_me_false, R.mipmap.icon_me_true, "我的"));
-        getUpdateInfo();
+        init();
+    }
+
+    private void init() {
+        String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        requestPermissions(mContext, permissions, new RequestPermissionCallBack() {
+            @Override
+            public void granted() {
+                getUpdateInfo();
+            }
+
+            @Override
+            public void denied() {
+                Toast.makeText(mContext, "请开启权限，否则可能导致！", android.widget.Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     //检测更新
@@ -42,7 +58,6 @@ public class MainActivity extends BaseTwoActivity {
         LatteLoader.showLoading(mContext);
         try {
             PersonAction action = new PersonAction();
-            //购物车
             action.getVersion(new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
@@ -51,16 +66,14 @@ public class MainActivity extends BaseTwoActivity {
                     if (model != null) {
                         if (model.getSuccess() && model.version != null) {
                             VersionResModel.Version info = model.version;
-                            if(info.filePath != null && !"".equals(info.filePath)){
-                                AppVersion av = new AppVersion();
-                                av.setApkName("foodBasket.apk");
-                                av.setUrl(info.filePath);
-                                av.setContent(info.memo);
-//                            av.setVerCode(info.version);
-                                av.setVersionName(info.version);
-                                //不强制升级
-                                AppUpdateUtils.init(mContext, av, true, false, true);
-                                AppUpdateUtils.upDate();
+                            if (info.filePath != null && !"".equals(info.filePath)) {
+                                UpdateAppUtils.from(mContext)
+                                        .checkBy(UpdateAppUtils.CHECK_BY_VERSION_NAME) //更新检测方式，默认为VersionCode
+                                        .serverVersionCode(1)
+                                        .serverVersionName(info.version)
+                                        .apkPath(info.filePath)
+                                        .updateInfo(info.memo)  //更新日志信息 String
+                                        .update();
                             }
 
                         } else {
@@ -83,9 +96,6 @@ public class MainActivity extends BaseTwoActivity {
     public static void onTabIndex(int index) {
         mNavigateTabBar.setCurrentSelectedTab(index);
     }
-
-
-
 
 
 }

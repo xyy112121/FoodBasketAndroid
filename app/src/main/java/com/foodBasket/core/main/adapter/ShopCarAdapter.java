@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.foodBasket.MyApplication;
@@ -22,7 +22,6 @@ import com.foodBasket.core.main.fragment.CartFragment;
 import com.foodBasket.core.main.model.OrderDetailid;
 import com.foodBasket.core.main.model.ProductInfo;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class ShopCarAdapter extends BaseAdapter {
     private List<ProductInfo> mList = new ArrayList<>();
     private boolean mIsShow = false;//不显示多选框
 
-    public ShopCarAdapter(@NonNull Context context,CartFragment fragment) {
+    public ShopCarAdapter(@NonNull Context context, CartFragment fragment) {
         mContext = context;
         mFragment = fragment;
     }
@@ -101,14 +100,20 @@ public class ShopCarAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 int count = obj.getOrdernumber();
-                cholder.tv_count.setText(++count + "");
-                obj.setOrdernumber(count);
-
+                int c = ++count;
+                if (c != 100) {
+                    cholder.tv_count.setText(c + "");
+                    obj.setOrdernumber(c);
                     Double price = 0.0;
                     for (int i = 0; i < getCount(); i++) {
-                        price = price + (obj.getOrdernumber() * obj.getOrderprice());
+                        ProductInfo item = mList.get(i);
+                        price = price + (item.getOrdernumber() * item.getOrderprice());
                     }
-                    mFragment.setPayCount( price);
+                    mFragment.setPayCount(price);
+                } else {
+                    com.mic.etoast2.Toast.makeText(mContext, "最大数量为99", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -143,12 +148,13 @@ public class ShopCarAdapter extends BaseAdapter {
                     cholder.tv_count.setText(--count + "");
                     obj.setOrdernumber(count);
 
-                        Double price = 0.0;
-                        for (int i = 0; i < getCount(); i++) {
-                            price = price + (obj.getOrdernumber() * obj.getOrderprice());
-                        }
+                    Double price = 0.0;
+                    for (int i = 0; i < getCount(); i++) {
+                        ProductInfo item = mList.get(i);
+                        price = price + (item.getOrdernumber() * item.getOrderprice());
+                    }
 
-                        mFragment.setPayCount( price);
+                    mFragment.setPayCount(price);
 
                 }
             }
@@ -201,7 +207,6 @@ public class ShopCarAdapter extends BaseAdapter {
                 item.setChoosed(false);
                 mSelectIds.clear();
             }
-//            setPayCount(mSelectIds.size(), 0.0);
             notifyDataSetChanged();
         }
 
@@ -226,7 +231,7 @@ public class ShopCarAdapter extends BaseAdapter {
         @BindView(R.id.tv_reduce)
         ImageView iv_decrease;
         @BindView(R.id.tv_num)
-        EditText tv_count;
+        TextView tv_count;
         @BindView(R.id.tv_add)
         ImageView iv_increase;
 

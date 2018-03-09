@@ -1,5 +1,6 @@
 package com.foodBasket.core.person.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +14,12 @@ import com.bumptech.glide.Glide;
 import com.foodBasket.BaseActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
+import com.foodBasket.RequestPermissionCallBack;
 import com.foodBasket.core.main.model.UserResModel;
 import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.model.VersionResModel;
 import com.foodBasket.core.person.net.PersonAction;
 import com.foodBasket.net.MyStringCallBack;
-import com.foodBasket.util.AppUpdateUtils;
-import com.foodBasket.util.AppVersion;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
@@ -39,6 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import util.UpdateAppUtils;
 
 /**
  * 个人信息
@@ -138,7 +139,19 @@ public class PersonInfoActivity extends BaseActivity {
                 MerchantListActivity.openActivity(mContext);
                 break;
             case R.id.set_update:
-                getUpdateInfo();
+                String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                requestPermissions(mContext, permissions, new RequestPermissionCallBack() {
+                    @Override
+                    public void granted() {
+                        getUpdateInfo();
+                    }
+
+                    @Override
+                    public void denied() {
+                        Toast.makeText(mContext, "请开启权限，否则可能导致！", android.widget.Toast.LENGTH_SHORT).show();
+
+                    }
+                });
                 break;
 
         }
@@ -160,15 +173,13 @@ public class PersonInfoActivity extends BaseActivity {
                         if (model.getSuccess() && model.version != null) {
                             VersionResModel.Version info = model.version;
                             if(info.filePath != null && !"".equals(info.filePath)){
-                                AppVersion av = new AppVersion();
-                                av.setApkName("foodBasket.apk");
-                                av.setUrl(info.filePath);
-                                av.setContent(info.memo);
-//                            av.setVerCode(info.version);
-                                av.setVersionName(info.version);
-                                //不强制升级
-                                AppUpdateUtils.init(mContext, av, true, false, true);
-                                AppUpdateUtils.upDate();
+                                UpdateAppUtils.from(mContext)
+                                        .checkBy(UpdateAppUtils.CHECK_BY_VERSION_NAME) //更新检测方式，默认为VersionCode
+                                        .serverVersionCode(1)
+                                        .serverVersionName(info.version)
+                                        .apkPath(info.filePath)
+                                        .updateInfo(info.memo)  //更新日志信息 String
+                                        .update();
                             }else {
                                 Toast.makeText(mContext, "当前版本已经是最新版本！", android.widget.Toast.LENGTH_SHORT).show();
                             }
@@ -208,11 +219,21 @@ public class PersonInfoActivity extends BaseActivity {
                         action.uploadAvatar(mContext, file, new MyStringCallBack() {
                             @Override
                             public void onResult(String result) {
+                                UserResModel model = JSON.parseObject(result,UserResModel.class);
+                                if(model!= null){
+                                    if(model.getSuccess()){
+                                        ShareConfig.setConfig(mContext, Constants.AVATER, model.user.avatar);
+                                    }else {
+                                        showMessage(model.getResultInfo());
+                                    }
+                                }else {
+                                    showMessage("操作失败！");
+                                }
                                 LatteLoader.stopLoading();
                             }
                         });
                     } catch (Exception e) {
-                        showMessage("添加失败！");
+                        showMessage("操作失败！");
                         LatteLoader.stopLoading();
                     }
                     break;

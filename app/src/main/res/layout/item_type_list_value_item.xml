@@ -65,7 +65,7 @@
                 <ImageView
                     android:id="@+id/type_value_add_iv"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:src="@mipmap/icon_add_cart" />

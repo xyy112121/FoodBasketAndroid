@@ -12,6 +12,7 @@ public class OrderListResModel extends ResponseBean {
 
 
     public int total;
+    public int wallet;
     public List<Rows> rows;
 
     public static class Rows {

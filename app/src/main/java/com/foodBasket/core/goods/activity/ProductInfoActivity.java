@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
 import com.alibaba.fastjson.JSON;
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bumptech.glide.Glide;
 import com.foodBasket.BaseActivity;
 import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
@@ -53,6 +55,8 @@ public class ProductInfoActivity extends BaseActivity {
     WindowManager.LayoutParams params;
     @BindView(R.id.main_view)
     RelativeLayout mainView;
+    @BindView(R.id.detail_banner_iv)
+    ImageView mBannerIv;
 
 
     @Override
@@ -80,12 +84,14 @@ public class ProductInfoActivity extends BaseActivity {
                 public void onResult(String result) {
                     model = JSON.parseObject(result, GoodsInfoResModel.class);
                     if (model != null && model.getSuccess()) {
-                        initBanner(model.pictures);//广告条
+                        if(model.pictures != null && model.pictures.size() >0){
+                            initBanner(model.pictures);//广告条
+                        }
                         GoodsInfoResModel.ProductBasic basic = model.productBasic;
                         if (basic != null) {
                             ((TextView) findViewById(R.id.goods_info_name_tv)).setText(basic.name);
                             ((TextView) findViewById(R.id.goods_info_detail_tv)).setText(basic.detail);
-                            ((TextView) findViewById(R.id.goods_info_price_tv)).setText("￥" + basic.salePrice + "/" + basic.displayUnit);
+                            ((TextView) findViewById(R.id.goods_info_price_tv)).setText("￥" + basic.salePrice + "元/" + basic.displayUnit);
                         }
                         if (model.attributes != null) {
                             for (GoodsInfoResModel.Attributes item : model.attributes) {
@@ -112,13 +118,23 @@ public class ProductInfoActivity extends BaseActivity {
             String url = MyApplication.getApplication().mImageUrl + list.get(i).picture_pictureUrl;
             images.add(url);
         }
-        mBanner
-                .setPages(new HolderCreator(), images)
-                .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_focus})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
-                .setPageTransformer(new DefaultTransformer())
-                .startTurning(3000)
-                .setCanLoop(true);
+        if(images.size() >1){
+            mBanner
+                    .setPages(new HolderCreator(), images)
+                    .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_focus})
+                    .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
+                    .setPageTransformer(new DefaultTransformer())
+                    .startTurning(3000)
+                    .setCanLoop(true);
+        }else {
+            mBannerIv.setVisibility(View.VISIBLE);
+            mBanner.setVisibility(View.GONE);
+            Glide.with(mContext)
+                    .load(images.get(0))
+                    .apply(MyApplication.getOptions())
+                    .into(mBannerIv);
+        }
+
     }
 
     @OnClick({R.id.tv_go_to_pay, R.id.tv_go_to_cart_ll})

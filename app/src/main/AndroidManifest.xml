@@ -17,6 +17,17 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity android:name=".core.person.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,6 +60,7 @@
         <activity android:name=".core.person.ui.MerchantEditActivity" />
         <activity android:name=".core.person.ui.CouponListActivity" />
         <activity android:name=".core.person.ui.AboutActivity" />
+        <activity android:name=".core.person.ui.WebActivity" />
     </application>
 
 </manifest>

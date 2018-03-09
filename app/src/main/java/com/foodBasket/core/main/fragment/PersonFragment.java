@@ -16,21 +16,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.RequestPermissionCallBack;
-import com.foodBasket.core.main.model.UserResModel;
-import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.ui.AboutActivity;
 import com.foodBasket.core.person.ui.AddressListActivity;
 import com.foodBasket.core.person.ui.CouponListActivity;
+import com.foodBasket.core.person.ui.LoginActivity;
 import com.foodBasket.core.person.ui.OrderListActivity;
 import com.foodBasket.core.person.ui.OrderListDeliveryManActivity;
 import com.foodBasket.core.person.ui.PersonInfoActivity;
-import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -111,26 +108,18 @@ public class PersonFragment extends Fragment {
     }
 
     private void getData() {
-        HomeAction action = new HomeAction();
-        try {
-            action.user(getActivity(), new MyStringCallBack() {
-                @Override
-                public void onResult(String result) {
-                    UserResModel model = JSON.parseObject(result, UserResModel.class);
-                    if (model != null && model.getSuccess()) {
-                        String url = MyApplication.getApplication().mImageUrl + model.user.avatar;
-                        Glide.with(getActivity())
-                                .load(url)
-                                .apply(MyApplication.getOptions())
-                                .into(mIvAvatar);
-                        mTvName.setText(model.user.realName);
-                        mTvName2.setText(model.user.realName);
-                    }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String avatar = ShareConfig.getConfigString(getActivity(), Constants.AVATER, "");
+        String name = ShareConfig.getConfigString(getActivity(), Constants.NAME, "");
+        String niceName = ShareConfig.getConfigString(getActivity(), Constants.NICENAME, "");
+        String url = MyApplication.getApplication().mImageUrl + avatar;
+        Glide.with(getActivity())
+                .load(url)
+                .apply(MyApplication.getOptions())
+                .into(mIvAvatar);
+        mTvName.setText(niceName);
+        mTvName2.setText(name);
+
+
     }
 
 
@@ -142,7 +131,7 @@ public class PersonFragment extends Fragment {
 
     @OnClick({R.id.top_set, R.id.img_user_avatar, R.id.ll_wait_receive,
             R.id.person_all_order_ll, R.id.ll_receive, R.id.ll_received
-            , R.id.person_add_lv, R.id.ll_pay, R.id.ll_phone,R.id.ll_about})
+            , R.id.person_add_lv, R.id.ll_pay, R.id.ll_phone, R.id.ll_about})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.top_set:

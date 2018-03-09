@@ -85,7 +85,7 @@ public class TypeListFragment extends Fragment {
         //获取小分类
         HomeAction action = new HomeAction();
         try {
-            action.categorySmallList(mTypeId, 1, 25, new MyStringCallBack() {
+            action.categorySmallList(mTypeId, 1, 40, new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
                     CategoryResModel model = JSON.parseObject(result, CategoryResModel.class);

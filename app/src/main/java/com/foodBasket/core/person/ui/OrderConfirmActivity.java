@@ -100,10 +100,7 @@ public class OrderConfirmActivity extends BaseActivity {
         String info = getIntent().getStringExtra("info");
         mObj = JSON.parseObject(info, OrderConfirmResModel.class);
 
-        if (mObj.address == null) {
-            mAddrTitleTv.setVisibility(View.VISIBLE);
-            mAddrLl.setVisibility(View.GONE);
-        } else {
+        if (mObj.address != null && mObj.address.province != null) {
             mAddrLl.setVisibility(View.VISIBLE);
             mAddrTitleTv.setVisibility(View.GONE);
             mContactMobileTv.setText(mObj.address.mobile);
@@ -111,6 +108,9 @@ public class OrderConfirmActivity extends BaseActivity {
             mAddressTv.setText(mObj.address.province + mObj.address.city + mObj.address.county + mObj.address.address);
             mAddressId = mObj.address.id;
             mCounty = mObj.address.county;
+        } else {
+            mAddrTitleTv.setVisibility(View.VISIBLE);
+            mAddrLl.setVisibility(View.GONE);
         }
 
         mTotalPriceTv.setText("￥" + NumberUtil.decimalFormat(mObj.totalPrice));

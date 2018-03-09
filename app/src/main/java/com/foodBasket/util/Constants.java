@@ -10,7 +10,9 @@ public class Constants {
     public static final String USERID = "userId";
     //0是用户 1是送货员
     public static final String USERTYPE = "userType";
-    public static final String  NICENAME = "niceName";
+    public static final String NICENAME = "niceName";//昵称
+    public static final String NAME = "name";//真实姓名
+    public static final String AVATER = "avatar";//头像
 
 
 }

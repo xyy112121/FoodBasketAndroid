@@ -1,6 +1,7 @@
 package com.foodBasket;
 
 import android.app.Application;
+import android.os.StrictMode;
 
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Priority;

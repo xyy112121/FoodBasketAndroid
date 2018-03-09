@@ -103,7 +103,8 @@
                             android:layout_marginLeft="5dp"
                             android:text="精品推荐"
                             android:textColor="@color/tab_text_normal"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
                     </LinearLayout>
 
                     <!--精品推荐-->
@@ -146,7 +147,8 @@
                             android:layout_marginRight="5dp"
                             android:text="特惠商品"
                             android:textColor="@color/tab_text_normal"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
 
                         <View
                             style="@style/horizontal_view"
