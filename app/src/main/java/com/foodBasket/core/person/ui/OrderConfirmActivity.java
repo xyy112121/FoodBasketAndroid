@@ -161,7 +161,7 @@ public class OrderConfirmActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_comfirm_parent_rl:
-                AddressListActivity.openActivity(mContext,true,1000);
+                AddressListActivity.openActivity(mContext, true, 1000);
                 break;
             case R.id.tv_go_to_pay:
 
@@ -201,15 +201,18 @@ public class OrderConfirmActivity extends BaseActivity {
                                         @Override
                                         public void onResult(String result) {
                                             ResponseBean model = JSON.parseObject(result, ResponseBean.class);
-                                            if (model != null && model.getSuccess()) {
-                                                showMessage("下单成功！");
-                                                finish();
+                                            if (model != null) {
+                                                showMessage(model.getResultInfo());
+                                                if (model.getSuccess()) {
+                                                    finish();
+                                                }
+
                                             }
                                         }
                                     });
 
                                 } catch (Exception e) {
-                                    e.printStackTrace();
+                                    showMessage("确认订单失败，请稍后重试！");
                                 }
                             }
                         })

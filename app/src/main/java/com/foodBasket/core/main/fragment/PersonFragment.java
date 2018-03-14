@@ -8,28 +8,34 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.RequestPermissionCallBack;
+import com.foodBasket.core.main.model.WaitingReceiveResModel;
+import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.ui.AboutActivity;
 import com.foodBasket.core.person.ui.AddressListActivity;
 import com.foodBasket.core.person.ui.CouponListActivity;
-import com.foodBasket.core.person.ui.LoginActivity;
 import com.foodBasket.core.person.ui.OrderListActivity;
 import com.foodBasket.core.person.ui.OrderListDeliveryManActivity;
 import com.foodBasket.core.person.ui.PersonInfoActivity;
+import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
+import com.foodBasket.util.loader.LatteLoader;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.mic.etoast2.Toast;
 import com.mylhyl.circledialog.CircleDialog;
@@ -42,6 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * 我的
@@ -71,6 +78,8 @@ public class PersonFragment extends Fragment {
     View mAddView;
     @BindView(R.id.view_gift)
     View mViewGift;
+    @BindView(R.id.iv_receive)
+    ImageView mIvReceive;
 
     @Nullable
     @Override
@@ -119,7 +128,35 @@ public class PersonFragment extends Fragment {
         mTvName.setText(niceName);
         mTvName2.setText(name);
 
+        getDebitAndWaiting();
+    }
 
+    /**
+     * 获取待收货数量
+     */
+    private void getDebitAndWaiting() {
+        LatteLoader.showLoading(getActivity());
+        HomeAction action = new HomeAction();
+        try {
+            action.getDebitAndWaiting(getActivity(), new MyStringCallBack() {
+                @Override
+                public void onResult(String result) {
+                    LatteLoader.stopLoading();
+                    WaitingReceiveResModel model = JSON.parseObject(result, WaitingReceiveResModel.class);
+                    if (model != null && model.getSuccess()) {
+                        if (model.waitingReceive > 0) {
+                            new QBadgeView(getActivity()).bindTarget(mIvReceive).setBadgeNumber(model.waitingReceive).setBadgeGravity(Gravity.END | Gravity.TOP).setGravityOffset(2,-3,true);
+                        }
+
+
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

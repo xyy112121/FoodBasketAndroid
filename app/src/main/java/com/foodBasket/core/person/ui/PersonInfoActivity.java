@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.foodBasket.BaseActivity;
+import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
-import com.foodBasket.RequestPermissionCallBack;
 import com.foodBasket.core.main.model.UserResModel;
 import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.model.VersionResModel;
@@ -130,6 +130,8 @@ public class PersonInfoActivity extends BaseActivity {
                                 ShareConfig.setConfig(mContext, Constants.ONLINE, false);
                                 startActivity(new Intent(mContext, LoginActivity.class));
                                 finish();
+                                MainActivity.onFinish();
+
                             }
                         })
                         .show();
@@ -139,7 +141,7 @@ public class PersonInfoActivity extends BaseActivity {
                 MerchantListActivity.openActivity(mContext);
                 break;
             case R.id.set_update:
-                String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
                 requestPermissions(mContext, permissions, new RequestPermissionCallBack() {
                     @Override
                     public void granted() {
@@ -148,7 +150,7 @@ public class PersonInfoActivity extends BaseActivity {
 
                     @Override
                     public void denied() {
-                        Toast.makeText(mContext, "请开启权限，否则可能导致！", android.widget.Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "请开启权限，否则可能导致不能更新！", android.widget.Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -172,7 +174,7 @@ public class PersonInfoActivity extends BaseActivity {
                     if (model != null) {
                         if (model.getSuccess() && model.version != null) {
                             VersionResModel.Version info = model.version;
-                            if(info.filePath != null && !"".equals(info.filePath)){
+                            if (info.filePath != null && !"".equals(info.filePath)) {
                                 UpdateAppUtils.from(mContext)
                                         .checkBy(UpdateAppUtils.CHECK_BY_VERSION_NAME) //更新检测方式，默认为VersionCode
                                         .serverVersionCode(1)
@@ -180,7 +182,7 @@ public class PersonInfoActivity extends BaseActivity {
                                         .apkPath(info.filePath)
                                         .updateInfo(info.memo)  //更新日志信息 String
                                         .update();
-                            }else {
+                            } else {
                                 Toast.makeText(mContext, "当前版本已经是最新版本！", android.widget.Toast.LENGTH_SHORT).show();
                             }
 
@@ -219,14 +221,14 @@ public class PersonInfoActivity extends BaseActivity {
                         action.uploadAvatar(mContext, file, new MyStringCallBack() {
                             @Override
                             public void onResult(String result) {
-                                UserResModel model = JSON.parseObject(result,UserResModel.class);
-                                if(model!= null){
-                                    if(model.getSuccess()){
+                                UserResModel model = JSON.parseObject(result, UserResModel.class);
+                                if (model != null) {
+                                    if (model.getSuccess()) {
                                         ShareConfig.setConfig(mContext, Constants.AVATER, model.user.avatar);
-                                    }else {
+                                    } else {
                                         showMessage(model.getResultInfo());
                                     }
-                                }else {
+                                } else {
                                     showMessage("操作失败！");
                                 }
                                 LatteLoader.stopLoading();

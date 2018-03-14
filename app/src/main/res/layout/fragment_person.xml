@@ -177,8 +177,11 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="25dp"
+                    android:id="@+id/iv_receive"
+                    android:layout_width="50dp"
                     android:layout_height="25dp"
+                   android:paddingLeft="12.5dp"
+                    android:paddingRight="12.5dp"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:src="@mipmap/icon_me_receiving" />

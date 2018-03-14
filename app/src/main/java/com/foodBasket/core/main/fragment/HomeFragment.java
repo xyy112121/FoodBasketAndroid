@@ -43,6 +43,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import me.grantland.widget.AutofitTextView;
 
 /**
  * 首页
@@ -142,9 +143,9 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                         .load(url)
                                         .apply(MyApplication.getOptions())
                                         .into(pic);
-                                ((TextView) layout.findViewById(R.id.item_recommend_name_tv)).setText(item.name);
-                                ((TextView) layout.findViewById(R.id.item_recommend_summary_tv)).setText(item.summary);
-                                ((TextView) layout.findViewById(R.id.item_recommend_alias_tv)).setText(item.alias);
+                                ((AutofitTextView) layout.findViewById(R.id.item_recommend_name_tv)).setText(item.name);
+                                ((AutofitTextView) layout.findViewById(R.id.item_recommend_summary_tv)).setText(item.summary);
+                                ((AutofitTextView) layout.findViewById(R.id.item_recommend_alias_tv)).setText(item.alias);
                                 ((TextView) layout.findViewById(R.id.item_recommend_price_tv)).setText("￥" + item.salePrice + "元/" + item.displayUnit);
                                 int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
                                 if (userType == 1) {
@@ -322,7 +323,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         }
 
         class MyHolder extends Holder {
-            TextView nameTv;
+            AutofitTextView nameTv;
             TextView priceTv;
             ImageView pictureIv;
             ImageView addIv;

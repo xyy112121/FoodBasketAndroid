@@ -45,8 +45,8 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
 
     private int mCurrentSelectedTab;
     private List<LinearLayout> mItemsList = new ArrayList<>();
-    private BadgeView mOneBadgeView;
-    private BadgeView mTwoBadgeView;
+//    private BadgeView mOneBadgeView;
+//    private BadgeView mTwoBadgeView;
     private Context mContext;
 
     public MainNavigateTabBar(Context context) {
@@ -134,56 +134,56 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
     }
 
     // 有未读消息时显示角标(第一个)
-    public void setOneBadgeView(String messageCount, boolean isShow) {
-        if (!"".equals(messageCount) && messageCount != null) {
-            if (mOneBadgeView == null) {
-                mOneBadgeView = new BadgeView(getContext(), mItemsList.get(0));// 创建一个BadgeView对象，view为要显示提醒的控件
-                mOneBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT); // 显示的位置
-                mOneBadgeView.setTextColor(Color.WHITE); // 文本颜色
-                mOneBadgeView.setBadgeBackgroundColor(Color.RED); // 背景颜色
-                mOneBadgeView.setTextSize(12); // 文本大小
-                mOneBadgeView.setBadgeMargin(80, 0); // 水平和竖直方向的间距
-                mOneBadgeView.toggle();// 设置
-            }
-
-            mOneBadgeView.setText(messageCount); // 显示内容
-            if (!isShow) {
-                mOneBadgeView.setVisibility(View.GONE);
-            } else {
-                mOneBadgeView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (mOneBadgeView != null) {
-                mOneBadgeView.setVisibility(View.GONE);
-            }
-        }
-    }
+//    public void setOneBadgeView(String messageCount, boolean isShow) {
+//        if (!"".equals(messageCount) && messageCount != null) {
+//            if (mOneBadgeView == null) {
+//                mOneBadgeView = new BadgeView(getContext(), mItemsList.get(0));// 创建一个BadgeView对象，view为要显示提醒的控件
+//                mOneBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT); // 显示的位置
+//                mOneBadgeView.setTextColor(Color.WHITE); // 文本颜色
+//                mOneBadgeView.setBadgeBackgroundColor(Color.RED); // 背景颜色
+//                mOneBadgeView.setTextSize(12); // 文本大小
+//                mOneBadgeView.setBadgeMargin(80, 0); // 水平和竖直方向的间距
+//                mOneBadgeView.toggle();// 设置
+//            }
+//
+//            mOneBadgeView.setText(messageCount); // 显示内容
+//            if (!isShow) {
+//                mOneBadgeView.setVisibility(View.GONE);
+//            } else {
+//                mOneBadgeView.setVisibility(View.VISIBLE);
+//            }
+//        } else {
+//            if (mOneBadgeView != null) {
+//                mOneBadgeView.setVisibility(View.GONE);
+//            }
+//        }
+//    }
 
     // 有未读消息时显示角标
-    public void setTwoBadgeView(String messageCount, boolean isShow) {
-        if (!TextUtils.isEmpty(messageCount) && !"0".equals(messageCount)) {
-            if (mTwoBadgeView == null) {
-                mTwoBadgeView = new BadgeView(getContext(), mItemsList.get(1));// 创建一个BadgeView对象，view为要显示提醒的控件
-                mTwoBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT); // 显示的位置
-                mTwoBadgeView.setTextColor(Color.WHITE); // 文本颜色
-                mTwoBadgeView.setBadgeBackgroundColor(Color.RED); // 背景颜色
-                mTwoBadgeView.setTextSize(12); // 文本大小
-                mTwoBadgeView.setBadgeMargin(80, 0); // 水平和竖直方向的间距
-                mTwoBadgeView.toggle();// 设置
-            }
-            mTwoBadgeView.setText(messageCount); // 显示内容
-            if (!isShow) {
-                mTwoBadgeView.setVisibility(View.GONE);
-            } else {
-                mTwoBadgeView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (mOneBadgeView != null) {
-                mOneBadgeView.setVisibility(View.GONE);
-            }
-        }
-
-    }
+//    public void setTwoBadgeView(String messageCount, boolean isShow) {
+//        if (!TextUtils.isEmpty(messageCount) && !"0".equals(messageCount)) {
+//            if (mTwoBadgeView == null) {
+//                mTwoBadgeView = new BadgeView(getContext(), mItemsList.get(1));// 创建一个BadgeView对象，view为要显示提醒的控件
+//                mTwoBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT); // 显示的位置
+//                mTwoBadgeView.setTextColor(Color.WHITE); // 文本颜色
+//                mTwoBadgeView.setBadgeBackgroundColor(Color.RED); // 背景颜色
+//                mTwoBadgeView.setTextSize(12); // 文本大小
+//                mTwoBadgeView.setBadgeMargin(80, 0); // 水平和竖直方向的间距
+//                mTwoBadgeView.toggle();// 设置
+//            }
+//            mTwoBadgeView.setText(messageCount); // 显示内容
+//            if (!isShow) {
+//                mTwoBadgeView.setVisibility(View.GONE);
+//            } else {
+//                mTwoBadgeView.setVisibility(View.VISIBLE);
+//            }
+//        } else {
+//            if (mOneBadgeView != null) {
+//                mOneBadgeView.setVisibility(View.GONE);
+//            }
+//        }
+//
+//    }
 
     @Override
     protected void onAttachedToWindow() {

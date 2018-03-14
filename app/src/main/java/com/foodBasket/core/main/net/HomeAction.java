@@ -132,4 +132,15 @@ public class HomeAction extends BaseAction {
         setUrlName2("business/");
         postRun("DiscoveryNavigate_getIsDiscovery_OL.action", list, callback);
     }
+
+    /**
+     * 获取待收货数量
+     */
+    public void getDebitAndWaiting(Context context, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("userId", userId));
+        setUrlName2("business/");
+        postRun("OrderNavigate_getDebitAndWaitingR_OL.action", list, callback);
+    }
 }

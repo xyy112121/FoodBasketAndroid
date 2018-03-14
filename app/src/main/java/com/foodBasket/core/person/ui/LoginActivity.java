@@ -85,8 +85,7 @@ public class LoginActivity extends BaseTwoActivity {
 
                 @Override
                 public void denied() {
-                    Toast.makeText(mContext, "请开启权限，否则可能导致！", android.widget.Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(mContext, "请开启权限，否则可能导致不能更新！", android.widget.Toast.LENGTH_SHORT).show();
                 }
             });
 
