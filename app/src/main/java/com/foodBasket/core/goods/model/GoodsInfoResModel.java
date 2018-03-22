@@ -17,6 +17,7 @@ public class GoodsInfoResModel extends ResponseBean {
     public class ProductBasic {
         public String summary;
         public int salePrice;
+        public int merchantPrice;
         public String name;
         public int soldNumber;
         public String alias;

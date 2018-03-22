@@ -20,7 +20,8 @@ public class OrderConfirmResModel extends ResponseBean {
     public  class Products {
         public String headPicture;
         public Double sumPrice;
-        public Double salePrice;
+        public int salePrice;
+        public int merchantPrice;
         public String name;
         public int count;
         public String id;

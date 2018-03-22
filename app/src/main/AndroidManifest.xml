@@ -69,6 +69,7 @@
         <activity android:name=".core.person.ui.CouponListActivity" />
         <activity android:name=".core.person.ui.AboutActivity" />
         <activity android:name=".core.person.ui.WebActivity" />
+        <activity android:name=".core.person.ui.MerchantAddActivity" />
     </application>
 
 </manifest>

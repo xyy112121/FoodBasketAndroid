@@ -47,6 +47,20 @@ public class TypeFragment extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden == false) {
+            getTopData();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getTopData();
+    }
+
 
     private void getTopData() {
         HomeAction action = new HomeAction();
@@ -58,6 +72,7 @@ public class TypeFragment extends Fragment {
 //                    LatteLoader.stopLoading();
                     CategoryResModel model = JSON.parseObject(result, CategoryResModel.class);
                     if (model != null && model.getSuccess()) {
+                        mTabLayout.removeAllTabs();
                         if (model.rows.size() > 4) {
                             mMoreIv.setVisibility(View.VISIBLE);
                         }

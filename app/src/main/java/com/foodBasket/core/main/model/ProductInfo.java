@@ -12,7 +12,8 @@ public class ProductInfo {
     protected String ordertime;
     protected boolean isChoosed = false;
     private String desc;
-    private float orderprice;
+    private int orderprice;
+    private int merchantPrice;
     private int ordernumber;
     private int position;// 绝对位置，只在ListView构造的购物车中，在删除时有效
 
@@ -66,12 +67,20 @@ public class ProductInfo {
         this.orderdetailid = orderdetailid;
     }
 
-    public float getOrderprice() {
+    public int getOrderprice() {
         return orderprice;
     }
 
-    public void setOrderprice(float orderprice) {
+    public void setOrderprice(int orderprice) {
         this.orderprice = orderprice;
+    }
+
+    public int getMerchantPrice() {
+        return merchantPrice;
+    }
+
+    public void setMerchantPrice(int merchantPrice) {
+        this.merchantPrice = merchantPrice;
     }
 
     public int getOrdernumber() {

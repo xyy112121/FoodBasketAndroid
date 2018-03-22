@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="165dp"
             android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/icon_default" />
 
         <me.grantland.widget.AutofitTextView

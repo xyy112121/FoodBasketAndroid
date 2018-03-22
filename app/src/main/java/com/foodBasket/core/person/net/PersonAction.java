@@ -175,4 +175,18 @@ public class PersonAction extends BaseAction {
         setUrlName2("control/");
         postRun("VersionNavigate_searchPageOL_OL.action", list, callback);
     }
+
+    /**
+     * 申请成为商户
+     * objectID realName merchantName
+     */
+    public void merchantAdd(Context context, String realName, String merchantName, StringCallback callback) throws Exception {
+        List<ParamsBean> list = new ArrayList<>();
+        String userId = ShareConfig.getConfigString(context, Constants.USERID, "");
+        list.add(new ParamsBean("objectID", userId));
+        list.add(new ParamsBean("realName", realName));
+        list.add(new ParamsBean("merchantName", merchantName));
+        setUrlName2("control/");
+        postRun("UserForm_applyMerchant_OL.action", list, callback);
+    }
 }

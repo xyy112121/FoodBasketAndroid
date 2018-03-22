@@ -314,6 +314,33 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+        <View style="@style/horizontal_view" />
+
+        <LinearLayout
+            android:id="@+id/merchant_add_lv"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/my_select_btn"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/my_item_image"
+                android:src="@mipmap/icon_merchant" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="8dp"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:text="我是商户"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <View
             android:id="@+id/person_add_view"

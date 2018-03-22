@@ -8,6 +8,7 @@ public class ProductListModel {
     public String headPicture;
     public String summary;
     public int salePrice;
+    public int merchantPrice;
     public String name;
     public String alias;
     public String displayUnit;

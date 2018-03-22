@@ -21,6 +21,8 @@ import com.foodBasket.core.goods.activity.ProductInfoActivity;
 import com.foodBasket.core.main.fragment.CartFragment;
 import com.foodBasket.core.main.model.OrderDetailid;
 import com.foodBasket.core.main.model.ProductInfo;
+import com.foodBasket.util.Constants;
+import com.foodBasket.util.ShareConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +76,12 @@ public class ShopCarAdapter extends BaseAdapter {
 
         final ProductInfo obj = mList.get(i);
         cholder.mNameTv.setText(obj.getCommodityname());
-        cholder.mPriceTv.setText("￥" + obj.getOrderprice() + "元");
+        int userType = ShareConfig.getConfigInt(mContext, Constants.USERTYPE, 0);
+        int price = obj.getOrderprice();
+        if (userType == 2) {
+            price = obj.getMerchantPrice();
+        }
+        cholder.mPriceTv.setText("￥" + price + "元");
         cholder.tv_count.setText(obj.getOrdernumber() + "");
         String url = MyApplication.getApplication().mImageUrl + obj.getCommoditypicture();
         Glide.with(mContext)

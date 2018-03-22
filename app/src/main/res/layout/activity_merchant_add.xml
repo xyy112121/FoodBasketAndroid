@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_base_top" />
+
+    <View
+        style="@style/horizontal_view"
+        android:layout_height="8dp" />
+
+    <com.foodBasket.view.TextRowView
+        android:id="@+id/merchant_add_realname_tv"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        app:TextRowViewGravity="1"
+        app:TextRowViewHiht="请输入真实姓名"
+        app:TextRowViewIsBottomLineShow="true"
+        app:TextRowViewLeftWidth="100dp"
+        app:TextRowViewRightTextColor="#1E1E1E"
+        app:TextRowViewState="write"
+        app:TextRowViewText="真实姓名"
+        app:TextRowViewTextColor="@color/text_color" />
+
+    <com.foodBasket.view.TextRowView
+        android:id="@+id/merchant_add_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        app:TextRowViewGravity="1"
+        app:TextRowViewHiht="请输入餐馆名称"
+        app:TextRowViewIsBottomLineShow="true"
+        app:TextRowViewLeftWidth="100dp"
+        app:TextRowViewRightTextColor="#1E1E1E"
+        app:TextRowViewState="write"
+        app:TextRowViewText="餐馆名称"
+        app:TextRowViewTextColor="@color/text_color" />
+
+
+</LinearLayout>

@@ -25,4 +25,6 @@ public class LoginResponseModel extends ResponseBean {
         public String avatar;
         public int userType;
     }
+
+
 }

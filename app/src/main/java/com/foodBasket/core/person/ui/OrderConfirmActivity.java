@@ -23,7 +23,9 @@ import com.foodBasket.core.person.model.OrderConfirmResModel;
 import com.foodBasket.core.person.net.OrderAction;
 import com.foodBasket.net.MyStringCallBack;
 import com.foodBasket.net.ResponseBean;
+import com.foodBasket.util.Constants;
 import com.foodBasket.util.NumberUtil;
+import com.foodBasket.util.ShareConfig;
 import com.mylhyl.circledialog.CircleDialog;
 
 import java.text.ParseException;
@@ -132,7 +134,13 @@ public class OrderConfirmActivity extends BaseActivity {
                     .into(holder.mPictureIv);
             holder.mNameTv.setText(item.name);
             holder.mPriceTv.setText("￥" + NumberUtil.decimalFormat(item.sumPrice));
-            holder.mCountTv.setText("单价：￥" + NumberUtil.decimalFormat(item.salePrice) + "  数量：" + item.count);
+            int userType = ShareConfig.getConfigInt(mContext, Constants.USERTYPE, 0);
+            int price = item.salePrice;
+
+            if (userType == 2) {
+                price = item.merchantPrice;
+            }
+            holder.mCountTv.setText("单价：￥" + NumberUtil.decimalFormat(price) + "  数量：" + item.count);
             mProductInfoLl.addView(layout);
         }
 
@@ -261,13 +269,14 @@ public class OrderConfirmActivity extends BaseActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        /**除以1000是为了转换成秒*/
-        long between = (startTime.getTime() - curDate.getTime()) / 3600;
-        if (between < 1) {//时间小于一小时
-            showDialog("对不起，由于我们需要备货，为您送达货物时间必须大于一小时，为您带来不便，敬请谅解！");
+
+        long between = (startTime.getTime() - curDate.getTime());
+        long between2  = between/  (1000*60);
+        if (between2 < 50) {//时间小于一小时
+            showDialog("对不起,由于我们需要精心的为你挑选优质食材,所以备货需要一些时间,送达时间在50分钟以内,为您带来的不便,敬请谅解！");
         } else {
             mTime = time;
-            mDeliveryTimeTv.setText(mTime);
+            mDeliveryTimeTv.setText(mTime+"前");
         }
     }
 

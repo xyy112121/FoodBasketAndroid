@@ -136,6 +136,7 @@ public class CartFragment extends Fragment implements BGARefreshLayout.BGARefres
                             obj.setCommodityid(item.id);
                             obj.setCommodityname(item.name);
                             obj.setOrderprice(item.salePrice);
+                            obj.setMerchantPrice(item.merchantPrice);
                             obj.setOrdernumber(item.productNumber);
                             obj.setCommoditypicture(item.headPicture);
                             list.add(obj);

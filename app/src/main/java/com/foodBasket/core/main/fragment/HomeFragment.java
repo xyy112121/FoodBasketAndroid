@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 //        mAdapter.addDatas(generateData());
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), false));
-        mRefreshLayout.beginRefreshing();
+
 //        setHeader(mRecyclerView);
         mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -106,19 +106,19 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mSlView.fullScroll(ScrollView.FOCUS_UP);
-//    }
-//
-//    @Override
-//    public void onHiddenChanged(boolean hidden) {
-//        super.onHiddenChanged(hidden);
-//        if (hidden == false) {
-//            mSlView.fullScroll(ScrollView.FOCUS_UP);
-//        }
-//    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden == false) {
+            mRefreshLayout.beginRefreshing();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mRefreshLayout.beginRefreshing();
+    }
 
     private void getData() {
         HomeAction action = new HomeAction();
@@ -144,13 +144,18 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                         .apply(MyApplication.getOptions())
                                         .into(pic);
                                 ((AutofitTextView) layout.findViewById(R.id.item_recommend_name_tv)).setText(item.name);
-                                ((AutofitTextView) layout.findViewById(R.id.item_recommend_summary_tv)).setText(item.summary);
+                                ((TextView) layout.findViewById(R.id.item_recommend_summary_tv)).setText(item.summary);
                                 ((AutofitTextView) layout.findViewById(R.id.item_recommend_alias_tv)).setText(item.alias);
-                                ((TextView) layout.findViewById(R.id.item_recommend_price_tv)).setText("￥" + item.salePrice + "元/" + item.displayUnit);
                                 int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
+                                int price = item.salePrice;
+
                                 if (userType == 1) {
                                     layout.findViewById(R.id.item_recommend_add_iv).setVisibility(View.GONE);
                                 }
+                                if (userType == 2) {
+                                    price = item.merchantPrice;
+                                }
+                                ((TextView) layout.findViewById(R.id.item_recommend_price_tv)).setText("￥" + price + "元/" + item.displayUnit);
                                 layout.findViewById(R.id.item_recommend_add_iv).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -195,7 +200,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     private void getDiscovery() {
         HomeAction action = new HomeAction();
         try {
-            //特惠
             action.getDiscovery(new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
@@ -291,7 +295,13 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             if (viewHolder instanceof MyHolder) {
                 MyHolder holder = (MyHolder) viewHolder;
                 holder.nameTv.setText(data.name);
-                holder.priceTv.setText("￥" + data.salePrice + "元/" + data.displayUnit);
+                int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
+                int price = data.salePrice;
+
+                if (userType == 2) {
+                    price = data.merchantPrice;
+                }
+                holder.priceTv.setText("￥" + price + "元/" + data.displayUnit);
                 String url = MyApplication.getApplication().mImageUrl + data.headPicture;
                 Glide.with(mContext)
                         .load(url)
@@ -308,7 +318,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 }
                 holder.parentLayout.setLayoutParams(params);
 
-                int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
                 if (userType == 1) {
                     holder.addIv.setVisibility(View.GONE);
                 }

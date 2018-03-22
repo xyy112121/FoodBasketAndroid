@@ -31,15 +31,14 @@ import com.foodBasket.core.main.model.ProductDiscountModelRes;
 import com.foodBasket.core.main.model.ProductListModel;
 import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.net.MyStringCallBack;
-import com.foodBasket.net.ResponseBean;
 import com.foodBasket.util.Constants;
 import com.foodBasket.util.ShareConfig;
 import com.foodBasket.util.loader.LatteLoader;
-import com.mic.etoast2.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.grantland.widget.AutofitTextView;
 
 /**
  * 首页
@@ -218,9 +217,17 @@ public class TypeListFragment extends Fragment {
 
             final ProductListModel model = getItem(position);
             holder.mNameTv.setText(model.name);
-            holder.mPriceTv.setText("￥" + model.salePrice + "元/" + model.displayUnit);
-            Glide.with(MyApplication.getApplication()).
-                    load(MyApplication.getApplication().mImageUrl + model.headPicture).into(holder.mPictrueIv);
+            int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
+            int price = model.salePrice;
+            if (userType == 2) {
+                price = model.merchantPrice;
+            }
+            holder.mPriceTv.setText("￥" + price + "元/" + model.displayUnit);
+            String url = MyApplication.getApplication().mImageUrl + model.headPicture;
+            Glide.with(getActivity())
+                    .load(url)
+                    .apply(MyApplication.getOptions())
+                    .into(holder.mPictrueIv);
             holder.mSummaryTv.setText(model.summary);
 
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -230,7 +237,6 @@ public class TypeListFragment extends Fragment {
                 }
             });
 
-            int userType = ShareConfig.getConfigInt(getActivity(), Constants.USERTYPE, 0);
             if (userType == 1) {
                 holder.mAddIv.setVisibility(View.GONE);
             }
@@ -268,7 +274,7 @@ public class TypeListFragment extends Fragment {
             @BindView(R.id.type_value_pictrue_iv)
             ImageView mPictrueIv;
             @BindView(R.id.type_value_name_tv)
-            TextView mNameTv;
+            AutofitTextView mNameTv;
             @BindView(R.id.type_value_summary_tv)
             TextView mSummaryTv;
             @BindView(R.id.type_value_price_tv)

@@ -27,6 +27,8 @@ import com.foodBasket.core.goods.net.ProductAction;
 import com.foodBasket.core.goods.view.CartAddPopWin;
 import com.foodBasket.core.main.model.ProductListModel;
 import com.foodBasket.net.MyStringCallBack;
+import com.foodBasket.util.Constants;
+import com.foodBasket.util.ShareConfig;
 import com.foodBasket.view.TextRowView;
 import com.foodBasket.view.banner.HolderCreator;
 
@@ -78,20 +80,25 @@ public class ProductInfoActivity extends BaseActivity {
         ProductAction action = new ProductAction();
         try {
             String id = getIntent().getStringExtra(GOODID);
-            //特惠
             action.productInfo(id, new MyStringCallBack() {
                 @Override
                 public void onResult(String result) {
                     model = JSON.parseObject(result, GoodsInfoResModel.class);
                     if (model != null && model.getSuccess()) {
-                        if(model.pictures != null && model.pictures.size() >0){
+                        if (model.pictures != null && model.pictures.size() > 0) {
                             initBanner(model.pictures);//广告条
                         }
                         GoodsInfoResModel.ProductBasic basic = model.productBasic;
                         if (basic != null) {
                             ((TextView) findViewById(R.id.goods_info_name_tv)).setText(basic.name);
                             ((TextView) findViewById(R.id.goods_info_detail_tv)).setText(basic.detail);
-                            ((TextView) findViewById(R.id.goods_info_price_tv)).setText("￥" + basic.salePrice + "元/" + basic.displayUnit);
+                            int userType = ShareConfig.getConfigInt(mContext, Constants.USERTYPE, 0);
+                            int price = basic.salePrice;
+
+                            if (userType == 2) {
+                                price = basic.merchantPrice;
+                            }
+                            ((TextView) findViewById(R.id.goods_info_price_tv)).setText("￥" + price + "元/" + basic.displayUnit);
                         }
                         if (model.attributes != null) {
                             for (GoodsInfoResModel.Attributes item : model.attributes) {
@@ -118,7 +125,7 @@ public class ProductInfoActivity extends BaseActivity {
             String url = MyApplication.getApplication().mImageUrl + list.get(i).picture_pictureUrl;
             images.add(url);
         }
-        if(images.size() >1){
+        if (images.size() > 1) {
             mBanner
                     .setPages(new HolderCreator(), images)
                     .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_focus})
@@ -126,7 +133,7 @@ public class ProductInfoActivity extends BaseActivity {
                     .setPageTransformer(new DefaultTransformer())
                     .startTurning(3000)
                     .setCanLoop(true);
-        }else {
+        } else {
             mBannerIv.setVisibility(View.VISIBLE);
             mBanner.setVisibility(View.GONE);
             Glide.with(mContext)

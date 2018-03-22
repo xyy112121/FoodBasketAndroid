@@ -8,16 +8,16 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.foodBasket.R;
 
-/**
- * Created by ""
- */
 
 public class ImageHolder implements Holder<String> {
 
     private AppCompatImageView mImageView = null;
     private static final RequestOptions BANNER_OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.mipmap.icon_default)
+            .error(R.mipmap.icon_default)
             .dontAnimate()
             .centerCrop();
 

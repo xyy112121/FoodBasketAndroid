@@ -25,6 +25,9 @@ public class UserResModel extends ResponseBean {
         public String displaySex;
         public String id;
         public String avatar;
+        public String merchantName;
+        public String disUserType;
+        public int userType;
     }
 
     public  class Merchant {

@@ -24,11 +24,13 @@ import com.foodBasket.MainActivity;
 import com.foodBasket.MyApplication;
 import com.foodBasket.R;
 import com.foodBasket.RequestPermissionCallBack;
+import com.foodBasket.core.main.model.UserResModel;
 import com.foodBasket.core.main.model.WaitingReceiveResModel;
 import com.foodBasket.core.main.net.HomeAction;
 import com.foodBasket.core.person.ui.AboutActivity;
 import com.foodBasket.core.person.ui.AddressListActivity;
 import com.foodBasket.core.person.ui.CouponListActivity;
+import com.foodBasket.core.person.ui.MerchantAddActivity;
 import com.foodBasket.core.person.ui.OrderListActivity;
 import com.foodBasket.core.person.ui.OrderListDeliveryManActivity;
 import com.foodBasket.core.person.ui.PersonInfoActivity;
@@ -81,6 +83,9 @@ public class PersonFragment extends Fragment {
     @BindView(R.id.iv_receive)
     ImageView mIvReceive;
 
+    private String mRealName;//真实姓名
+    private String mMerchantName;//餐馆名称
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -117,19 +122,58 @@ public class PersonFragment extends Fragment {
     }
 
     private void getData() {
-        String avatar = ShareConfig.getConfigString(getActivity(), Constants.AVATER, "");
-        String name = ShareConfig.getConfigString(getActivity(), Constants.NAME, "");
-        String niceName = ShareConfig.getConfigString(getActivity(), Constants.NICENAME, "");
-        String url = MyApplication.getApplication().mImageUrl + avatar;
-        Glide.with(getActivity())
-                .load(url)
-                .apply(MyApplication.getOptions())
-                .into(mIvAvatar);
-        mTvName.setText(niceName);
-        mTvName2.setText(name);
+        HomeAction action = new HomeAction();
+        LatteLoader.showLoading(getActivity());
+        try {
+            action.user(getActivity(), new MyStringCallBack() {
+                @Override
+                public void onResult(String result) {
+                    LatteLoader.stopLoading();
+                    UserResModel model = JSON.parseObject(result, UserResModel.class);
+                    if (model != null) {
+                        if (model.getSuccess()) {
+                            UserResModel.User user = model.user;
+                            String url = MyApplication.getApplication().mImageUrl + user.avatar;
+                            Glide.with(getActivity())
+                                    .load(url)
+                                    .apply(MyApplication.getOptions())
+                                    .into(mIvAvatar);
+                            mTvName.setText(user.userLogin);
+                            mTvName2.setText(user.realName);
 
-        getDebitAndWaiting();
+                            mRealName = user.realName;
+                            mMerchantName = user.merchantName;
+
+
+                            ShareConfig.setConfig(getActivity(), Constants.USERTYPE, user.userType);
+                            if (model.waitingReceive > 0) {
+                                new QBadgeView(getActivity()).bindTarget(mIvReceive).setBadgeNumber(model.waitingReceive).setBadgeGravity(Gravity.END | Gravity.TOP).setGravityOffset(2, -3, true);
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), model.getResultInfo(), android.widget.Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            LatteLoader.stopLoading();
+        }
     }
+
+//    private void getData() {
+//        String avatar = ShareConfig.getConfigString(getActivity(), Constants.AVATER, "");
+//        String name = ShareConfig.getConfigString(getActivity(), Constants.NAME, "");
+//        String niceName = ShareConfig.getConfigString(getActivity(), Constants.NICENAME, "");
+//        String url = MyApplication.getApplication().mImageUrl + avatar;
+//        Glide.with(getActivity())
+//                .load(url)
+//                .apply(MyApplication.getOptions())
+//                .into(mIvAvatar);
+//        mTvName.setText(niceName);
+//        mTvName2.setText(name);
+//
+//        getDebitAndWaiting();
+//    }
 
     /**
      * 获取待收货数量
@@ -145,7 +189,7 @@ public class PersonFragment extends Fragment {
                     WaitingReceiveResModel model = JSON.parseObject(result, WaitingReceiveResModel.class);
                     if (model != null && model.getSuccess()) {
                         if (model.waitingReceive > 0) {
-                            new QBadgeView(getActivity()).bindTarget(mIvReceive).setBadgeNumber(model.waitingReceive).setBadgeGravity(Gravity.END | Gravity.TOP).setGravityOffset(2,-3,true);
+                            new QBadgeView(getActivity()).bindTarget(mIvReceive).setBadgeNumber(model.waitingReceive).setBadgeGravity(Gravity.END | Gravity.TOP).setGravityOffset(2, -3, true);
                         }
 
 
@@ -168,7 +212,7 @@ public class PersonFragment extends Fragment {
 
     @OnClick({R.id.top_set, R.id.img_user_avatar, R.id.ll_wait_receive,
             R.id.person_all_order_ll, R.id.ll_receive, R.id.ll_received
-            , R.id.person_add_lv, R.id.ll_pay, R.id.ll_phone, R.id.ll_about})
+            , R.id.person_add_lv, R.id.ll_pay, R.id.ll_phone, R.id.ll_about, R.id.merchant_add_lv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.top_set:
@@ -199,6 +243,9 @@ public class PersonFragment extends Fragment {
                 break;
             case R.id.ll_about:
                 AboutActivity.openActivity(getActivity());
+                break;
+            case R.id.merchant_add_lv:
+                MerchantAddActivity.openActivity(getActivity(), mRealName, mMerchantName);
                 break;
         }
     }
